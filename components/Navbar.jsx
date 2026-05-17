@@ -232,16 +232,16 @@ export default function Navbar() {
         {/* Main Header Row */}
         <div className={`flex justify-between items-center gap-4 ${mobileSearchOpen ? 'hidden' : ''}`}>
           {/* Logo */}
-          <button onClick={handleHomeClick} className="flex items-center gap-1 md:gap-3 flex-shrink-0">
-            <div className="w-5 h-5 md:w-8 md:h-8 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
+          <button onClick={handleHomeClick} className="flex items-center gap-1 sm:gap-1.5 md:gap-2 flex-shrink-0">
+            <div className="w-5 h-5 md:w-8 md:h-8 lg:w-9 lg:h-9 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
               <svg
-                className={`w-3 h-3 md:w-5 md:h-5 ${arrowClass}`}
+                className={`w-3 h-3 md:w-5 md:h-5 lg:w-6 lg:h-6 ${arrowClass}`}
                 fill="none" stroke="currentColor" viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 15l7-7 7 7" />
               </svg>
             </div>
-            <div className="text-sm md:text-xl lg:text-2xl font-bold text-white whitespace-nowrap">Blockchain Bubbles</div>
+            <div className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold text-white whitespace-nowrap leading-none">Blockchain Bubbles</div>
           </button>
 
           {/* Desktop Nav */}
