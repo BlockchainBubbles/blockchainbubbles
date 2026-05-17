@@ -19,6 +19,7 @@ export default function BubbleChart({
   const containerRef      = useRef(null)
   const bubblesRef        = useRef([])
   const animationRef      = useRef(null)
+  const lastFrameTimeRef  = useRef(0)
   const progressRef       = useRef(null)
   const isFetchingRef      = useRef(false)
   const isFirstRenderRef   = useRef(true)
@@ -32,10 +33,15 @@ export default function BubbleChart({
   const [rateLimitWait, setRateLimitWait] = useState(0)
 
   // ── Animation loop ──────────────────────────────────────────────────────────
-  const animate = useCallback(() => {
+  const animate = useCallback((timestamp) => {
+    animationRef.current = requestAnimationFrame(animate)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    const interval = isMobile ? 1000 / 30 : 1000 / 60
+    const delta = timestamp - lastFrameTimeRef.current
+    if (delta < interval) return
+    lastFrameTimeRef.current = timestamp - (delta % interval)
     bubblesRef.current.forEach(b => b.updatePosition())
     checkCollisions(bubblesRef.current)
-    animationRef.current = requestAnimationFrame(animate)
   }, [])
 
   const stopAnimation = useCallback(() => {
@@ -125,13 +131,15 @@ export default function BubbleChart({
     isFetchingRef.current = true
     setIsLoading(true)
     try {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
       let data = []
       if (mode === 'category' && categoryId) {
         data = await fetchCoingeckoCategory(categoryId, timeframe)
       } else if (mode === 'favorites') {
         data = await fetchFavorites(favorites)
       } else {
-        data = await fetchCoingeckoPage(rankingPage, timeframe)
+        const raw = await fetchCoingeckoPage(rankingPage, timeframe)
+        data = isMobile ? raw.slice(0, 50) : raw
       }
       console.log(`[BubbleChart] fetched ${data.length} coins`)
       lastFetchedDataRef.current = data

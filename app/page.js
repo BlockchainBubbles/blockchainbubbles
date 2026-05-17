@@ -1,10 +1,54 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
 import Link from 'next/link'
 import BubbleChart from '@/components/BubbleChart'
 import CoinModal from '@/components/CoinModal'
 import { useStore } from '@/lib/store'
+
+function BubbleChartSkeleton() {
+  return (
+    <div className="relative w-full bg-gray-900" style={{ height: '85vh' }}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="relative w-full h-full overflow-hidden">
+          {[
+            {w:120,h:120,l:10,t:20},
+            {w:90,h:90,l:25,t:45},
+            {w:150,h:150,l:40,t:15},
+            {w:80,h:80,l:60,t:50},
+            {w:110,h:110,l:75,t:25},
+            {w:70,h:70,l:15,t:65},
+            {w:100,h:100,l:50,t:65},
+            {w:85,h:85,l:85,t:55},
+            {w:130,h:130,l:30,t:35},
+            {w:75,h:75,l:70,t:70},
+          ].map((bubble, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full bg-gray-700/50 animate-pulse"
+              style={{
+                width: bubble.w,
+                height: bubble.h,
+                left: `${bubble.l}%`,
+                top: `${bubble.t}%`,
+                animationDelay: `${i * 0.1}s`,
+                animationDuration: '1.5s',
+              }}
+            />
+          ))}
+        </div>
+        <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3">
+          <p className="text-gray-500 text-sm">Loading crypto market data...</p>
+          <div className="flex gap-2">
+            {[0,1,2].map(i => (
+              <div key={i} className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Home() {
   // ── Global state comes from the store (FilterModal & SettingsModal write here) ──
@@ -47,15 +91,17 @@ export default function Home() {
   return (
     <>
       {/* Live bubble chart — full width, 85 vh */}
-      <BubbleChart
-        mode={currentMode}
-        rankingPage={coingeckoPage}
-        categoryId={currentCategoryId}
-        timeframe={currentTimeframe}
-        bubbleSizeMetric={bubbleSizeMetric}
-        favorites={favorites}
-        onBubbleClick={handleBubbleClick}
-      />
+      <Suspense fallback={<BubbleChartSkeleton />}>
+        <BubbleChart
+          mode={currentMode}
+          rankingPage={coingeckoPage}
+          categoryId={currentCategoryId}
+          timeframe={currentTimeframe}
+          bubbleSizeMetric={bubbleSizeMetric}
+          favorites={favorites}
+          onBubbleClick={handleBubbleClick}
+        />
+      </Suspense>
 
       {/* Coin detail modal — rendered at page level so z-index sits above chart */}
       <CoinModal
