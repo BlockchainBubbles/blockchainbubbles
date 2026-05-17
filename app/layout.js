@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import Script from 'next/script'
 import { StoreProvider } from '@/lib/store'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], display: 'swap', preload: true })
 
 export const metadata = {
   metadataBase: new URL('https://blockchainbubbles.com'),

@@ -9,112 +9,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
 }
 
 body {
   background-color: #111827;
   color: #f3f4f6;
   font-family: Inter, sans-serif;
-}
-
-/* Article content typography (matches original site's custom CSS) */
-.article-content {
-  color: #d1d5db;
-}
-
-.article-content h2 {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.article-content h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #93c5fd;
-  margin-top: 1.25rem;
-  margin-bottom: 0.5rem;
-  border-left: 4px solid #3b82f6;
-  padding-left: 0.75rem;
-}
-
-.article-content h4 {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #e5e7eb;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.article-content p {
-  margin-bottom: 1rem;
-  line-height: 1.7;
-}
-
-.article-content ul {
-  list-style-type: disc;
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.article-content ol {
-  list-style-type: decimal;
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.article-content strong {
-  color: #ffffff;
-}
-
-.article-content a {
-  color: #3b82f6;
-  text-decoration: underline;
-  transition: color 0.2s ease;
-}
-
-.article-content a:hover {
-  color: #60a5fa;
-}
-
-.article-content code {
-  background-color: #1f2937;
-  color: #93c5fd;
-  padding: 0.15rem 0.4rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-}
-
-.article-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
-}
-
-.article-content th,
-.article-content td {
-  padding: 0.75rem;
-  border: 1px solid #374151;
-  text-align: left;
-}
-
-.article-content th {
-  background-color: #374151;
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.article-content td {
-  background-color: #111827;
-}
-
-/* Timeframe button active state */
-.timeframe-btn.active {
-  background-color: #2563eb;
-  color: #ffffff;
 }
 
 /* Result bubble display area in calculators */
@@ -127,13 +27,7 @@ body {
   overflow: hidden;
 }
 
-/* Coin search dropdown */
-.coin-search-results {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-/* ── Dark scrollbar — applied globally to every element ─────────── */
+/* ── Dark scrollbar ─────────────────────────────────────────────── */
 * {
   scrollbar-width: thin;
   scrollbar-color: #4b5563 #1f2937;
@@ -197,16 +91,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 5px;
-}
-.bubble-symbol {
-  font-size: 1em;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.bubble-change {
-  font-size: 0.8em;
-  margin-top: 2px;
-  font-weight: 700;
 }
 .favorite-bubble {
   border: 3px solid #fbbf24 !important;
