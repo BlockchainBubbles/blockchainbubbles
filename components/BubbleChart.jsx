@@ -20,6 +20,7 @@ export default function BubbleChart({
   const bubblesRef        = useRef([])
   const animationRef      = useRef(null)
   const lastFrameTimeRef  = useRef(0)
+  const isMobileRef       = useRef(typeof window !== 'undefined' && window.innerWidth < 768)
   const progressRef       = useRef(null)
   const isFetchingRef      = useRef(false)
   const isFirstRenderRef   = useRef(true)
@@ -35,8 +36,7 @@ export default function BubbleChart({
   // ── Animation loop ──────────────────────────────────────────────────────────
   const animate = useCallback((timestamp) => {
     animationRef.current = requestAnimationFrame(animate)
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-    const interval = isMobile ? 1000 / 30 : 1000 / 60
+    const interval = isMobileRef.current ? 1000 / 24 : 1000 / 60
     const delta = timestamp - lastFrameTimeRef.current
     if (delta < interval) return
     lastFrameTimeRef.current = timestamp - (delta % interval)
@@ -177,10 +177,21 @@ export default function BubbleChart({
   useEffect(() => {
     fetchDataRef.current?.()
     const interval = setInterval(() => fetchDataRef.current?.(), 180_000)
+
+    const ro = typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(([entry]) => {
+          const { width, height } = entry.contentRect
+          isMobileRef.current = width < 768
+          bubblesRef.current.forEach(b => b.resize(width, height))
+        })
+      : null
+    if (ro && containerRef.current) ro.observe(containerRef.current)
+
     return () => {
       clearInterval(interval)
       clearInterval(rateLimitTimerRef.current)
       stopAnimation()
+      ro?.disconnect()
     }
   }, [stopAnimation])
 
