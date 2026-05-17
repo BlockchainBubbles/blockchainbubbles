@@ -91,7 +91,7 @@ export default function BubbleChart({
 
     const maxValue = Math.max(...coinsWithFallback.map(c => Math.abs(c[sizeKey] ?? 0)))
 
-    coinsWithFallback.forEach(coin => {
+    coinsWithFallback.forEach((coin, index) => {
       const bubble = new Bubble(
         coin,
         maxValue,
@@ -100,6 +100,7 @@ export default function BubbleChart({
         containerRef.current,
         favorites,
         onBubbleClick ?? (() => {}),
+        index,
       )
       bubblesRef.current.push(bubble)
     })
