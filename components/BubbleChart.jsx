@@ -28,6 +28,7 @@ export default function BubbleChart({
   const createBubblesRef   = useRef(null)
   const lastFetchedDataRef = useRef([])
   const rateLimitTimerRef  = useRef(null)
+  const refreshIntervalRef = useRef(null)
 
   const [isLoading,     setIsLoading]     = useState(true)
   const [progressColor, setProgressColor] = useState('#3b82f6')
@@ -175,8 +176,9 @@ export default function BubbleChart({
 
   // ── Effect: initial load + 3-minute auto-refresh ────────────────────────────
   useEffect(() => {
-    fetchDataRef.current?.()
-    const interval = setInterval(() => fetchDataRef.current?.(), 180_000)
+    Promise.resolve(fetchDataRef.current?.()).finally(() => {
+      refreshIntervalRef.current = setInterval(() => fetchDataRef.current?.(), 180_000)
+    })
 
     const ro = typeof ResizeObserver !== 'undefined'
       ? new ResizeObserver(([entry]) => {
@@ -188,7 +190,7 @@ export default function BubbleChart({
     if (ro && containerRef.current) ro.observe(containerRef.current)
 
     return () => {
-      clearInterval(interval)
+      clearInterval(refreshIntervalRef.current)
       clearInterval(rateLimitTimerRef.current)
       stopAnimation()
       ro?.disconnect()
