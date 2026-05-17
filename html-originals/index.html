@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Crypto Bubble Chart: Visualize Market, Coins & HeatMap</title>
+    <meta name="msvalidate.01" content="D75B88F2C1A57E245C1AD580EBFD9778" />
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Analyze the crypto market with our live crypto bubbles chart and map. Track sentiment, compare coins and altcoins by market cap, and spot trends on this blockchain heatmap.">
+                                      
+    <link rel="canonical" href="https://blockchainbubbles.com/">
+    
+    <!-- Embedded SVG Favicon -->
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="40" cy="40" r="30" fill="#3b82f6" opacity="0.8"/><circle cx="65" cy="60" r="20" fill="#22c55e" opacity="0.8"/><circle cx="55" cy="35" r="15" fill="#ef4444" opacity="0.8"/></svg> -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
+  
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://blockchainbubbles.com/">
+    <meta property="og:title" content="Live Crypto Bubble Chart & HeatMap - Blockchain bubbles">
+    <meta property="og:description" content="Instantly visualize the entire cryptocurrency market with our live, interactive bubble chart.">
+    <meta property="og:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blockchainbubbles.com/">
+    <meta property="twitter:title" content="Live Crypto Bubble Chart & HeatMap - Blockchain bubbles">
+    <meta name="twitter:description" content="Instantly visualize the entire cryptocurrency market with our live, interactive bubble chart.">
+    <meta name="twitter:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Blockchain Bubbles | Live Crypto Market Visualization & Heat Map",
+      "description": "Instantly visualize the entire cryptocurrency market with Blockchain Bubbles. Our live, interactive bubble chart and heat map help you spot top-performing coins, track market sentiment, and analyze trends in real-time.",
+      "url": "https://blockchainbubbles.com/",
+      "mainEntity": {
+        "@type": "WebSite",
+        "name": "Blockchain Bubbles",
+        "url": "https://blockchainbubbles.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://blockchainbubbles.com/?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://blockchainbubbles.com/"
+        }]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Blockchain Bubbles",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://placehold.co/512x512/111827/ffffff?text=BB"
+        }
+      },
+      "mainContentOfPage": {
+        "@type": "SiteNavigationElement",
+        "name": "Main Navigation",
+        "potentialAction": [
+          {
+            "@type": "Action",
+            "name": "Crypto Categories",
+            "target": [
+              { "@type": "EntryPoint", "urlTemplate": "https://blockchainbubbles.com/?category=layer-1", "name": "Layer 1" },
+              { "@type": "EntryPoint", "urlTemplate": "https://blockchainbubbles.com/?category=decentralized-finance-defi", "name": "DeFi" },
+              { "@type": "EntryPoint", "urlTemplate": "https://blockchainbubbles.com/?category=gaming", "name": "GameFi" }
+            ]
+          },
+          {
+            "@type": "Action",
+            "name": "Market Rankings",
+            "target": [
+              { "@type": "EntryPoint", "urlTemplate": "https://blockchainbubbles.com/?rank=1-100", "name": "Top 1-100" },
+              { "@type": "EntryPoint", "urlTemplate": "https://blockchainbubbles.com/?rank=101-200", "name": "Top 101-200" }
+            ]
+          }
+        ]
+      }
+    }
+    </script>
+    <!--<script src="https://cdn.tailwindcss.com"></script>
+    <script src="./dist/chart-bundle.js"></script>
+    <script src="./dist/bundle.js"></script> -->
+    <link rel="stylesheet" href="./dist/output.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <!-- 
+        *** PERFORMANCE OPTIMIZATION / TREE-SHAKING STATUS ***
+        
+        The previous CDN references and local copies have been REMOVED.
+        To achieve the tree-shaking you asked for (only including necessary Chart.js functions), 
+        you must follow the instructions in the 'Chart.js Tree-Shaking Build Guide' file to create:
+        
+        1. A source file (`src/chart-source.js`) that imports only the modules needed (LineController, TimeScale, etc.).
+        2. A single, optimized output file (`dist/chart-bundle.js`) using Webpack/npm.
+    -->
+    
+
+    <!-- Preconnect to Google Fonts for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.coingecko.com" crossorigin>
+    <link rel="preconnect" href="https://api.binance.com" crossorigin>
+
+    <!-- Asynchronously load the font stylesheet to prevent render-blocking -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+ 
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #f3f4f6;
+            overflow-y: auto; /* Allow vertical scrolling */
+        }
+        #bubble-container {
+            overflow: hidden;
+            position: relative; /* Changed from fixed */
+            width: 100%;
+            height: 85vh; /* Give the bubble container a fixed height */
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, width 0.3s ease-in-out, height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .bubble:hover {
+            transform: scale(1.1);
+            z-index: 50;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        .bubble-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        .bubble-symbol {
+            font-size: 1em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .bubble-change {
+            font-size: 0.8em;
+            margin-top: 2px;
+            font-weight: 700;
+        }
+        #modal-backdrop, #settings-modal-backdrop, #market-filter-modal-backdrop {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #modal, #settings-modal, #market-filter-modal {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .control-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: rgba(31, 41, 55, 0.8);
+            color: #d1d5db;
+        }
+        .control-btn:hover {
+            background-color: rgba(55, 65, 81, 1);
+        }
+        .control-btn.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .filter-option {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: #1f2937;
+            color: #d1d5db;
+            text-align: center;
+        }
+        .filter-option:hover {
+             background-color: #374151;
+        }
+        .filter-option.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        #progress-container {
+            position: sticky; /* Changed from fixed to sticky */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #1f2937;
+            z-index: 39;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+        }
+        .progress-animation {
+            animation: progress-fill 180s linear forwards; /* UPDATED: 3 minutes */
+        }
+        #chart-loader {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(31, 41, 55, 0.5);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #chart-loader-icon {
+            width: 48px;
+            height: 48px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        #chart-progress-container {
+            position: absolute;
+            bottom: 0;
+            left:0;
+            right: 0;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #chart-progress-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #3b82f6;
+            transition: width 20s linear;
+        }
+        @keyframes blink-green-border {
+            50% { box-shadow: 0 0 8px 3px rgba(74, 222, 128, 0.7); }
+        }
+        @keyframes blink-red-border {
+            50% { box-shadow: 0 0 8px 3px rgba(248, 113, 113, 0.7); }
+        }
+        .blinking-border-green {
+            animation: blink-green-border 1.5s infinite ease-in-out;
+        }
+        .blinking-border-red {
+            animation: blink-red-border 1.5s infinite ease-in-out;
+        }
+        @keyframes blink-radio-border {
+            50% { border-width: 3px; }
+        }
+        .blinking-radio {
+            animation: blink-radio-border 1.2s infinite ease-in-out;
+        }
+        @keyframes float-animation {
+            50% { transform: translateY(-3px); }
+        }
+        .arrow-animate {
+            animation: float-animation 1.5s infinite ease-in-out;
+        }
+        @keyframes progress-fill {
+            from { width: 0%; }
+            to   { width: 100%; }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+        #search-results, #search-results-mobile {
+            scrollbar-width: thin;
+            scrollbar-color: #4f46e5 #1f2d37;
+        }
+        .radio-btn.selected .radio-dot {
+            display: block;
+        }
+        .radio-btn.market-positive {
+            border-color: #22c55e; /* green-500 */
+        }
+        .radio-btn.market-negative {
+            border-color: #ef4444; /* red-500 */
+        }
+        @keyframes favorite-pulse {
+            50% { box-shadow: 0 0 12px 4px rgba(251, 191, 36, 0.5); }
+        }
+        .favorite-bubble {
+            border-color: #fbbf24;
+            border-width: 3px;
+            animation: favorite-pulse 2s infinite ease-in-out;
+        }
+        /* New style for desktop search toggle */
+        @media (min-width: 768px) {
+            #desktop-search-container {
+                position: relative; /* To position the dropdown/bar correctly */
+            }
+            #desktop-search-dropdown {
+                position: absolute;
+                top: calc(100% + 8px); /* Position it below the icon + a small gap */
+                right: 0; /* Align to the right of the icon */
+                width: 320px; /* Wider width for desktop search bar */
+                min-width: 250px;
+                transform-origin: top right;
+                transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+                z-index: 50;
+            }
+            .search-hidden {
+                opacity: 0;
+                transform: scaleY(0);
+                pointer-events: none;
+            }
+            .search-visible {
+                opacity: 1;
+                transform: scaleY(1);
+                pointer-events: auto;
+            }
+        }
+        
+        /* Specific styling for the Market Filter Modal */
+        .filter-grid-header {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        /* Adjusted .filter-grid-options to ensure consistent 2-column layout for ranking/categories */
+        .filter-grid-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+        /* New styles to force horizontal layout on medium screens and up */
+        @media (min-width: 768px) {
+            #filter-options-container {
+                display: flex;
+                flex-direction: row; /* Force horizontal arrangement of the three main sections */
+                gap: 1.5rem; /* md:gap-6 */
+            }
+            #timeframe-filter-section {
+                /* Ensure timeframe section takes up 1/3 width */
+                flex: 1; 
+                min-width: 150px;
+            }
+            #ranking-filter-section {
+                 /* Ensure ranking section takes up 1/3 width */
+                flex: 1;
+                min-width: 250px;
+            }
+            #category-filter-section {
+                 /* Ensure category section takes up 1/3 width */
+                flex: 1;
+                min-width: 250px;
+            }
+            /* The Timeframe options container needs to be 2-columns wide to fit 5 items nicely */
+            #timeframe-options {
+                grid-template-columns: repeat(3, minmax(0, 1fr)); /* Use 3 columns for timeframes */
+            }
+        }
+        /* Dropdown styles for Nav (copied from comparison file) */
+        .group-hover\:block {
+            display: none;
+        }
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+        .hover\:block:hover {
+            display: block;
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K8WNJB2GNV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K8WNJB2GNV');
+</script>
+<meta name="msvalidate.01" content="D75B88F2C1A57E245C1AD580EBFD9778" />
+</head>
+<body class="antialiased">
+
+    <header class="sticky top-0 left-0 right-0 bg-gray-900 shadow-md px-2 py-3 z-40">
+        <!-- Main Header View -->
+        <div id="header-main" class="flex justify-between items-center gap-4">
+            <a href="#" id="logo-link" class="flex items-center gap-3">
+                <div id="market-indicator-logo" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
+                    <svg id="market-arrow-svg" class="w-5 h-5 text-gray-400 transition-transform duration-500 ease-in-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold text-white">Blockchain Bubbles</div>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-3">
+                 <!-- START: Crypto Comparison Tool Navigation Block -->
+                 <nav class="flex items-center gap-3">
+                    <ul class="flex items-center gap-3 list-none p-0 m-0">
+                        <!-- Navigation Link: Home (Active link for this page) -->
+                        <li><a href="index.html" class="bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">Home</a></li>
+                        <!-- Navigation Link: Compare -->
+                        <li><a href="crypto-comparison-tool.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Compare</a></li>
+                        
+                        <!-- START: Calculator Dropdown -->
+                         <li class="relative group">
+                            <button class="flex items-center gap-1 text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                                Calculators
+                                <svg class="w-4 h-4 transition-transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </button>
+                            <!-- Dropdown Menu -->
+                            <div class="absolute right-0 top-full pt-2 w-64 hidden group-hover:block hover:block z-50">
+                                <div class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
+                                    <ul class="text-gray-300 text-sm">
+                                        <li><a href="crypto_profile_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Profile Calculator</a></li>
+                                        <li><a href="crypto_futures_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Future Calculator</a></li>
+                                        <li><a href="slippage_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Slippage Calculator</a></li>
+                                        <li><a href="staking_rewards_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Staking Rewards Calculator</a></li>
+                                        <li><a href="dca_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Dollar Cost Averaging</a></li>
+                                        <li><a href="impermanent_loss_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition">Impermanent Loss Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- END: Calculator Dropdown -->
+                        
+                    </ul >
+                </nav>
+                <!-- END: Crypto Comparison Tool Navigation Block -->
+
+                 <!-- The old ranking, category, and timeframe controls are REMOVED here, replaced by the Market Filter icon -->
+                 <button id="market-filter-btn" aria-label="Open market filters" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-2.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                    </svg>
+                 </button>
+                 <button id="settings-btn" aria-label="Open settings" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.608 3.292 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                 </button>
+                 <!-- START: Desktop Search Toggle Implementation -->
+                <div id="desktop-search-container" class="relative">
+                    <button id="desktop-search-icon-btn" aria-label="Open search bar" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                    <!-- Search Bar hidden by default on desktop, positioned absolutely below the icon -->
+                    <div id="desktop-search-dropdown" class="search-hidden origin-top-right">
+                        <div class="relative w-full">
+                            <input type="text" id="search-input" placeholder="Search..." class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-8 p-2" autocomplete="off">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                             <div id="search-results" class="absolute top-full left-0 right-0 bg-gray-800 border border-gray-700 rounded-b-lg mt-1 max-h-60 overflow-y-auto z-50 hidden"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Desktop Search Toggle Implementation -->
+            </div>
+            
+            <div class="flex items-center gap-3 md:hidden">
+                 <button id="search-icon-btn-mobile" aria-label="Open search" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+                <button id="menu-btn" aria-label="Open menu" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search View -->
+        <div id="header-search-mobile" class="hidden items-center gap-2">
+            <div class="relative flex-grow">
+                 <input type="text" id="search-input-mobile" placeholder="Search for a coin..." class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block pl-8 p-2" autocomplete="off">
+                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                 </div>
+                 <div id="search-results-mobile" class="absolute top-full left-0 right-0 bg-gray-800 border border-gray-700 rounded-b-lg mt-1 max-h-60 overflow-y-auto z-50 hidden"></div>
+            </div>
+            <button id="search-cancel-btn" class="text-gray-300 hover:text-white p-2 text-sm">Cancel</button>
+        </div>
+
+        <!-- Mobile Navigation (Copied from crypto-comparison-tool.html) -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 p-4 bg-gray-800 rounded-lg space-y-4">
+            <ul class="space-y-2 list-none p-0 m-0">
+                <li><a href="index.html" class="block bg-gray-700 text-white px-3 py-2 rounded-md text-base font-medium">Home</a></li>
+                <li><a href="crypto-comparison-tool.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">Compare</a></li>
+                
+                <!-- Mobile Calculators Sub-menu -->
+                <li>
+                    <div class="text-blue-400 font-semibold px-3 pt-2 pb-1 text-sm uppercase tracking-wider">Calculators</div>
+                    <ul class="pl-2 space-y-1 mt-1 border-l-2 border-gray-700 ml-3">
+                        <!-- Links changed to match the desktop dropdown links for consistency -->
+                        <li><a href="crypto_profile_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Crypto Profile Calculator</a></li>
+                        <li><a href="crypto_futures_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Crypto Future Calculator</a></li>
+                        <li><a href="slippage_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Crypto Slippage Calculator</a></li>
+                        <li><a href="staking_rewards_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Staking Rewards Calculator</a></li>
+                        <li><a href="dca_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Dollar Cost Averaging</a></li>
+                        <li><a href="impermanent_loss_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Impermanent Loss Calculator</a></li>
+                    </ul>
+                </li>
+                <!-- END: Mobile Calculators Sub-menu -->
+            </ul>
+            
+            <!-- Existing mobile filters are still populated by JS below -->
+            <div id="mobile-menu-filters">
+                <!-- Mobile menu filters (ranking, category, timeframe) will be populated here by setupControls() -->
+            </div>
+        </div>
+    </header>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="bubble-container"></div>
+
+    <main class="py-12 px-4 md:px-8 text-gray-300">
+        <article class="max-w-4xl mx-auto prose prose-invert">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">What Are Crypto Bubbles? A Beginner's Guide to Market Visualization</h1>
+            <p class="mb-6">Trying to understand the cryptocurrency market can often feel overwhelming. With thousands of coins, constantly fluctuating prices, and complex data, it's difficult to see the big picture. What if you could see the entire market at a single glance? That's where a <strong>crypto bubble chart </strong> comes in.</p>
+            <p class="mb-6">This guide will explain <strong>what crypto bubbles are</strong>, how to read them, and how they can help you instantly grasp market sentiment and identify top-performing crypto assets.</p>
+            
+            <h2 class="text-2xl font-bold text-white mt-8 mb-4">What is a Crypto Bubble Chart (or Bubble Map)? </h2>
+            <p class="mb-6">This visualization is also commonly referred to as a crypto bubbles map. A <strong>crypto bubble chart</strong> is a powerful <strong>crypto market visualization</strong> tool that represents different cryptocurrencies as "bubbles." Instead of looking at long lists of numbers, this <strong>crypto heat map</strong> uses size and color to convey complex information, making it easy to spot trends and outliers in seconds.</p>
+            <p class="mb-6">Each bubble on the chart represents a specific cryptocurrency. The two most important visual cues are the bubble's size and its color.</p>
+            
+            <h2 class="text-2xl font-bold text-white mt-8 mb-4">How to Read a Crypto Bubble Chart</h2>
+            <p class="mb-6">Understanding a <strong>coin bubble</strong> chart is simple once you know what to look for. The key is to analyze what the size and color of each bubble represent.</p>
+            
+            <h3 class="text-xl font-bold text-white mt-6 mb-3">The Size of the Bubble</h3>
+            <p class="mb-4">The size of a bubble typically represents a specific metric. A powerful tool like <strong>Blockchain crypto Bubbles</strong> allows you to switch between different metrics to get a clearer view of the market structure.</p>
+            <ul class="list-disc list-inside space-y-2 mb-6">
+                <li><strong>Performance:</strong> This is the most common setting. A larger bubble indicates a more significant price change (either positive or negative) over a specific timeframe. It immediately draws your eye to the most volatile assets of the day.</li>
+                <li><strong>Market Cap:</strong> Sizing bubbles by market capitalization helps you understand the relative size and dominance of different cryptocurrencies. Bitcoin and Ethereum will appear as massive bubbles, while smaller altcoins will be much smaller.</li>
+                <li><strong>24h Volume:</strong> This setting sizes the bubbles based on their trading volume over the last 24 hours. This is an excellent way to see which coins are currently generating the most trading activity and interest.</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-white mt-6 mb-3">The Color of the Bubble</h3>
+            <p class="mb-4">The color of the bubble provides an instant indicator of market sentiment and performance.</p>
+            <ul class="list-disc list-inside space-y-2 mb-6">
+                <li><strong>Green Bubbles:</strong> A green bubble signifies that the cryptocurrency has increased in price over the selected timeframe. A brighter, more intense green usually indicates a stronger positive performance.</li>
+                <li><strong>Red Bubbles:</strong> A red bubble means the cryptocurrency has decreased in price. Similarly, a deeper red points to a more significant negative performance.</li>
+            </ul>
+            
+            <h2 class="text-2xl font-bold text-white mt-8 mb-4">Why Use a blockchain Crypto Bubble Chart?</h2>
+            <p class="mb-4">Now that you know how to read one, why should you use it? A <strong>crypto bubble chart</strong> is one of the most effective ways to:</p>
+            <ul class="list-disc list-inside space-y-2 mb-6">
+                <li><strong>See Market Sentiment Instantly:</strong> Are there more red bubbles or green bubbles? The answer gives you an immediate feel for the overall market sentiment for the day.</li>
+                <li><strong>Identify Top Performing Crypto & Altcoin Assets:</strong> The largest green bubbles instantly show you which coins are leading the market, helping you spot potential opportunities without scrolling through endless lists.</li>
+                <li><strong>Understand Market Structure:</strong> By sizing the bubbles by market cap, you can quickly visualize the dominance of major coins and discover emerging projects.</li>
+                <li><strong>Analyze Different Sectors:</strong> With tools that allow you to filter by categories like DeFi, GameFi, or AI, you can see which specific sectors of the crypto market are hot or cold.</li>
+            </ul>
+            
+            <h2 class="text-2xl font-bold text-white mt-8 mb-4">See it in Action with Blockchain crypto Bubble</h2>
+            <p class="mb-6">Reading about bubbles is one thing, but seeing them live is another. <strong>Blockchain crypto Bubble</strong> is a free, live <strong>crypto bubble chart</strong> that lets you explore the market in real-time.</p>
+            <p class="mb-4">Our tool allows you to:</p>
+            <ul class="list-disc list-inside space-y-2 mb-6">
+                <li>View the top coins by market cap ranking.</li>
+                <li>Filter by popular categories like Layer 1, DeFi, and AI.</li>
+                <li>Adjust the bubble size to visualize by <strong>performance</strong>, <strong>market cap</strong>, or <strong>24h volume</strong>.</li>
+                <li>Save your favorite coins for a personalized view every time you visit.</li>
+            </ul>
+            <p class="mb-6">Ready to stop staring at spreadsheets and start visualizing the market?</p>
+            <p class="text-center text-lg font-semibold"><a href="#" id="try-tool-link" class="text-blue-400 hover:underline">Try the live Blockchain crypto Bubble crypto bubbles chart now!</a></p>
+        </article>
+    </main>
+    
+    <footer id="page-footer" class="bg-gray-900 text-gray-400 py-12 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="font-bold text-white mb-4">Rankings</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white" data-rank="1-100">Top 1-100</a></li>
+                    <li><a href="#" class="hover:text-white" data-rank="101-200">101-200</a></li>
+                    <li><a href="#" class="hover:text-white" data-rank="201-300">201-300</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Categories</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white" data-category-id="layer-1" data-category-name="Layer 1">Layer 1</a></li>
+                    <li><a href="#" class="hover:text-white" data-category-id="decentralized-finance-defi" data-category-name="DeFi">DeFi</a></li>
+                    <li><a href="#" class="hover:text-white" data-category-id="gaming" data-category-name="GameFi">GameFi</a></li>
+                    <li><a href="#" class="hover:text-white" data-category-id="artificial-intelligence" data-category-name="AI">AI</a></li>
+                    <li><a href="#" class="hover:text-white" data-category-id="meme-token" data-category-name="Meme Coins">Meme Coins</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="./privacy-policy.html" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html" class="hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Blockchain Bubbles</h3>
+                <p>Visualizing the crypto market in real-time. Data provided by CoinGecko.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <div id="loading-spinner" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+        <div class="w-16 h-16 border-4 border-t-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
+    </div>
+
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-[99] hidden" onclick="closeModal()"></div>
+    <div id="modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-2xl bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8 z-[100] transform scale-95 opacity-0 hidden">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <img id="modal-icon" src="" alt="Coin Icon" class="w-20 h-20 rounded-full bg-gray-700 p-2">
+            <div class="text-center md:text-left">
+                <div class="flex items-center gap-3">
+                    <h2 id="modal-name" class="text-3xl font-bold text-white"></h2>
+                    <button id="favorite-btn" aria-label="Add to favorites" class="text-gray-400 hover:text-yellow-400 transition-colors">
+                        <!-- Star SVG will be injected here -->
+                    </button>
+                </div>
+                <p id="modal-symbol" class="text-lg text-gray-400 uppercase"></p>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8 text-center">
+            <div>
+                <p class="text-sm text-gray-400">Price (USD)</p>
+                <p id="modal-price" class="text-2xl font-semibold text-white"></p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-400">Change</p>
+                <p id="modal-change" class="text-2xl font-semibold"></p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-400">Market Cap</p>
+                <p id="modal-marketcap" class="text-2xl font-semibold text-white"></p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-400">Volume (24h)</p>
+                <p id="modal-volume" class="text-2xl font-semibold text-white"></p>
+            </div>
+        </div>
+        <div class="mt-8 relative h-48">
+            <div id="chart-loader" class="absolute inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 rounded-lg z-20 hidden"><img id="chart-loader-icon" src="" class="w-12 h-12 animate-pulse" alt="Loading chart data..."></div>
+            <canvas id="price-chart"></canvas>
+            <div id="chart-progress-container">
+                <div id="chart-progress-bar"></div>
+            </div>
+        </div>
+        <button onclick="closeModal()" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+     <!-- Settings Modal (remains for bubble size, independent of market filters) -->
+     <div id="settings-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-[99] hidden"></div>
+     <div id="settings-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto bg-gray-800 rounded-2xl shadow-2xl p-6 z-[100] transform scale-95 opacity-0 hidden">
+         <h3 class="text-lg font-medium text-white mb-4">Bubble Size</h3>
+         <div class="flex flex-col gap-3" id="bubble-size-options">
+             <button data-value="performance" class="control-btn w-full text-left active">Performance</button>
+             <button data-value="market_cap" class="control-btn w-full text-left">Market Cap</button>
+             <button data-value="total_volume" class="control-btn w-full text-left">24h Volume</button>
+         </div>
+     </div>
+     
+     <!-- New Market Filter Modal (based on user screenshot) -->
+     <div id="market-filter-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-[99] hidden" onclick="closeMarketFilterModal()"></div>
+     <div id="market-filter-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-4xl bg-gray-900 rounded-2xl shadow-2xl p-6 md:p-8 z-[100] transform scale-95 opacity-0 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-white">Market Filters</h2>
+            <button onclick="closeMarketFilterModal()" aria-label="Close modal" class="text-gray-400 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- UPDATED: Use a flex container for horizontal layout on medium screens and up -->
+        <div class="grid grid-cols-1 gap-6 md:flex md:gap-12" id="filter-options-container">
+            <!-- Timeframe -->
+            <div id="timeframe-filter-section">
+                <div class="filter-grid-header">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Timeframe
+                </div>
+                <div id="timeframe-options" class="grid grid-cols-3 gap-2">
+                    <!-- Timeframe options will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Ranking -->
+            <div id="ranking-filter-section">
+                 <div class="filter-grid-header">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                     Ranking
+                 </div>
+                 <div id="ranking-options" class="filter-grid-options">
+                     <!-- Ranking options will be populated by JS -->
+                 </div>
+            </div>
+
+            <!-- Category -->
+            <div id="category-filter-section">
+                <div class="filter-grid-header">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m0 0h5m-5 0l-1-1v-4m1-1v4m-1-4l1-1v-4m1-1v4m-1-4l1-1v-4m1-1v4m-1-4l1-1v-4m-1-1v-4"></path></svg>
+                    Category
+                </div>
+                <div id="category-options" class="filter-grid-options">
+                    <!-- Category options will be populated by JS -->
+                </div>
+            </div>
+        </div>
+     </div>
+
+
+    <script>
+        const container = document.getElementById('bubble-container');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modal = document.getElementById('modal');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        
+        // Removed old dropdown controls references
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsModalBackdrop = document.getElementById('settings-modal-backdrop');
+        
+        // Mobile menu references moved to its own container to separate filters from nav links
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuFilters = document.getElementById('mobile-menu-filters'); // New container for filters
+        const menuBtn = document.getElementById('menu-btn');
+        
+        // New Market Filter Modal references
+        const marketFilterBtn = document.getElementById('market-filter-btn');
+        const marketFilterModal = document.getElementById('market-filter-modal');
+        const marketFilterModalBackdrop = document.getElementById('market-filter-modal-backdrop');
+        const timeframeOptionsContainer = document.getElementById('timeframe-options');
+        const rankingOptionsContainer = document.getElementById('ranking-options');
+        const categoryOptionsContainer = document.getElementById('category-options');
+
+
+        // Updated variable names for clarity in the desktop search implementation
+        const desktopSearchContainer = document.getElementById('desktop-search-container');
+        const desktopSearchIconBtn = document.getElementById('desktop-search-icon-btn');
+        const desktopSearchDropdown = document.getElementById('desktop-search-dropdown');
+        const searchInput = document.getElementById('search-input');
+        
+        // Mobile search variables (renamed mobile icon button)
+        const searchInputMobile = document.getElementById('search-input-mobile');
+        const searchIconBtnMobile = document.getElementById('search-icon-btn-mobile');
+        const searchCancelBtn = document.getElementById('search-cancel-btn');
+        const headerMain = document.getElementById('header-main');
+        const headerSearchMobile = document.getElementById('header-search-mobile');
+        
+        const bubbles = [];
+        let priceChart = null;
+        let animationFrameId;
+        let chartUpdateInterval; // This will now refresh every 60 seconds (60000ms)
+        let chartAnimationId;
+        let searchTimeout;
+        let lastFetchedData = [];
+        let preloadedSearchCoins = [];
+
+        // --- State Management ---
+        let currentMode = 'ranking'; // 'home', 'ranking', 'category', or 'favorites'
+        let rankingDisplay = '1-100';
+        let categoryDisplay = 'Categories'; // The name for the mobile menu
+        let coingeckoPage = 1;
+        let currentCategoryId = null; // The coingecko ID
+        let favorites = [];
+        let bubbleSizeMetric = 'performance'; // 'performance', 'market_cap', 'total_volume'
+        let isDesktopSearchOpen = false; // New state variable
+        let allCategoriesCache = null; // New cache for categories list
+        let isFetchingCategories = false; // Prevent multiple simultaneous fetches
+
+        const starOutlineSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>`;
+        const starSolidSVG = `<svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1-81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`;
+
+        const timeframesBinance = {
+            '1m': '1m', '5m': '5m', '15m': '15m', '30m': '30m', '1h': '1h', 
+            '4h': '4h', '1d': '1d', '1w': '1w'
+        };
+        const timeframesCoingecko = {
+            '1h': 'price_change_percentage_1h_in_currency',
+            '24h': 'price_change_percentage_24h_in_currency',
+            '7d': 'price_change_percentage_7d_in_currency',
+            '30d': 'price_change_percentage_30d_in_currency',
+            '1y': 'price_change_percentage_1y_in_currency'
+        };
+        let currentTimeframe = '1h';
+
+        // Map for categories displayed in the filter modal (must match the screenshot/logic)
+        const categoryDisplayMap = {
+            'layer-1': 'Layer 1', 'layer-2': 'Layer 2', 'real-world-assets-rwa': 'RWA',
+            'proof-of-stake-pos': 'PoS', 'decentralized-finance-defi': 'DeFi',
+            'decentralized-exchange': 'DEX', 'gaming': 'GameFi',
+            'artificial-intelligence': 'AI', 'oracle': 'Oracles',
+            'meme-token': 'Meme Coins', 'governance': 'Governance'
+        };
+        
+        // Define all ranking options
+        const rankings = [
+            { name: 'Home', value: 'Home', type: 'ranking' }, 
+            { name: 'Favorites', value: 'Favorites', type: 'ranking' }
+        ];
+        for(let i = 0; i < 10; i++) {
+            const rank = `${i * 100 + 1}-${(i + 1) * 100}`;
+            rankings.push({ name: rank, value: rank, type: 'ranking' });
+        }
+
+
+        // --- SEO Enhancement: Function to update URL ---
+        function updateURL(mode, value) {
+            let newUrl = window.location.pathname; // This gets the base path, e.g., "/"
+            const params = new URLSearchParams();
+
+            // Set the appropriate parameter based on the mode.
+            if (mode === 'ranking' && value !== 'Home' && value !== 'Favorites') {
+                params.set('rank', value);
+            } else if (mode === 'category') {
+                params.set('category', value);
+            }
+            
+            // Convert the parameters to a string.
+            const queryString = params.toString();
+            
+            // If there are any parameters, append them to the URL.
+            if (queryString) {
+                newUrl += '?' + queryString;
+            }
+
+            // Only update the history if the URL has actually changed.
+            if (newUrl !== (window.location.pathname + window.location.search)) {
+                window.history.pushState({ path: newUrl }, '', newUrl);
+            }
+        }
+
+        class Bubble {
+            constructor(coin, maxValue, sizeKey, changeKey) {
+                this.coin = coin;
+                this.x = Math.random() * container.clientWidth;
+                this.y = Math.random() * container.clientHeight;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                
+                const change = this.coin[changeKey] || 0;
+                const sizeValue = this.coin[sizeKey] || 0;
+                const absSizeValue = Math.abs(sizeValue);
+
+                this.isSignificant = absSizeValue > 0.01;
+
+                if (this.isSignificant) {
+                    const screenWidth = window.innerWidth;
+                    let minRadius, maxRadius;
+                    if (screenWidth < 768) { minRadius = 15; maxRadius = 45; }
+                    else if (screenWidth < 1024) { minRadius = 20; maxRadius = 60; }
+                    else { minRadius = 23; maxRadius = 55; }
+                    
+                    const power = (bubbleSizeMetric === 'performance') ? 0.5 : 0.35;
+                    const normalizedSize = (maxValue > 0) ? Math.pow(absSizeValue / maxValue, power) : 0;
+                    this.radius = minRadius + (maxRadius - minRadius) * normalizedSize;
+                } else {
+                    this.radius = 15;
+                }
+                
+                this.createElement(change);
+            }
+
+            createElement(change) {
+                this.el = document.createElement('div');
+                this.el.className = 'bubble';
+                if (favorites.includes(this.coin.id)) {
+                    this.el.classList.add('favorite-bubble');
+                }
+
+                let color;
+                // Adjusted colors for better contrast with white text
+                if (change > 2) {
+                    color = 'rgba(21, 128, 61, 0.85)'; // Darker Green
+                } else if (change > 0) {
+                    color = 'rgba(5, 150, 105, 0.75)'; // Darker Emerald
+                } else if (change < -2) {
+                    color = 'rgba(185, 28, 28, 0.85)'; // Darker Red
+                } else if (change < 0) {
+                    color = 'rgba(220, 38, 38, 0.75)'; // Standard Dark Red
+                } else {
+                    color = 'rgba(75, 85, 99, 0.75)'; // Darker Gray
+                }
+                
+                this.el.style.width = `${this.radius * 2}px`;
+                this.el.style.height = `${this.radius * 2}px`;
+                this.el.style.backgroundColor = color;
+                
+                if (Math.abs(change) > 0.15) {
+                    let imageSize = this.radius * 0.5;
+                    let fontSizeSymbol = this.radius / 4;
+                    let fontSizeChange = this.radius / 4.5;
+
+                    this.el.innerHTML = `
+                        <div class="bubble-content pointer-events-none" style="text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                            <img src="${this.coin.image}" alt="${this.coin.name} icon" class="rounded-full mb-1" style="width: ${imageSize}px; height: ${imageSize}px;" onerror="this.style.display='none'">
+                            <span class="bubble-symbol" style="font-size: ${fontSizeSymbol}px; line-height: 1.1;">${this.coin.symbol.toUpperCase()}</span>
+                            <span class="bubble-change" style="font-size: ${fontSizeChange}px; line-height: 1.1;">${change.toFixed(2)}%</span>
+                        </div>
+                    `;
+                } else {
+                    let imageSize = this.radius * 1.3;
+                    this.el.innerHTML = `
+                        <div class="bubble-content pointer-events-none">
+                            <img src="${this.coin.image}" alt="${this.coin.name} icon" class="rounded-full" style="width: ${imageSize}px; height: ${imageSize}px;" onerror="this.style.display='none'">
+                        </div>
+                    `;
+                }
+                
+                this.el.addEventListener('click', () => openModal(this.coin));
+                container.appendChild(this.el);
+            }
+            
+            updatePosition() {
+                this.vx *= 0.995; 
+                this.vy *= 0.995;
+
+                this.vx += (Math.random() - 0.5) * 0.01;
+                this.vy += (Math.random() - 0.5) * 0.01;
+
+                this.x += this.vx; 
+                this.y += this.vy;
+
+                if (this.x - this.radius < 0) { this.vx *= -1; this.x = this.radius; }
+                else if (this.x + this.radius > container.clientWidth) { this.vx *= -1; this.x = container.clientWidth - this.radius; }
+                if (this.y - this.radius < 0) { this.vy *= -1; this.y = this.radius; }
+                else if (this.y + this.radius > container.clientHeight) { this.vy *= -1; this.y = container.clientHeight - this.radius; }
+                
+                this.el.style.transform = `translate(${this.x - this.radius}px, ${this.y - this.radius}px)`;
+            }
+        }
+        
+        function checkCollisions() {
+             for (let i = 0; i < bubbles.length; i++) {
+                for (let j = i + 1; j < bubbles.length; j++) {
+                    const b1 = bubbles[i]; const b2 = bubbles[j];
+                    const dx = b2.x - b1.x; const dy = b2.y - b1.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const minDistance = b1.radius + b2.radius;
+                    if (distance < minDistance) {
+                        const angle = Math.atan2(dy, dx); const sin = Math.sin(angle); const cos = Math.cos(angle);
+                        const vx1 = b1.vx * cos + b1.vy * sin; const vy1 = b1.vy * cos - b1.vx * sin;
+                        const vx2 = b2.vx * cos + b2.vy * sin; const vy2 = b2.vy * cos - b2.vx * sin;
+                        
+                        const vx1Final = vx2; 
+                        const vx2Final = vx1;
+                        
+                        b1.vx = vx1Final * cos - vy1 * sin;
+                        b1.vy = vy1 * cos + vx1Final * sin;
+                        b2.vx = vx2Final * cos - vy2 * sin;
+                        b2.vy = vy2 * cos + vx2Final * sin;
+                        
+                        const overlap = (minDistance - distance) / 2;
+                        b1.x -= overlap * cos;
+                        b1.y -= overlap * sin;
+                        b2.x += overlap * cos;
+                        b2.y += overlap * sin;
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            bubbles.forEach(bubble => bubble.updatePosition());
+            checkCollisions();
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        function adjustLayout() {
+            const header = document.querySelector('header');
+            const progressContainer = document.getElementById('progress-container');
+            const headerHeight = header.offsetHeight;
+            
+            container.style.marginTop = `0px`; // Remove margin
+            progressContainer.style.top = `${headerHeight}px`;
+
+        }
+
+        async function fetchInitialCoinListForHome() {
+            try {
+                const [coingeckoResponse, binanceResponse] = await Promise.all([
+                    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=500&page=1&sparkline=false'),
+                    fetch('https://api.binance.com/api/v3/ticker/24hr')
+                ]);
+
+                if (!coingeckoResponse.ok) throw new Error('Failed to fetch CoinGecko list');
+                if (!binanceResponse.ok) throw new Error('Failed to fetch Binance tickers');
+
+                const coingeckoList = await coingeckoResponse.json();
+                const allBinanceTickers = await binanceResponse.json();
+                
+                const coingeckoMap = new Map(coingeckoList.map(coin => [coin.symbol.toUpperCase(), coin]));
+                
+                const screenWidth = window.innerWidth;
+                let bubbleCount = (screenWidth < 768) ? 70 : (screenWidth < 1024) ? 100 : 120;
+
+                const volatileCoins = allBinanceTickers
+                    .filter(ticker => ticker.symbol.endsWith('USDT'))
+                    .filter(ticker => {
+                        const high = parseFloat(ticker.highPrice);
+                        const low = parseFloat(ticker.lowPrice);
+                        if (low === 0) return false;
+                        const volatility = (high - low) / low;
+                        return volatility > 0.015;
+                    })
+                    .filter(ticker => !/\d(L|S)$|UP|DOWN|BULL|BEAR/.test(ticker.symbol))
+                    .sort((a, b) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume))
+                    .slice(0, bubbleCount)
+                    .map(ticker => {
+                        const symbol = ticker.symbol.replace('USDT', '');
+                        const coingeckoData = coingeckoMap.get(symbol);
+                        if (!coingeckoData) return null;
+                        return {
+                            ...coingeckoData,
+                            price_change_percentage_24h: parseFloat(ticker.priceChangePercent),
+                            current_price: parseFloat(ticker.lastPrice),
+                            total_volume: parseFloat(ticker.quoteVolume),
+                        };
+                    })
+                    .filter(coin => coin !== null);
+
+                return volatileCoins;
+
+            } catch (error) {
+                console.error("Home data fetch failed:", error);
+                return [];
+            }
+        }
+
+        async function fetchCoingeckoPage(page) {
+            try {
+                const priceChangePercentages = Object.keys(timeframesCoingecko).join(',');
+                const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${page}&sparkline=false&price_change_percentage=${priceChangePercentages}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to fetch CoinGecko page');
+                return await response.json();
+            } catch(error) {
+                console.error(`Failed to fetch CoinGecko page ${page}:`, error);
+                return [];
+            }
+        }
+        
+        async function fetchCoingeckoCategory(categoryId) {
+            try {
+                const priceChangePercentages = Object.keys(timeframesCoingecko).join(',');
+                const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${categoryId}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=${priceChangePercentages}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Failed to fetch CoinGecko category ${categoryId}`);
+                return await response.json();
+            } catch(error) {
+                console.error(`Failed to fetch CoinGecko category ${categoryId}:`, error);
+                return [];
+            }
+        }
+        
+        async function fetchFavorites() {
+            if (favorites.length === 0) return [];
+            try {
+                const ids = favorites.join(',');
+                const priceChangePercentages = Object.keys(timeframesCoingecko).join(',');
+                const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=${priceChangePercentages}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to fetch favorites');
+                return await response.json();
+            } catch(error) {
+                console.error("Failed to fetch favorites:", error);
+                return [];
+            }
+        }
+
+        async function fetchCryptoData() {
+            loadingSpinner.style.display = 'flex';
+            let data = [];
+
+            if (currentMode === 'home') {
+                const [volatileCoins, favoriteCoins] = await Promise.all([fetchInitialCoinListForHome(), fetchFavorites()]);
+                const combinedDataMap = new Map();
+                volatileCoins.forEach(coin => combinedDataMap.set(coin.id, coin));
+                favoriteCoins.forEach(coin => combinedDataMap.set(coin.id, coin));
+                data = Array.from(combinedDataMap.values());
+
+                if (currentTimeframe !== '1d' && timeframesBinance[currentTimeframe]) {
+                     const promises = data.map(async (coin) => {
+                        const symbol = (coin.symbol + 'USDT').toUpperCase();
+                        const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${timeframesBinance[currentTimeframe]}&limit=1`;
+                        try {
+                            const res = await fetch(url);
+                            if (!res.ok) return { ...coin, price_change_percentage_24h: 0 }; 
+                            const kline = await res.json();
+                            if (kline.length > 0) {
+                                const [open, close] = [kline[0][1], kline[0][4]];
+                                const change = ((close - open) / open) * 100;
+                                return { ...coin, price_change_percentage_24h: change, current_price: parseFloat(close) };
+                            }
+                        } catch (e) { /* Ignore */ }
+                        return { ...coin, price_change_percentage_24h: 0 };
+                    });
+                    data = await Promise.all(promises);
+                }
+            } else if (currentMode === 'category') {
+                data = await fetchCoingeckoCategory(currentCategoryId);
+            } else if (currentMode === 'favorites') {
+                data = await fetchFavorites();
+            }
+            else { // mode is 'ranking'
+                data = await fetchCoingeckoPage(coingeckoPage);
+            }
+            
+            lastFetchedData = data;
+            createBubbles(data);
+            loadingSpinner.style.display = 'none';
+
+            if (currentMode === 'ranking' && coingeckoPage === 1 && preloadedSearchCoins.length === 0) {
+                preloadedSearchCoins = data.map(coin => ({
+                    id: coin.id,
+                    name: coin.name,
+                    symbol: coin.symbol.toUpperCase(),
+                    thumb: coin.image
+                }));
+            }
+        }
+
+        function redrawBubbles() {
+            createBubbles(lastFetchedData);
+        }
+
+        function createBubbles(data) {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            container.innerHTML = '';
+            bubbles.length = 0;
+            
+            let changeKey;
+             if (currentMode === 'home') {
+                changeKey = 'price_change_percentage_24h';
+            } else {
+                changeKey = timeframesCoingecko[currentTimeframe];
+            }
+
+            const validCoins = data.filter(c => c && c[changeKey] !== null && isFinite(c[changeKey]));
+            if (validCoins.length === 0) return;
+
+            let sizeKey;
+            switch(bubbleSizeMetric) {
+                case 'market_cap': sizeKey = 'market_cap'; break;
+                case 'total_volume': sizeKey = 'total_volume'; break;
+                default: sizeKey = changeKey;
+            }
+            
+            const maxVal = Math.max(...validCoins.map(c => Math.abs(c[sizeKey] || 0)));
+
+            validCoins.forEach(coin => {
+                bubbles.push(new Bubble(coin, maxVal, sizeKey, changeKey));
+            });
+            
+            if (bubbles.length > 0) animate();
+            
+            updateMarketIndicator(validCoins, changeKey);
+        }
+
+        function updateMarketIndicator(data, changeKey) {
+            const logo = document.getElementById('market-indicator-logo');
+            const arrow = document.getElementById('market-arrow-svg');
+            const progressBar = document.getElementById('progress-bar');
+            if (!arrow || !logo || !progressBar) return;
+
+            let positiveCount = data.filter(c => c[changeKey] > 0).length;
+            let negativeCount = data.filter(c => c[changeKey] < 0).length;
+
+            arrow.classList.remove('text-green-500', 'text-red-500', 'text-gray-400', 'arrow-animate');
+            logo.classList.remove('blinking-border-green', 'blinking-border-red');
+            progressBar.classList.remove('bg-green-500', 'bg-red-500', 'bg-blue-500');
+            arrow.style.transform = 'rotate(0deg)';
+
+            if (positiveCount > negativeCount) {
+                arrow.classList.add('text-green-500', 'arrow-animate');
+                logo.classList.add('blinking-border-green');
+                progressBar.classList.add('bg-green-500');
+            } else if (negativeCount > positiveCount) {
+                arrow.classList.add('text-red-500', 'arrow-animate');
+                logo.classList.add('blinking-border-red');
+                arrow.style.transform = 'rotate(180deg)';
+                progressBar.classList.add('bg-red-500');
+            } else {
+                arrow.classList.add('text-gray-400');
+                progressBar.classList.add('bg-blue-500');
+            }
+            
+            // NOTE: The previous blinking-radio logic for old dropdowns is removed
+        }
+
+        function showPreloadedResults(isMobile) {
+            const input = isMobile ? searchInputMobile : searchInput;
+            const resultsContainer = isMobile ? document.getElementById('search-results-mobile') : document.getElementById('search-results');
+            if (input.value.trim() === '' && preloadedSearchCoins.length > 0) {
+                displaySearchResults(preloadedSearchCoins, isMobile);
+                resultsContainer.classList.remove('hidden');
+            }
+        }
+
+        function handleSearch(isMobile) {
+            const input = isMobile ? searchInputMobile : searchInput;
+            const resultsContainer = isMobile ? document.getElementById('search-results-mobile') : document.getElementById('search-results');
+            const searchTerm = input.value.trim().toLowerCase();
+
+            if (searchTerm === '') {
+                bubbles.forEach(bubble => {
+                    bubble.el.style.opacity = '1';
+                    bubble.el.style.pointerEvents = 'auto';
+                });
+                resultsContainer.classList.add('hidden');
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            // First, check if the searched coin is already on screen
+            const matchingBubbles = bubbles.filter(bubble =>
+                bubble.coin.symbol.toLowerCase().startsWith(searchTerm) ||
+                bubble.coin.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (matchingBubbles.length > 0) {
+                // If found on screen, highlight it and hide others
+                bubbles.forEach(bubble => {
+                    const isMatch = matchingBubbles.includes(bubble);
+                    bubble.el.style.opacity = isMatch ? '1' : '0.1';
+                    bubble.el.style.pointerEvents = isMatch ? 'auto' : 'none';
+                });
+                resultsContainer.classList.add('hidden'); // Ensure dropdown is hidden
+                return; // Stop further execution
+            }
+
+            // Filter preloaded coins first
+            const filteredPreloaded = preloadedSearchCoins.filter(coin =>
+                coin.symbol.toLowerCase().startsWith(searchTerm) ||
+                coin.name.toLowerCase().includes(searchTerm)
+            );
+
+            bubbles.forEach(bubble => {
+                bubble.el.style.opacity = '0.1';
+                bubble.el.style.pointerEvents = 'none';
+            });
+
+            if (filteredPreloaded.length > 0) {
+                displaySearchResults(filteredPreloaded, isMobile);
+                resultsContainer.classList.remove('hidden');
+                return;
+            }
+            
+            if (searchTerm.length > 1) {
+                resultsContainer.classList.remove('hidden');
+                resultsContainer.innerHTML = `<div class="p-2 text-center text-gray-400">Searching...</div>`;
+                searchCoinGecko(searchTerm, isMobile);
+            } else {
+                resultsContainer.innerHTML = `<div class="p-2 text-center text-gray-400">No results found.</div>`;
+                resultsContainer.classList.remove('hidden');
+            }
+        }
+
+
+        async function searchCoinGecko(query, isMobile) {
+            try {
+                const response = await fetch(`https://api.coingecko.com/api/v3/search?query=${query}`);
+                if (!response.ok) throw new Error('API search failed');
+                const data = await response.json();
+                displaySearchResults(data.coins, isMobile);
+            } catch (error) {
+                console.error("CoinGecko search error:", error);
+                const resultsContainer = isMobile ? document.getElementById('search-results-mobile') : document.getElementById('search-results');
+                resultsContainer.innerHTML = `<div class="p-2 text-center text-red-400">Search failed.</div>`;
+            }
+        }
+
+        function displaySearchResults(coins, isMobile) {
+            const resultsContainer = isMobile ? document.getElementById('search-results-mobile') : document.getElementById('search-results');
+            resultsContainer.innerHTML = '';
+
+            if (coins.length === 0) {
+                resultsContainer.innerHTML = `<div class="p-2 text-center text-gray-400">No results found.</div>`;
+                return;
+            }
+
+            coins.slice(0, 10).forEach(coin => {
+                const item = document.createElement('div');
+                item.className = 'p-2 flex items-center gap-3 hover:bg-gray-700 cursor-pointer';
+                item.innerHTML = `
+                    <img src="${coin.thumb}" alt="${coin.name}" class="w-6 h-6 rounded-full">
+                    <div>
+                        <div class="font-bold text-white">${coin.name}</div>
+                        <div class="text-xs text-gray-400">${coin.symbol}</div>
+                    </div>
+                `;
+                item.addEventListener('click', () => {
+                    fetchAndShowModalForCoin(coin.id);
+                    searchInput.value = '';
+                    searchInputMobile.value = '';
+                    document.getElementById('search-results').classList.add('hidden');
+                    document.getElementById('search-results-mobile').classList.add('hidden');
+                    if (!isMobile) {
+                        toggleDesktopSearch(false); // Close desktop search bar
+                    } else {
+                        searchCancelBtn.click(); // Close mobile search view
+                    }
+                });
+                resultsContainer.appendChild(item);
+            });
+        }
+        
+        async function fetchAndShowModalForCoin(coinId) {
+            try {
+                loadingSpinner.style.display = 'flex';
+                const priceChangePercentages = Object.keys(timeframesCoingecko).join(',');
+                const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?sparkline=false&price_change_percentage=${priceChangePercentages}`);
+                if (!response.ok) throw new Error('Failed to fetch coin details');
+                const coinData = await response.json();
+
+                const modalCoin = {
+                    id: coinData.id,
+                    symbol: coinData.symbol,
+                    name: coinData.name,
+                    image: coinData.image.large,
+                    current_price: coinData.market_data.current_price.usd,
+                    market_cap: coinData.market_data.market_cap.usd,
+                    total_volume: coinData.market_data.total_volume.usd,
+                    price_change_percentage_24h: coinData.market_data.price_change_percentage_24h, // Added for consistency with home view
+                    price_change_percentage_1h_in_currency: coinData.market_data.price_change_percentage_1h_in_currency,
+                    price_change_percentage_24h_in_currency: coinData.market_data.price_change_percentage_24h_in_currency,
+                    price_change_percentage_7d_in_currency: coinData.market_data.price_change_percentage_7d_in_currency,
+                    price_change_percentage_30d_in_currency: coinData.market_data.price_change_percentage_30d_in_currency,
+                    price_change_percentage_1y_in_currency: coinData.market_data.price_change_percentage_1y_in_currency,
+                };
+                openModal(modalCoin, true); // Pass true to indicate this is from a search
+
+            } catch(error) {
+                console.error("Error fetching coin for modal:", error);
+            } finally {
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        function restartProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.classList.remove('progress-animation');
+            void progressBar.offsetWidth;
+            progressBar.classList.add('progress-animation');
+        }
+
+        // --- New function to fetch categories and populate the menu/dropdown ---
+        async function fetchAndCacheCategories() {
+            // Already implemented the filtering logic above
+            if (allCategoriesCache !== null) {
+                return allCategoriesCache;
+            }
+            if (isFetchingCategories) {
+                // Return a promise that resolves when fetching is done (or fails)
+                return new Promise(resolve => {
+                    const checkCache = setInterval(() => {
+                        if (!isFetchingCategories) {
+                            clearInterval(checkCache);
+                            resolve(allCategoriesCache);
+                        }
+                    }, 100);
+                });
+            }
+
+            isFetchingCategories = true;
+            try {
+                // Fetch the complete list of categories 
+                const response = await fetch('https://api.coingecko.com/api/v3/coins/categories/list');
+                if (!response.ok) throw new Error('API failed to fetch categories list.');
+
+                const allCategories = await response.json();
+                
+                // Filter and map the desired categories
+                const desiredCategoryIds = Object.keys(categoryDisplayMap);
+                const categoryMap = new Map(allCategories.map(cat => [cat.category_id, cat]));
+                
+                const filteredCategories = desiredCategoryIds.map(id => {
+                    const cat = categoryMap.get(id);
+                    return cat ? { name: categoryDisplayMap[id], value: id, type: 'category' } : null;
+                }).filter(Boolean);
+
+                allCategoriesCache = filteredCategories;
+                return allCategoriesCache;
+
+            } catch (e) { 
+                console.error("Failed to fetch categories:", e); 
+                allCategoriesCache = []; // Cache failure to prevent endless retries
+                return [];
+            } finally {
+                isFetchingCategories = false;
+            }
+        }
+        
+        function updateMobileMenuCategories(categories) {
+            // Updated function to populate the mobile menu since the structure is simplified
+            const mobileCategorySection = mobileMenuFilters.querySelector('[data-title="Categories"]');
+            if (!mobileCategorySection) return;
+
+            const grid = mobileCategorySection.querySelector('.grid');
+            if (grid) {
+                grid.innerHTML = ''; // Clear existing buttons
+                
+                if (categories.length === 0) {
+                     const failMsg = document.createElement('div');
+                     failMsg.className = 'col-span-3 text-center text-red-400 text-sm';
+                     failMsg.textContent = 'Failed to load categories.';
+                     grid.appendChild(failMsg);
+                     return;
+                }
+
+                categories.forEach(item => {
+                    const btn = document.createElement('button');
+                    btn.className = 'control-btn text-sm text-center justify-center py-2';
+                    btn.textContent = item.name;
+                    btn.dataset.value = item.value;
+                    btn.dataset.name = item.name; 
+                    btn.dataset.type = 'category';
+                    
+                    if (item.value === currentCategoryId) { // Check against currentCategoryId state
+                        btn.classList.add('active');
+                    }
+                    grid.appendChild(btn);
+                });
+            }
+        }
+        
+        function setupMarketFilterModal() {
+            marketFilterBtn.addEventListener('click', openMarketFilterModal);
+            marketFilterModalBackdrop.addEventListener('click', closeMarketFilterModal);
+
+            // Timeframe Population
+            const timeframeItems = Object.keys(timeframesCoingecko).map(tf => ({ name: tf, value: tf }));
+            timeframeOptionsContainer.innerHTML = timeframeItems.map(item => `
+                <button data-value="${item.value}" data-type="timeframe" class="filter-option ${item.value === currentTimeframe ? 'active' : ''}">
+                    ${item.name}
+                </button>
+            `).join('');
+
+            // Ranking Population
+            rankingOptionsContainer.innerHTML = rankings.map(item => `
+                <button data-value="${item.value}" data-type="ranking" class="filter-option ${item.value === rankingDisplay ? 'active' : ''}">
+                    ${item.name}
+                </button>
+            `).join('');
+            
+            // Initial Category Population (Placeholder or cached)
+            if (allCategoriesCache) {
+                 populateCategoryOptions(allCategoriesCache);
+            } else {
+                 categoryOptionsContainer.innerHTML = `<div class="col-span-2 text-center text-gray-400 p-2">Loading categories...</div>`;
+                 fetchAndCacheCategories().then(populateCategoryOptions);
+            }
+
+            // Event delegation for clicks inside the modal
+            marketFilterModal.addEventListener('click', handleFilterSelection);
+        }
+        
+        function populateCategoryOptions(categories) {
+            categoryOptionsContainer.innerHTML = categories.map(item => `
+                <button data-value="${item.value}" data-name="${item.name}" data-type="category" class="filter-option ${item.value === currentCategoryId ? 'active' : ''}">
+                    ${item.name}
+                </button>
+            `).join('');
+            
+            // Update mobile menu immediately after categories are fetched
+            updateMobileMenuCategories(categories);
+        }
+        
+        function handleFilterSelection(e) {
+            const selectedBtn = e.target.closest('button[data-type]');
+            if (!selectedBtn) return;
+            
+            const { type, value, name } = selectedBtn.dataset;
+
+            // Update state based on selection
+            if (type === 'timeframe') {
+                currentTimeframe = value;
+            } else if (type === 'ranking') {
+                rankingDisplay = value;
+                currentMode = value === 'Home' ? 'home' : (value === 'Favorites' ? 'favorites' : 'ranking');
+                coingeckoPage = value.includes('-') ? Math.floor((parseInt(value.split('-')[0]) - 1) / 100) + 1 : 1;
+                currentCategoryId = null; // Clear category selection
+            } else if (type === 'category') {
+                currentCategoryId = value;
+                categoryDisplay = name;
+                currentMode = 'category';
+                rankingDisplay = 'Rankings'; // Clear ranking selection
+                coingeckoPage = 1;
+            }
+
+            // Update UI within the modal
+            const containers = {
+                'timeframe': timeframeOptionsContainer,
+                'ranking': rankingOptionsContainer,
+                'category': categoryOptionsContainer
+            };
+            
+            // Remove 'active' from all buttons in the same group
+            containers[type].querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
+            // Set 'active' on the clicked button
+            selectedBtn.classList.add('active');
+            
+            // If ranking or category changes, update the *other* group's active state
+            if (type === 'ranking') {
+                // If ranking is selected, no category is active
+                containers['category'].querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
+            } else if (type === 'category') {
+                // If category is selected, no ranking (besides 'Home'/'Favorites' which are mode-based) is active
+                containers['ranking'].querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
+            }
+            
+            // Re-run data fetch and set up controls
+            updateURL(currentMode, currentCategoryId || rankingDisplay);
+            setupControls(); // Re-runs mobile menu setup
+            fetchCryptoData();
+            setupAutoRefresh();
+
+            // Close the modal after selection
+            closeMarketFilterModal();
+        }
+
+        function openMarketFilterModal() {
+            // Close other modals/dropdowns first
+            if (window.innerWidth >= 768) toggleDesktopSearch(false);
+            closeSettingsModal();
+
+            marketFilterModal.classList.remove('hidden');
+            marketFilterModalBackdrop.classList.remove('hidden');
+            
+            // Ensure UI reflects current state before showing
+            timeframeOptionsContainer.querySelectorAll('.filter-option').forEach(btn => 
+                btn.classList.toggle('active', btn.dataset.value === currentTimeframe)
+            );
+            rankingOptionsContainer.querySelectorAll('.filter-option').forEach(btn => 
+                btn.classList.toggle('active', btn.dataset.value === rankingDisplay)
+            );
+            categoryOptionsContainer.querySelectorAll('.filter-option').forEach(btn => 
+                btn.classList.toggle('active', btn.dataset.value === currentCategoryId)
+            );
+
+            setTimeout(() => {
+                marketFilterModal.style.opacity = '1';
+                marketFilterModal.style.transform = 'translate(-50%, -50%) scale(1)';
+                marketFilterModalBackdrop.style.opacity = '1';
+            }, 10);
+        }
+
+        function closeMarketFilterModal() {
+            marketFilterModal.style.opacity = '0';
+            marketFilterModal.style.transform = 'translate(-50%, -50%) scale(0.95)';
+            marketFilterModalBackdrop.style.opacity = '0';
+            setTimeout(() => {
+                marketFilterModal.classList.add('hidden');
+                marketFilterModalBackdrop.classList.add('hidden');
+            }, 300);
+        }
+
+        function setupControls() {
+            // This function is now only responsible for setting up the mobile menu,
+            // as the desktop controls are consolidated into the Market Filter Modal.
+
+            // --- Mobile Menu Filters Setup ---
+            mobileMenuFilters.innerHTML = ''; // Clear previous filter menu to prevent duplication
+
+            const createMobileMenuSection = (title, items, type) => {
+                const section = document.createElement('div');
+                section.className = 'mb-4';
+                section.dataset.title = title; // Use data-title for easier targeting
+                const titleEl = document.createElement('h3');
+                titleEl.className = 'text-base font-semibold text-gray-400 mb-2';
+                titleEl.textContent = title;
+                section.appendChild(titleEl);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-3 gap-2';
+
+                items.forEach(item => {
+                    const btn = document.createElement('button');
+                    btn.className = 'control-btn text-sm text-center justify-center py-2';
+                    btn.textContent = item.name;
+                    btn.dataset.value = item.value;
+                    btn.dataset.name = item.name; // Store name for categories
+                    btn.dataset.type = type;
+                    
+                    let isActive = false;
+                    if (type === 'ranking' && item.value === rankingDisplay) isActive = true;
+                    if (type === 'category' && item.value === currentCategoryId) isActive = true; // Use ID for comparison
+                    if (type === 'timeframe' && item.value === currentTimeframe) isActive = true;
+
+                    if (isActive) {
+                        btn.classList.add('active');
+                    }
+                    grid.appendChild(btn);
+                });
+                section.appendChild(grid);
+                return section;
+            };
+
+            // Timeframes for mobile menu
+            const timeframeItems = Object.keys(timeframesCoingecko).map(tf => ({ name: tf, value: tf, type: 'timeframe' }));
+
+            // Create and append sections
+            if (rankings.length > 0) mobileMenuFilters.appendChild(createMobileMenuSection('Rankings', rankings, 'ranking'));
+            
+            // For categories in mobile menu, use the cached or placeholder list
+            const initialCategories = Object.keys(categoryDisplayMap).map(id => ({ 
+                name: categoryDisplayMap[id], 
+                value: id, 
+                type: 'category' 
+            }));
+            
+            mobileMenuFilters.appendChild(createMobileMenuSection('Categories', allCategoriesCache || initialCategories, 'category'));
+            
+            if (timeframeItems.length > 0) mobileMenuFilters.appendChild(createMobileMenuSection('Timeframe', timeframeItems, 'timeframe'));
+        }
+        
+        function setupSettingsModal() {
+            const bubbleSizeOptions = document.getElementById('bubble-size-options');
+            settingsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Close other modals/dropdowns first
+                if (window.innerWidth >= 768) toggleDesktopSearch(false); 
+                closeMarketFilterModal();
+                
+                settingsModal.classList.remove('hidden');
+                settingsModalBackdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    settingsModal.style.opacity = '1';
+                    settingsModal.style.transform = 'translate(-50%, -50%) scale(1)';
+                    settingsModalBackdrop.style.opacity = '1';
+                }, 10);
+            });
+
+            window.closeSettingsModal = () => {
+                settingsModal.style.opacity = '0';
+                settingsModal.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                settingsModalBackdrop.style.opacity = '0';
+                setTimeout(() => {
+                    settingsModal.classList.add('hidden');
+                    settingsModalBackdrop.classList.add('hidden');
+                }, 300);
+            };
+
+            settingsModalBackdrop.addEventListener('click', closeSettingsModal);
+
+            bubbleSizeOptions.addEventListener('click', (e) => {
+                const selectedBtn = e.target.closest('button');
+                if(!selectedBtn) return;
+                
+                bubbleSizeMetric = selectedBtn.dataset.value;
+                
+                bubbleSizeOptions.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                selectedBtn.classList.add('active');
+
+                redrawBubbles();
+                closeSettingsModal();
+            });
+        }
+       
+        function loadFavorites() {
+            const favs = localStorage.getItem('cryptoFavorites');
+            favorites = favs ? JSON.parse(favs) : [];
+        }
+
+        function saveFavorites() {
+            localStorage.setItem('cryptoFavorites', JSON.stringify(favorites));
+        }
+
+        function toggleFavorite(coinId) {
+            const index = favorites.indexOf(coinId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(coinId);
+            }
+            saveFavorites();
+            updateFavoriteButtonUI(coinId);
+            const bubbleToUpdate = bubbles.find(b => b.coin.id === coinId);
+            if (bubbleToUpdate) {
+                bubbleToUpdate.el.classList.toggle('favorite-bubble', favorites.includes(coinId));
+            }
+        }
+
+        function updateFavoriteButtonUI(coinId) {
+            const favoriteBtn = document.getElementById('favorite-btn');
+            if (favorites.includes(coinId)) {
+                favoriteBtn.innerHTML = starSolidSVG;
+                favoriteBtn.setAttribute('aria-label', 'Remove from favorites');
+            } else {
+                favoriteBtn.innerHTML = starOutlineSVG;
+                favoriteBtn.setAttribute('aria-label', 'Add to favorites');
+            }
+        }
+       
+        function formatPrice(num) {
+            if (!num) return '0.00';
+            if (num >= 1) return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            return num.toPrecision(4);
+        }
+        
+        async function openModal(coin, isFromSearch = false) {
+            // 1. Clear any existing interval when opening a new modal
+            if (chartUpdateInterval) clearInterval(chartUpdateInterval);
+            stopChartAnimation();
+            
+            document.getElementById('modal-name').textContent = coin.name;
+            document.getElementById('modal-symbol').textContent = coin.symbol.toUpperCase();
+            document.getElementById('modal-icon').src = coin.image;
+            document.getElementById('modal-icon').alt = `${coin.name} icon`; // SEO Enhancement: Dynamic alt text
+            document.getElementById('chart-loader-icon').src = coin.image;
+            document.getElementById('chart-loader-icon').alt = `Loading ${coin.name} chart...`; // SEO Enhancement: Dynamic alt text
+
+            const favoriteBtn = document.getElementById('favorite-btn');
+            updateFavoriteButtonUI(coin.id);
+            favoriteBtn.onclick = () => toggleFavorite(coin.id);
+
+            let change;
+            // When coming from search, always use the 24h key for consistency
+            if (currentMode === 'home' || isFromSearch) {
+                change = coin.price_change_percentage_24h;
+            } else {
+                change = coin[timeframesCoingecko[currentTimeframe]];
+            }
+
+            const changeEl = document.getElementById('modal-change');
+            changeEl.textContent = `${change ? change.toFixed(2) : '0.00'}%`;
+            changeEl.className = `text-2xl font-semibold ${change >= 0 ? 'text-green-400' : 'text-red-400'}`;
+            
+            document.getElementById('modal-marketcap').textContent = formatNumber(coin.market_cap);
+            document.getElementById('modal-volume').textContent = formatNumber(coin.total_volume);
+
+            modalBackdrop.classList.remove('hidden');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                 modalBackdrop.style.opacity = 1;
+                 modal.style.opacity = 1;
+                 modal.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 10);
+            
+            // 2. Initial chart load
+            await updateChart(coin, isFromSearch);
+
+            // 3. Set new interval for the currently open chart.
+            // NOTE: The updateChart function now handles re-setting the interval after the fetch completes.
+            // This initial call in openModal is primarily to start the fetch/render cycle.
+            // We set the interval here to ensure it runs immediately, but clear it inside updateChart to prevent overlap.
+            chartUpdateInterval = setInterval(() => updateChart(coin, isFromSearch), 60000);
+            startChartAnimation();
+        }
+        
+        function stopChartAnimation() {
+            if (chartAnimationId) {
+                cancelAnimationFrame(chartAnimationId);
+                chartAnimationId = null;
+            }
+        }
+        
+        function startChartAnimation() {
+            stopChartAnimation();
+            function chartLoop() {
+                if (priceChart) {
+                    priceChart.update('none'); 
+                }
+                chartAnimationId = requestAnimationFrame(chartLoop);
+            }
+            chartLoop();
+        }
+
+
+        async function updateChart(coin, isFromSearch = false) {
+            const chartLoader = document.getElementById('chart-loader');
+            const progressBar = document.getElementById('chart-progress-bar');
+            
+            // 1. Immediately stop old animation/interval before starting a new fetch
+            if (chartUpdateInterval) clearInterval(chartUpdateInterval); 
+            stopChartAnimation(); 
+            
+            chartLoader.style.opacity = '1';
+            chartLoader.classList.remove('hidden');
+            
+            const chartData = await fetchChartData(coin, isFromSearch);
+            
+            chartLoader.style.opacity = '0';
+            setTimeout(() => chartLoader.classList.add('hidden'), 300);
+            
+            // Reset progress bar animation
+            progressBar.style.transition = 'none';
+            progressBar.style.width = '100%';
+            void progressBar.offsetWidth;
+            // The visual progress bar animation needs to reflect the 60s interval
+            progressBar.style.transition = 'width 60s linear'; 
+            progressBar.style.width = '0%';
+
+            if (chartData.prices.length > 0) {
+                document.getElementById('modal-price').textContent = `$${formatPrice(chartData.prices[chartData.prices.length-1][1])}`;
+                renderChart(chartData.prices);
+                
+                // 2. CRITICAL: Re-establish the interval ONLY if the modal is currently open, 
+                // now that the async fetch is complete.
+                // NOTE: Interval remains 60000ms (1 minute) for chart refresh.
+                if (!modal.classList.contains('hidden')) {
+                    chartUpdateInterval = setInterval(() => updateChart(coin, isFromSearch), 60000);
+                    startChartAnimation();
+                }
+            } else {
+                 // Even if fetch failed, ensure the interval is re-established if modal is open, 
+                 // but set a longer, safer retry interval (e.g., 5 mins) to prevent spamming.
+                 if (!modal.classList.contains('hidden')) {
+                    console.warn(`Chart data failed for ${coin.id}. Retrying in 5 minutes.`);
+                    chartUpdateInterval = setInterval(() => updateChart(coin, isFromSearch), 300000); // 5 minutes
+                    startChartAnimation();
+                 }
+            }
+        }
+        
+        function formatNumber(num) {
+            if (!num || !isFinite(num)) return 'N/A';
+            if (num >= 1e12) return `$${(num / 1e12).toFixed(2)} T`;
+            if (num >= 1e9) return `$${(num / 1e9).toFixed(2)} B`;
+            if (num >= 1e6) return `$${(num / 1e6).toFixed(2)} M`;
+            return `$${num.toLocaleString()}`;
+        }
+
+        async function fetchChartData(coin, isFromSearch = false) {
+             let url;
+             // If from search OR current mode is home, use the Binance API for chart data
+             if (isFromSearch || currentMode === 'home') {
+                 url = `https://api.binance.com/api/v3/klines?symbol=${coin.symbol.toUpperCase()}USDT&interval=1h&limit=72`;
+             } else {
+                 url = `https://api.coingecko.com/api/v3/coins/${coin.id}/market_chart?vs_currency=usd&days=3`;
+             }
+             
+             try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    console.error(`API Error fetching chart data: ${response.status} for ${coin.id}. Likely rate limit exceeded.`);
+                    // Show message on chart
+                    document.getElementById('price-chart').getContext('2d').clearRect(0, 0, 400, 200);
+                    return { prices: [] };
+                }
+                const data = await response.json();
+                
+                let prices = [];
+                // If from search OR current mode is home, parse Binance data
+                if (isFromSearch || currentMode === 'home') {
+                    // Data from Binance is an array of arrays
+                    if (Array.isArray(data)) {
+                        prices = data.map(d => [d[0], parseFloat(d[4])]);
+                    }
+                } else {
+                    // Data from CoinGecko is an object with a 'prices' property
+                    if (data && Array.isArray(data.prices)) {
+                        prices = data.prices;
+                    }
+                }
+                return { prices };
+            } catch (error) {
+                console.error("Failed to fetch chart data:", error);
+                return { prices: [] };
+            }
+        }
+        
+        function closeModal() {
+            // CRITICAL FIX: Clear the interval to prevent background chart calls (B)
+            if (chartUpdateInterval) clearInterval(chartUpdateInterval);
+            chartUpdateInterval = null;
+            
+            stopChartAnimation();
+            
+            // This line stops the main bubble animation loop
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = null; // Important: reset the ID
+
+            modalBackdrop.style.opacity = 0;
+            modal.style.opacity = 0;
+            modal.style.transform = 'translate(-50%, -50%) scale(0.95)';
+            setTimeout(() => {
+                modalBackdrop.classList.add('hidden');
+                modal.classList.add('hidden');
+                if (priceChart) priceChart.destroy();
+                
+                searchInput.value = '';
+                searchInputMobile.value = '';
+                // Only reset bubble view if search bar is closed (for desktop)
+                if (window.innerWidth >= 768 && isDesktopSearchOpen) {
+                   // Keep bubbles dimmed until search is reset by toggleDesktopSearch(false)
+                } else {
+                   handleSearch(false);
+                   // 1. FIX: Restart the main bubble animation here!
+                   if (bubbles.length > 0 && animationFrameId === null) {
+                       animate();
+                   }
+                }
+            }, 300);
+        }
+        
+        const highLowPlugin = {
+            id: 'highLowPlugin',
+            afterDraw: (chart) => {
+                const ctx = chart.ctx;
+                const data = chart.data.datasets[0].data;
+                if (data.length === 0) return;
+
+                const highestPoint = data.reduce((max, p, i) => (p > max.y ? {x: i, y: p} : max), {x: 0, y: data[0]});
+                const lowestPoint = data.reduce((min, p, i) => (p < min.y ? {x: i, y: p} : min), {x: 0, y: data[0]});
+
+                const meta = chart.getDatasetMeta(0);
+                if (highestPoint.x >= meta.data.length || lowestPoint.x >= meta.data.length) return;
+
+                const highX = meta.data[highestPoint.x].x;
+                const highY = meta.data[highestPoint.x].y;
+                const lowX = meta.data[lowestPoint.x].x;
+                const lowY = meta.data[lowestPoint.x].y;
+                
+                const radius = 4;
+                const blinkAlpha = Math.abs(Math.sin(Date.now() / 400));
+                ctx.save();
+                
+                // Draw high point
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(74, 222, 128, ${blinkAlpha})`;
+                ctx.lineWidth = 2;
+                ctx.arc(highX, highY, radius + 2, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(74, 222, 128, 1)';
+                ctx.arc(highX, highY, radius, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.font = '11px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillText(formatPrice(highestPoint.y), highX, highY - 10);
+                
+                // Draw low point
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(248, 113, 113, ${blinkAlpha})`;
+                ctx.lineWidth = 2;
+                ctx.arc(lowX, lowY, radius + 2, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(248, 113, 113, 1)';
+                ctx.arc(lowX, lowY, radius, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.fillText(formatPrice(lowestPoint.y), lowX, lowY + 15);
+
+                const lastPoint = meta.data[meta.data.length - 1];
+                if (lastPoint) {
+                    const lastX = lastPoint.x;
+                    const lastY = lastPoint.y;
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(250, 191, 36, ${blinkAlpha})`;
+                    ctx.lineWidth = 2;
+                    ctx.arc(lastX, lastY, radius + 2, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.fillStyle = 'rgba(250, 191, 36, 1)';
+                    ctx.arc(lastX, lastY, radius, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+                 ctx.restore();
+            }
+        };
+
+        function renderChart(prices) {
+            const ctx = document.getElementById('price-chart').getContext('2d');
+            if (priceChart) priceChart.destroy();
+            const labels = prices.map(p => new Date(p[0]));
+            const data = prices.map(p => p[1]);
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, 150);
+            gradient.addColorStop(0, 'rgba(250, 204, 21, 0.2)');
+            gradient.addColorStop(1, 'rgba(250, 204, 21, 0)');
+
+            priceChart = new Chart(ctx, { 
+                type: 'line', 
+                data: { 
+                    labels: labels, 
+                    datasets: [{ 
+                        label: 'Price (USD)', 
+                        data: data, 
+                        borderColor: '#fbbf24', 
+                        borderWidth: 2, 
+                        fill: true, 
+                        backgroundColor: gradient, 
+                        tension: 0.4, 
+                        pointRadius: 0, 
+                    }] 
+                }, 
+                options: { 
+                    animation: false,
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                           type: 'time',
+                           time: { unit: 'hour', tooltipFormat: 'MMM d, h:mm a' },
+                           grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                           ticks: { color: '#9ca3af', maxRotation: 0, autoSkip: true, maxTicksLimit: 8 }
+                        },
+                        y: {
+                           grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                           ticks: { color: '#9ca3af', callback: (value) => formatPrice(value) },
+                           position: 'right'
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { mode: 'index', intersect: false, callbacks: { label: (context) => `Price: ${formatPrice(context.parsed.y)}` }}
+                    }
+                },
+                plugins: [highLowPlugin] 
+            });
+        }
+        
+        let refreshInterval;
+        function setupAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            restartProgressBar();
+            // UPDATED: Main bubble chart refresh interval changed to 3 minutes (180000 ms)
+            refreshInterval = setInterval(() => {
+                fetchCryptoData();
+                restartProgressBar();
+            }, 180000); 
+        }
+
+        // --- New function to handle desktop search toggle ---
+        function toggleDesktopSearch(forceState) {
+            if (forceState === undefined) {
+                isDesktopSearchOpen = !isDesktopSearchOpen;
+            } else {
+                isDesktopSearchOpen = forceState;
+            }
+
+            if (isDesktopSearchOpen) {
+                // Open: Show the dropdown/input
+                desktopSearchDropdown.classList.remove('search-hidden');
+                desktopSearchDropdown.classList.add('search-visible');
+                // Close other modals/dropdowns first
+                closeMarketFilterModal();
+                closeSettingsModal();
+                searchInput.focus();
+                // Dim bubbles immediately when search is opened
+                bubbles.forEach(bubble => {
+                    bubble.el.style.opacity = '0.1';
+                    bubble.el.style.pointerEvents = 'none';
+                });
+            } else {
+                // Close: Hide the dropdown/input
+                desktopSearchDropdown.classList.remove('search-visible');
+                desktopSearchDropdown.classList.add('search-hidden');
+                
+                document.getElementById('search-results').classList.add('hidden');
+                searchInput.value = '';
+                
+                // Un-dim bubbles when search is closed and input is empty
+                bubbles.forEach(bubble => {
+                    bubble.el.style.opacity = '1';
+                    bubble.el.style.pointerEvents = 'auto';
+                });
+            }
+        }
+        
+        // --- SEO Enhancement: Handle URL params on initial load ---
+        function handleInitialURL() {
+            const params = new URLSearchParams(window.location.search);
+            const rank = params.get('rank');
+            const category = params.get('category');
+
+            if (rank) {
+                rankingDisplay = rank;
+                currentMode = 'ranking';
+                coingeckoPage = rank.includes('-') ? Math.floor((parseInt(rank.split('-')[0]) - 1) / 100) + 1 : 1;
+            } else if (category) {
+                currentMode = 'category';
+                currentCategoryId = category;
+                // Find the display name from the map to show in the header
+                categoryDisplay = categoryDisplayMap[category] || 'Categories';
+                rankingDisplay = 'Rankings';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            adjustLayout();
+            loadFavorites();
+            handleInitialURL(); // SEO Enhancement
+            
+            // Fetch categories right away to populate the Market Filter modal and mobile menu
+            fetchAndCacheCategories().then(categories => {
+                populateCategoryOptions(categories);
+                setupControls(); // Re-run setup controls after categories are loaded
+            });
+
+            setupMarketFilterModal();
+            setupSettingsModal();
+            setupControls(); // Initial setup (will use placeholder for categories)
+            fetchCryptoData();
+            setupAutoRefresh();
+
+            // SEO Enhancement: Make the article link scroll smoothly to the tool
+            const tryToolLink = document.getElementById('try-tool-link');
+            if (tryToolLink) {
+                tryToolLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('bubble-container').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+
+            // --- FIX: Make the logo link dynamic to reset the view ---
+            const logoLink = document.getElementById('logo-link');
+            if(logoLink) {
+                logoLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Reset state to default (Top 1-100)
+                    currentMode = 'ranking';
+                    rankingDisplay = '1-100';
+                    categoryDisplay = 'Categories';
+                    coingeckoPage = 1;
+                    currentCategoryId = null;
+                    currentTimeframe = '1h';
+
+                    // Update UI and data
+                    updateURL('ranking', '1-100');
+                    setupControls();
+                    fetchCryptoData();
+                    setupAutoRefresh();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        });
+        
+        // --- Event Listeners for desktop search ---
+        desktopSearchIconBtn.addEventListener('click', () => {
+             toggleDesktopSearch();
+        });
+
+        searchInput.addEventListener('focus', () => showPreloadedResults(false));
+
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => handleSearch(false), 300);
+        });
+        
+        // --- Mobile search listeners ---
+        searchInputMobile.addEventListener('focus', () => showPreloadedResults(true));
+        searchInputMobile.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => handleSearch(true), 300);
+        });
+
+        searchIconBtnMobile.addEventListener('click', () => {
+            headerMain.classList.add('hidden');
+            headerSearchMobile.classList.remove('hidden');
+            headerSearchMobile.classList.add('flex');
+            searchInputMobile.focus();
+        });
+
+        searchCancelBtn.addEventListener('click', () => {
+            headerSearchMobile.classList.add('hidden');
+            headerSearchMobile.classList.remove('flex');
+            headerMain.classList.remove('hidden');
+            searchInputMobile.value = '';
+            handleSearch(true);
+        });
+
+        document.addEventListener('click', (event) => {
+            // Close desktop search when clicking outside
+            if (window.innerWidth >= 768) {
+                if (isDesktopSearchOpen && !desktopSearchContainer.contains(event.target) && !document.getElementById('search-results').contains(event.target)) {
+                    toggleDesktopSearch(false);
+                }
+            }
+            
+            // Mobile search results hiding logic
+            const searchResultsMobile = document.getElementById('search-results-mobile');
+            if (!searchInputMobile.contains(event.target) && !searchResultsMobile.contains(event.target) && !searchIconBtnMobile.contains(event.target)) {
+                 if (!searchResultsMobile.classList.contains('hidden')) {
+                     searchResultsMobile.classList.add('hidden');
+                     searchInputMobile.value = '';
+                     handleSearch(true);
+                 }
+            }
+        });
+
+
+        // --- Mobile Menu Button Listener ---
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+             // If mobile menu is opened, and categories haven't been fetched yet, fetch them
+            if (!mobileMenu.classList.contains('hidden') && allCategoriesCache === null) {
+                fetchAndCacheCategories().then(categories => {
+                    updateMobileMenuCategories(categories);
+                });
+            }
+        });
+
+        // --- Mobile Menu Item Selection Listener (delegated) ---
+        let mobileMenuListenerAttached = false;
+        if (!mobileMenuListenerAttached) {
+            mobileMenu.addEventListener('click', (e) => {
+                const selectedBtn = e.target.closest('button[data-type]');
+                if (!selectedBtn) return;
+
+                const { type, value, name } = selectedBtn.dataset;
+
+                if (type === 'ranking') {
+                    rankingDisplay = value;
+                    currentMode = value === 'Home' ? 'home' : (value === 'Favorites' ? 'favorites' : 'ranking');
+                    coingeckoPage = value.includes('-') ? Math.floor((parseInt(value.split('-')[0]) - 1) / 100) + 1 : 1;
+                    currentCategoryId = null;
+                } else if (type === 'category') {
+                    currentCategoryId = value;
+                    categoryDisplay = name;
+                    currentMode = 'category';
+                    rankingDisplay = 'Rankings';
+                    coingeckoPage = 1;
+                } else if (type === 'timeframe') {
+                    currentTimeframe = value;
+                }
+
+                mobileMenu.classList.add('hidden'); // Close menu after selection
+                updateURL(currentMode, currentCategoryId || rankingDisplay);
+                setupControls();
+                fetchCryptoData();
+                setupAutoRefresh();
+            });
+            mobileMenuListenerAttached = true;
+        }
+
+        const pageFooter = document.getElementById('page-footer');
+        pageFooter.addEventListener('click', (e) => {
+            const target = e.target;
+            
+            if (target.matches('a[data-rank]')) {
+                e.preventDefault();
+                const rankValue = target.dataset.rank;
+                
+                rankingDisplay = rankValue;
+                currentMode = 'ranking';
+                coingeckoPage = rankValue.includes('-') ? Math.floor((parseInt(rankValue.split('-')[0]) - 1) / 100) + 1 : 1;
+                currentCategoryId = null;
+                currentTimeframe = '1h';
+                
+                updateURL('ranking', rankValue); // SEO Enhancement
+                setupControls();
+                fetchCryptoData();
+                setupAutoRefresh();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            if (target.matches('a[data-category-id]')) {
+                e.preventDefault();
+                const categoryId = target.dataset.categoryId;
+                const categoryName = target.dataset.categoryName;
+
+                categoryDisplay = categoryName;
+                rankingDisplay = 'Rankings';
+                currentMode = 'category';
+                currentCategoryId = categoryId;
+                coingeckoPage = 1;
+                currentTimeframe = '1h';
+
+                updateURL('category', categoryId); // SEO Enhancement
+                setupControls();
+                fetchCryptoData();
+                setupAutoRefresh();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+        
+    </script>
+</body>
+</html>

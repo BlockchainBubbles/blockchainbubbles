@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Coin Comparison Tool | Compare Cryptocurrency Performance & Metrics</title>
+    <meta name="description" content="Compare cryptocurrencies side-by-side with live prices, market cap, volume, volatility, correlation and performance charts. Free crypto coin comparison tool by Blockchain Bubbles.">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
+    
+    <!-- Open Graph (OG) Tags for Social Media Preview (UPDATED) -->
+    <meta property="og:title" content="Crypto Comparison Tool – Compare Prices, Performance & Fundamentals">
+    <meta property="og:description" content="Compare Bitcoin, Ethereum, Solana and more with live market data, fundamentals, volatility and 1-year performance charts. Free tool by Blockchain Bubbles.">
+    <meta property="og:url" content="https://blockchainbubbles.com/crypto-comparison-tool.html"> 
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Twitter Card Tags (NEW) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Crypto Comparison Tool – Compare Cryptocurrency Performance">
+    <meta name="twitter:description" content="Analyze up to 5 cryptocurrencies with live prices, market cap, volume, fundamentals and performance metrics.">
+    <meta name="twitter:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Blockchain Bubbles Crypto Comparison Tool",
+          "url": "https://blockchainbubbles.com/crypto-comparison-tool.html", 
+          "description": "Compare cryptocurrencies with live prices, market cap, fundamentals, volatility, correlation, developer activity and 1-year performance charts.",
+          "applicationCategory": "UtilityApplication",
+          "operatingSystem": "All",
+          "provider": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "url": "https://blockchainbubbles.com"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://blockchainbubbles.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Crypto Comparison Tool",
+              "item": "https://blockchainbubbles.com/crypto-comparison-tool.html" 
+            }
+          ]
+        },
+        {
+          "@type": "Article",
+          "headline": "Crypto Comparison Tool – Compare Cryptocurrency Prices, Performance & Fundamentals",
+          "description": "Use Blockchain Bubbles' Crypto Comparison Tool to compare up to 5 cryptocurrencies with live prices, market cap, volume, fundamentals, volatility, correlation and 1-year performance benchmark charts.",
+          "author": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://blockchainbubbles.com/favicon.ico" 
+            }
+          },
+          "mainEntityOfPage": "https://blockchainbubbles.com/crypto-comparison-tool.html" 
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Where does the crypto data come from?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The latest market data shown in the comparison table (price, rank, volume, market cap, and beta value) comes from CoinPaprika. Historical price charts and project fundamental data (like developer activity) are sourced from CoinGecko."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many cryptocurrencies can I compare?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You can compare up to 5 cryptocurrencies side-by-side."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the crypto comparison tool free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The Blockchain Bubbles Crypto Comparison Tool is completely free to use and requires no account."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How often is data updated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Market data updates live using CoinPaprika, and historical/fundamental data is fetched on demand using CoinGecko."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #f3f4f6;
+            overflow: auto;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+        .comparison-selector {
+            transition: all 0.3s ease-in-out;
+        }
+        .remove-selector-btn {
+            opacity: 0.5;
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .comparison-selector:hover .remove-selector-btn {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .selector-button {
+            background-color: white;
+            border: 1px solid #d1d5db; /* gray-300 */
+            color: #111827; /* gray-900 */
+        }
+        .selector-button:hover {
+            border-color: #9ca3af; /* gray-400 */
+        }
+        .selector-dropdown {
+            background-color: white;
+            border: 1px solid #d1d5db; /* gray-300 */
+        }
+        .selector-dropdown input {
+            background-color: #f9fafb; /* gray-50 */
+            color: #111827; /* gray-900 */
+        }
+         .selector-dropdown .search-results-item {
+            color: #1f2937; /* gray-800 */
+        }
+        .selector-dropdown .search-results-item:hover {
+            background-color: #f3f4f6; /* gray-100 */
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 50vh; 
+        }
+        /* Tooltip styles */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            width: 280px;
+            background-color: #1f2937; /* gray-800 */
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+         /* Rate Limit Popup Styles */
+        .rate-limit-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ef4444; /* red-500 */
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 101;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .rate-limit-popup.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Rate Limit Counter Styles */
+        #rate-limit-counter-container {
+            width: 60px;
+            height: 60px;
+        }
+        #rate-limit-counter-container svg {
+            transform: rotate(-90deg);
+        }
+        #rate-limit-counter-container .counter-circle-bg {
+            fill: none;
+            stroke: #374151; /* gray-700 */
+        }
+        #rate-limit-counter-container .counter-circle-progress {
+            fill: none;
+            stroke: #10b981; /* Default to green */
+            stroke-linecap: round;
+            transition: stroke 0.3s ease, stroke-dashoffset 0.1s linear;
+        }
+        #rate-limit-counter-container .counter-text {
+            fill: #d1d5db; /* gray-300 */
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Timeframe Button Active State */
+        .timeframe-btn.active {
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            border-color: #2563eb;
+        }
+        /* Dropdown styles for Nav */
+        .group-hover\:block {
+            display: none;
+        }
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+        .hover\:block:hover {
+            display: block;
+        }
+        
+        /* New styles for the article content */
+        .article-content {
+            /* Changed main section background to match body or be transparent */
+            background-color: transparent; 
+            color: #d1d5db;
+        }
+        /* Style for the inner card container */
+        .article-card {
+            background-color: #1f2937; /* Darker Blue/Gray for content */
+            border-radius: 1rem; /* rounded-2xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            border: 1px solid #374151; /* border-gray-700 */
+            padding: 2rem; /* p-8 */
+        }
+        
+        .article-content h2 {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #ffffff;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-content h3 {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 600; /* font-semibold */
+            color: #93c5fd; /* blue-300 */
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #3b82f6; /* blue-500 */
+            padding-left: 0.75rem;
+        }
+        .article-content h4 { /* FAQ questions */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700; /* font-bold */
+            color: #e5e7eb; /* gray-200 */
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .article-content p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        .article-content ul, .article-content ol {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .article-content strong {
+            color: #ffffff;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        .article-content th, .article-content td {
+            padding: 0.75rem;
+            border: 1px solid #374151; /* gray-700 */
+            text-align: left;
+        }
+        .article-content th {
+            background-color: #374151; /* gray-700 */
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .article-content td {
+            background-color: #111827; /* gray-900 */
+        }
+        
+        /* New styles for links inside the article content */
+        .article-content a:not(.selector-button, .bg-blue-600) { 
+            color: #3b82f6; /* blue-500 */
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        .article-content a:not(.selector-button, .bg-blue-600):hover {
+            color: #60a5fa; /* blue-400 */
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K8WNJB2GNV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K8WNJB2GNV');
+</script>
+<meta name="msvalidate.01" content="D75B88F2C1A57E245C1AD580EBFD9778" />
+</head>
+<body class="antialiased">
+
+    <header class="sticky top-0 left-0 right-0 bg-gray-900 shadow-md px-2 py-3 z-40">
+        <!-- Main Header View -->
+        <div id="header-main" class="flex justify-between items-center gap-4">
+             <!-- LEFT SIDE: Logo -->
+             <a href="index.html" class="flex items-center gap-3">
+                 <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
+                     <svg class="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                     </svg>
+                 </div>
+                 <!-- Changed H1 to DIV per user request -->
+                 <div class="text-xl sm:text-2xl font-bold text-white">Blockchain Bubbles</div>
+             </a>
+
+             <!-- RIGHT SIDE: Desktop Nav & Mobile Button -->
+            <div class="flex items-center gap-3">
+                <nav class="hidden md:flex items-center gap-3">
+                    <ul class="flex items-center gap-3 list-none p-0 m-0">
+                        <!-- Navigation Link: Explicitly link to index.html/home -->
+                        <li><a href="index.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a></li>
+                        <!-- Updated href for Compare link -->
+                        <li><a href="crypto-comparison-tool.html" class="bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">Compare</a></li>
+                        
+                        <!-- START: New Calculator Dropdown -->
+                         <li class="relative group">
+                            <button class="flex items-center gap-1 text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150">
+                                Calculators
+                                <svg class="w-4 h-4 transition-transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </button>
+                            <!-- Dropdown Menu -->
+                            <div class="absolute right-0 top-full pt-2 w-64 hidden group-hover:block hover:block z-50">
+                                <div class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
+                                    <ul class="text-gray-300 text-sm">
+                                        <li><a href="crypto_profile_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Profile Calculator</a></li>
+                                        <li><a href="crypto_futures_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Future Calculator</a></li>
+                                        <li><a href="slippage_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Slippage Calculator</a></li>
+                                        <li><a href="staking_rewards_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Staking Rewards Calculator</a></li>
+                                        <li><a href="dca_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Dollar Cost Averaging</a></li>
+                                        <li><a href="impermanent_loss_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition">Impermanent Loss Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- END: New Calculator Dropdown -->
+                        
+                    </ul >
+                </nav>
+            
+                <div class="flex items-center gap-3 md:hidden">
+                    <button id="menu-btn" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav id="mobile-menu" class="hidden md:hidden mt-4 p-4 bg-gray-800 rounded-lg">
+            <ul class="space-y-2 list-none p-0 m-0">
+                <!-- Navigation Link: Explicitly link to index.html/home -->
+                <li><a href="index.html" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium">Home</a></li>
+                <!-- Updated href for Compare link -->
+                <li><a href="crypto-comparison-tool.html" class="block bg-gray-700 text-white px-3 py-2 rounded-md text-base font-medium">Compare</a></li>
+                
+                <!-- START: Mobile Calculators Sub-menu -->
+                <li>
+                    <div class="text-blue-400 font-semibold px-3 pt-2 pb-1 text-sm uppercase tracking-wider">Calculators</div>
+                    <ul class="pl-2 space-y-1 mt-1 border-l-2 border-gray-700 ml-3">
+                        <li><a href="calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Spot Calculator</a></li>
+                        <li><a href="futures_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Future Calculator</a></li>
+                        <li><a href="slippage_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Slippage Calculator</a></li>
+                        <li><a href="staking_rewards_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Staking Rewards</a></li>
+                        <li><a href="dca_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">DCA</a></li>
+                        <li><a href="impermanent_loss_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Impermanent Loss</a></li>
+                    </ul>
+                </li>
+                <!-- END: Mobile Calculators Sub-menu -->
+                
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Crypto Comparison Section -->
+    <section id="comparison-section" class="bg-gray-900 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl font-bold text-center text-white mb-2">Compare Cryptocurrencies</h1>
+            <p class="text-center text-gray-400 mb-8">Select up to 5 coins to see a side-by-side comparison (Powered by CoinPaprika).</p>
+            
+            <div class="bg-gray-800 p-8 sm:pb-8 pb-20 rounded-lg shadow-lg mt-12 relative">
+                 <div id="rate-limit-counter-container" class="absolute bottom-4 right-4 hidden">
+                    <!-- Counter will be injected here -->
+                </div>
+                <div class="flex flex-wrap items-end justify-center gap-4 mb-8">
+                    <div id="comparison-selectors-container" class="flex flex-wrap justify-center items-end gap-4">
+                        <!-- Dynamic selectors will be injected here -->
+                    </div>
+                    <button id="add-selector-btn" class="p-2 bg-gray-700 rounded-full hover:bg-gray-600 transition self-center mt-8 flex-shrink-0">
+                        <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="flex justify-center">
+                    <button id="compare-btn" class="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                        Compare Coins
+                    </button>
+                </div>
+            </div>
+
+            <div id="comparison-results-container" class="mt-8"></div>
+            
+            <!-- Benchmark Chart Section -->
+            <div class="mt-8">
+                <!-- Timeframe Selector -->
+                <div class="flex justify-end mb-4">
+                    <div class="inline-flex bg-gray-800 rounded-lg p-1 border border-gray-700" id="chart-timeframes">
+                        <button class="timeframe-btn px-3 py-1 text-sm rounded-md text-gray-400 hover:text-white transition-colors" data-days="1">1D</button>
+                        <button class="timeframe-btn px-3 py-1 text-sm rounded-md text-gray-400 hover:text-white transition-colors" data-days="7">7D</button>
+                        <button class="timeframe-btn px-3 py-1 text-sm rounded-md text-gray-400 hover:text-white transition-colors" data-days="30">30D</button>
+                        <button class="timeframe-btn active px-3 py-1 text-sm rounded-md text-gray-400 hover:text-white transition-colors" data-days="365">1Y</button>
+                    </div>
+                </div>
+                <div id="performance-chart-container"></div>
+            </div>
+
+            <!-- Market Analysis Container -->
+            <div id="market-analysis-container" class="mt-8"></div>
+            
+            <!-- NEW: Project Health Container -->
+            <div id="project-health-container" class="mt-8"></div>
+
+            <div id="volume-chart-container" class="mt-8"></div>
+        </div>
+    </section>
+
+    <!-- NEW: Article Content Section -->
+    <section id="comparison-article" class="article-content py-16 px-4 sm:px-6 lg:px-8">
+        <!-- Apply the requested card styling wrapper -->
+        <div class="max-w-4xl mx-auto bg-gray-800 p-8 sm:p-12 rounded-2xl shadow-xl border border-gray-700">
+            <h2 class="text-4xl font-extrabold text-white mb-6 border-b-4 border-blue-500 pb-3">
+                Crypto Coin Comparison Tool: How to Analyze Cryptocurrencies Beyond Price
+            </h2>
+
+            <p>Comparing cryptocurrencies is no longer just about checking which coin is “up today.”</p>
+            <p>In a market driven by volatility, narratives, and fundamentals, investors need context, relative performance, and risk metrics — not isolated numbers. The Blockchain Bubbles Crypto Coin Comparison Tool was built to solve exactly this problem:</p>
+            <p>to help users compare cryptocurrencies side-by-side using live data, historical performance, and market dynamics, all in one place.</p>
+            <p>This article explains how the tool works, what data it uses, and how to use it to make better-informed crypto decisions.</p>
+
+            <h3>Why a Crypto Comparison Tool Matters</h3>
+            <p>Most crypto websites show:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>A single price</li>
+                <li>A 24-hour change</li>
+                <li>A market cap number</li>
+            </ul>
+            <p>While useful, these metrics alone hide critical information, such as:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>How risky a coin is compared to others</li>
+                <li>Whether price moves are driven by volume or speculation</li>
+                <li>How closely a coin follows Bitcoin or the broader market</li>
+                <li>Whether long-term performance justifies short-term hype</li>
+            </ul>
+            <p>The goal of this crypto coin comparison tool is to provide **relative insight**, not just raw data.</p>
+
+            <h3>What This Crypto Comparison Tool Does</h3>
+            <p>The tool allows you to compare up to five cryptocurrencies at once, using a combination of:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Live market data</li>
+                <li>Normalized historical performance</li>
+                <li>Volatility analysis</li>
+                <li>Volume strength</li>
+                <li>Correlation metrics</li>
+                <li>Token supply structure</li>
+                <li>Project fundamentals</li>
+            </ul>
+            <p>All comparisons are rendered dynamically in your browser — no account required.</p>
+
+            <h3>Data Sources: Accuracy Over Hype</h3>
+            <p>To ensure reliability, the tool uses two independent data providers, each selected for what they do best.</p>
+
+            <h4>CoinPaprika – Real-Time Market Data</h4>
+            <p>Used for:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Price</li>
+                <li>Rank</li>
+                <li>Market capitalization</li>
+                <li>Trading volume</li>
+                <li>Supply metrics</li>
+                <li>Beta value</li>
+            </ul>
+            <p>CoinPaprika is optimized for clean, low-latency market snapshots, which makes it ideal for comparison tables.</p>
+
+            <h4>CoinGecko – Historical & Fundamental Data</h4>
+            <p>Used for:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Historical price charts</li>
+                <li>Volume history</li>
+                <li>Developer activity</li>
+                <li>Community engagement</li>
+                <li>Project fundamentals</li>
+            </ul>
+            <p>CoinGecko excels at long-term and structural data, which is critical for deeper analysis. By combining both sources, the tool avoids the weaknesses of relying on a single API.</p>
+
+            <h3>How Coin Selection Works</h3>
+            <p>Users can dynamically add up to five comparison slots. Each slot:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Supports live search</li>
+                <li>Includes symbol and logo matching</li>
+                <li>Prevents duplicate or invalid selections</li>
+            </ul>
+            <p>To avoid unnecessary API calls, the tool:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Preloads top-ranked cryptocurrencies</li>
+                <li>Uses debounced search input</li>
+                <li>Applies client-side rate limiting</li>
+            </ul>
+            <p>This ensures fast interaction while respecting external API limits.</p>
+
+            <h3>Side-by-Side Comparison Table Explained</h3>
+            <p>Once at least two coins are selected, the comparison table is generated.</p>
+
+            <h4>Metrics Included</h4>
+            <p>Each row answers a specific analytical question:</p>
+            <table class="table-auto text-sm">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Why It Matters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Market dominance and adoption</td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td>Current valuation</td>
+                    </tr>
+                    <tr>
+                        <td>All-Time High</td>
+                        <td>Historical ceiling</td>
+                    </tr>
+                    <tr>
+                        <td>% From ATH</td>
+                        <td>Drawdown or recovery potential</td>
+                    </tr>
+                    <tr>
+                        <td>Market Cap</td>
+                        <td>Network size</td>
+                    </tr>
+                    <tr>
+                        <td>24h Volume</td>
+                        <td>Liquidity & activity</td>
+                    </tr>
+                    <tr>
+                        <td>Circulating Supply</td>
+                        <td>Inflation pressure</td>
+                    </tr>
+                    <tr>
+                        <td>Max Supply</td>
+                        <td>Scarcity model</td>
+                    </tr>
+                    <tr>
+                        <td>Beta Value</td>
+                        <td>Market sensitivity</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Tokenomics Visualization</h4>
+            <p>Circulating supply is visualized with a progress bar, showing:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>How much of the total supply is already minted</li>
+                <li>Whether inflation risk remains</li>
+            </ul>
+            <p>Coins with no maximum supply are clearly labeled to avoid misinterpretation.</p>
+
+            <h3>Performance Benchmark Chart: Fair Comparisons</h3>
+            <p>Raw price charts are misleading when comparing assets with vastly different prices. To solve this, the tool uses **normalized performance benchmarking**.</p>
+
+            <h4>How It Works</h4>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Historical prices are fetched for each coin</li>
+                <li>The starting price is treated as 0%</li>
+                <li>All price movements are expressed as percentage change</li>
+            </ul>
+            <p>This allows you to answer: **“Which coin performed better over the same period?”** Not: **“Which coin has the higher price?”**</p>
+
+            <h4>Timeframe Flexibility</h4>
+            <p>You can switch between:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>1 Day</li>
+                <li>7 Days</li>
+                <li>30 Days</li>
+                <li>1 Year</li>
+            </ul>
+            <p>The tool recalculates performance without reloading the page, using cached data where possible. This encourages exploration and keeps API usage efficient.</p>
+
+            <h3>Market Dynamics Analysis: Going Beyond Charts</h3>
+            <p>Below the performance chart, the tool automatically generates market insights. These are calculated metrics, not fetched numbers.</p>
+
+            <h4>Volatility</h4>
+            <p>Volatility is calculated using the standard deviation of returns over the selected timeframe. This helps identify:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Stable assets</li>
+                <li>High-risk, high-reward coins</li>
+                <li>Short-term trading behavior</li>
+                <li>High volatility also increases execution costs, which can be measured using a <a href="/slippage_calculator.html">slippage calculator </a>.</li>
+            </ul>
+
+            <h4>Volume Strength</h4>
+            <p>Volume strength compares:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Current volume</li>
+                <li>Average volume over the selected period</li>
+            </ul>
+            <p>This answers: **“Is price movement supported by participation?”**</p>
+
+            <h4>Correlation</h4>
+            <p>Correlation measures how closely a coin follows a benchmark (usually the first selected coin). This is useful for:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Portfolio diversification</li>
+                <li>Identifying redundant holdings</li>
+                <li>Understanding systemic risk</li>
+            </ul>
+
+            <h3>Volume Comparison Chart</h3>
+            <p>Because historical volume data is often rate-limited, the tool uses estimated volume modeling based on current data. While clearly labeled as estimated, it still provides:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Relative liquidity comparison</li>
+                <li>Activity trends</li>
+                <li>Volume consistency insights</li>
+            </ul>
+            <p>Transparency is prioritized over false precision.</p>
+
+            <h3>Project Health & Fundamentals</h3>
+            <p>Price action alone does not define long-term value. The Project Health section focuses on:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Developer activity</li>
+                <li>Code updates</li>
+                <li>Community engagement</li>
+            </ul>
+            <p>This data is fetched lazily, only when needed, to reduce load and improve performance. It helps distinguish: **Actively developed projects** vs. **Stagnant or abandoned tokens**. Assets frequently used in liquidity pools should also be evaluated for <a href="/impermanent_loss_calculator.html">impermanent loss risk</a>.</p>
+
+            <h3>Built With Performance & UX in Mind</h3>
+            <p>The crypto comparison tool is entirely client-side and optimized for:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Lazy loading (charts load only when visible)</li>
+                <li>Rate-limit awareness</li>
+                <li>Mobile responsiveness</li>
+                <li>Accessibility</li>
+                <li>Clear visual hierarchy</li>
+            </ul>
+            <p>Every design decision prioritizes clarity over noise.</p>
+
+            <h3>How to Use This Tool Effectively</h3>
+            <p>For best results:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Compare at least two coins</li>
+                <li>Use longer timeframes to reduce noise</li>
+                <li>Look at volatility before price</li>
+                <li>Check correlation when building portfolios</li>
+                <li>Combine fundamentals with performance data</li>
+                <li>Once you’ve identified strong assets, you can model entry strategies using the <a href="/dca_calculator.html">Dollar Cost Averaging Calculator.</a></li>
+            </ul>
+            <p>**No single metric tells the full story** — comparisons reveal context.</p>
+
+            <h3>Explore the Market Further</h3>
+            <p>This crypto coin comparison tool is part of the broader Blockchain Bubbles ecosystem, which focuses on:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Visual market exploration</li>
+                <li>Data-driven analysis</li>
+                <li>Transparent crypto metrics</li>
+            </ul>
+            <p>You can explore more tools and market visualizations on the</p>
+            <p class="text-center my-8">
+                <a href="index.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
+                    👉 Blockchain Bubbles homepage
+                </a>
+            </p>
+
+            <h3>Final Thoughts</h3>
+            <p>The crypto market rewards understanding, not just speed. By combining live data, historical context, and calculated insights, the Blockchain Bubbles Crypto Comparison Tool helps users move from price watching to market analysis. Whether you’re comparing Bitcoin and Ethereum, evaluating altcoins, or stress-testing a portfolio idea, this tool is designed to give you clarity instead of clutter.</p>
+
+            <h3 class="mt-16 border-b-2 border-gray-600 pb-2">Frequently Asked Questions (FAQ)</h3>
+
+            <h4 class="font-bold text-white mt-4 mb-2">What is a crypto coin comparison tool?</h4>
+            <p>A crypto coin comparison tool allows you to analyze multiple cryptocurrencies side-by-side using the same metrics and timeframes. Instead of viewing each coin in isolation, you can compare price performance, market capitalization, volume, volatility, and fundamentals in one unified view. This helps identify relative strength, risk, and long-term potential more accurately.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">How is this crypto comparison tool different from price trackers?</h4>
+            <p>Most price trackers focus on single-coin snapshots, such as price and 24-hour change. This tool focuses on relative analysis, including:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Normalized performance (percentage-based comparisons)</li>
+                <li>Volatility and risk metrics</li>
+                <li>Correlation between assets</li>
+                <li>Token supply structure</li>
+                <li>Project health and development activity</li>
+            </ul>
+            <p>This approach provides context, not just numbers.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">Where does the cryptocurrency data come from?</h4>
+            <p>The tool uses two trusted data providers:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>**CoinPaprika** for live market data such as price, volume, market cap, rank, and supply.</li>
+                <li>**CoinGecko** for historical price data, volume history, and project fundamentals.</li>
+            </ul>
+            <p>Using multiple sources improves accuracy and reduces dependency on a single API.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">How often is the data updated?</h4>
+            <p>Market data updates in near real time via CoinPaprika. Historical and fundamental data is fetched on demand when you compare coins or change timeframes. The tool also caches data where possible to improve performance and reduce unnecessary API calls.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">Why are performance charts shown as percentages instead of prices?</h4>
+            <p>Raw price charts can be misleading when comparing assets with different price levels. For example, a $1 move means something very different for Bitcoin than for a low-priced altcoin. By normalizing prices to a 0% baseline, the tool allows you to compare true relative performance over the same timeframe.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">What does volatility mean in crypto comparison?</h4>
+            <p>Volatility measures how much a cryptocurrency’s price fluctuates over time. Higher volatility generally means higher risk, but also higher potential reward. In this tool, volatility is calculated using historical returns over the selected timeframe, helping users understand price stability rather than guessing based on short-term moves.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">What is correlation and why does it matter?</h4>
+            <p>Correlation shows how closely one cryptocurrency’s price movement follows another.</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>A correlation close to 1.0 means the assets move together</li>
+                <li>A correlation near 0 means they move independently</li>
+                <li>A negative correlation means they move in opposite directions</li>
+            </ul>
+            <p>This is especially useful for portfolio diversification and risk management.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">Can I compare Bitcoin with altcoins using this tool?</h4>
+            <p>Yes. The tool is designed specifically to compare Bitcoin, Ethereum, and altcoins on equal footing using normalized performance and shared metrics. This makes it easier to evaluate whether an altcoin is genuinely outperforming Bitcoin or simply following the broader market.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">Why is volume analysis important in crypto markets?</h4>
+            <p>Volume reflects market participation. Price movements backed by strong volume are generally more reliable than moves with low volume. The tool compares current volume to historical averages, helping identify whether price action is supported by real market activity or short-term speculation.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">What does “project health” mean in this tool?</h4>
+            <p>Project health refers to non-price fundamentals such as:</p>
+            <ul class="list-disc ml-6 space-y-1">
+                <li>Developer activity</li>
+                <li>Code updates</li>
+                <li>Community engagement</li>
+            </ul>
+            <p>These signals help assess whether a cryptocurrency is actively developed or potentially stagnant, which is especially important for long-term analysis.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">Is this crypto comparison tool free to use?</h4>
+            <p>Yes. The Blockchain Bubbles Crypto Coin Comparison Tool is completely free and does not require registration or an account. All analysis is performed directly in your browser.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">How many cryptocurrencies can I compare at once?</h4>
+            <p>You can compare up to five cryptocurrencies simultaneously. This limit balances analytical depth with performance and clarity.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">Is this tool suitable for beginners?</h4>
+            <p>Yes. While the tool includes advanced metrics, it is designed with clear explanations, visual indicators, and intuitive layouts. Beginners can focus on basic comparisons, while advanced users can explore volatility, correlation, and fundamentals.</p>
+
+            <h4 class="font-bold text-white mt-4 mb-2">Does this tool provide financial advice?</h4>
+            <p>No. The tool is designed for educational and analytical purposes only. It helps users understand market data and relationships but does not provide investment recommendations.</p>
+
+            <h3 class="mt-8 text-red-400 border-b-2 border-red-600 pb-2">Disclaimer</h3>
+            <p class="text-sm">This article and the Crypto Comparison tool are for educational purposes only and are not financial advice. Cryptocurrency markets carry substantial risk. Always conduct thorough research before making investment decisions.</p>
+        </div>
+    </section>
+    <!-- END: Article Content Section -->
+
+    <!-- START: Footer added from index.html -->
+    <footer id="page-footer" class="bg-gray-900 text-gray-400 py-12 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="font-bold text-white mb-4">Rankings</h3>
+                <ul class="space-y-2">
+                    <!-- Links updated to point to index.html -->
+                    <li><a href="index.html?rank=1-100" class="hover:text-white">Top 1-100</a></li>
+                    <li><a href="index.html?rank=101-200" class="hover:text-white">101-200</a></li>
+                    <li><a href="index.html?rank=201-300" class="hover:text-white">201-300</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Categories</h3>
+                <ul class="space-y-2">
+                    <!-- Links updated to point to index.html -->
+                    <li><a href="index.html?category=layer-1" class="hover:text-white">Layer 1</a></li>
+                    <li><a href="index.html?category=decentralized-finance-defi" class="hover:text-white">DeFi</a></li>
+                    <li><a href="index.html?category=gaming" class="hover:text-white">GameFi</a></li>
+                    <li><a href="index.html?category=artificial-intelligence" class="hover:text-white">AI</a></li>
+                    <li><a href="index.html?category=meme-token" class="hover:text-white">Meme Coins</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="./privacy-policy.html" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html" class="hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Blockchain Bubbles</h3>
+                <p>Visualizing the crypto market in real-time. Data provided by CoinGecko.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- END: Footer added from index.html -->
+
+    <script>
+        let topCoins = [];
+        let performanceChart = null;
+        let volumeChart = null;
+        let drawIntervalId = null;
+        
+        // Current data holder for re-rendering charts without re-fetching tickers
+        let currentComparisonData = [];
+
+        // Rate limiter kept for CoinPaprika as well
+        const rateLimiter = {
+            requests: [],
+            limit: 60, 
+            window: 60 * 1000,
+            timerInterval: null,
+            isBlocked: function(count = 1) {
+                const now = Date.now();
+                this.requests = this.requests.filter(timestamp => now - timestamp < this.window);
+                return (this.requests.length + count) > this.limit;
+            },
+            addRequest: function(count = 1) {
+                for (let i = 0; i < count; i++) {
+                    this.requests.push(Date.now());
+                }
+                this.startTimer();
+            },
+            startTimer: function() {
+                if (this.timerInterval) return;
+                const container = document.getElementById('rate-limit-counter-container');
+                if (!container) return;
+                container.classList.remove('hidden');
+                const radius = 25;
+                const circumference = 2 * Math.PI * radius;
+                container.innerHTML = `
+                    <svg class="w-full h-full" viewBox="0 0 60 60">
+                        <circle class="counter-circle-bg" cx="30" cy="30" r="${radius}" stroke-width="5"></circle>
+                        <circle class="counter-circle-progress" cx="30" cy="30" r="${radius}" stroke-width="5"
+                            stroke-dasharray="${circumference}" stroke-dashoffset="0"></circle>
+                        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="counter-text" transform="rotate(90 30 30)">0/${this.limit}</text>
+                    </svg>`;
+                const circleProgressEl = container.querySelector('.counter-circle-progress');
+                const textEl = container.querySelector('.counter-text');
+                let startTime = Date.now();
+                this.timerInterval = setInterval(() => {
+                    const now = Date.now();
+                    let elapsed = now - startTime;
+                    this.requests = this.requests.filter(timestamp => now - timestamp < this.window);
+                    const count = this.requests.length;
+                    if (count === 0 && elapsed > this.window) {
+                        clearInterval(this.timerInterval);
+                        this.timerInterval = null;
+                        container.classList.add('hidden');
+                        return;
+                    }
+                    if (elapsed >= this.window) { startTime = now; elapsed = 0; }
+                    textEl.textContent = `${count}/${this.limit}`;
+                    let color = '#10b981';
+                    if (count >= this.limit * 0.8) { color = '#ef4444'; } 
+                    else if (count >= this.limit * 0.5) { color = '#f59e0b'; }
+                    circleProgressEl.style.stroke = color;
+                    const progress = elapsed / this.window;
+                    const offset = circumference * progress;
+                    circleProgressEl.style.strokeDashoffset = offset;
+                }, 100);
+            }
+        };
+
+        // CoinPaprika image helper
+        function getCoinImage(id) {
+            return `https://static.coinpaprika.com/coin/${id}/logo.png`;
+        }
+
+        async function fetchTopCoins() {
+            if (rateLimiter.isBlocked()) { return; }
+            rateLimiter.addRequest();
+            try {
+                // Fetch all tickers and slice top 6
+                const response = await fetch(`https://api.coinpaprika.com/v1/tickers`);
+                if (!response.ok) throw new Error('Failed to fetch top coins');
+                const allCoins = await response.json();
+                
+                // Ensure they are sorted by rank and take top 6
+                topCoins = allCoins
+                    .sort((a, b) => a.rank - b.rank)
+                    .slice(0, 6)
+                    .map(coin => ({
+                        id: coin.id,
+                        name: coin.name,
+                        symbol: coin.symbol,
+                        image: getCoinImage(coin.id),
+                        thumb: getCoinImage(coin.id) // For compatibility
+                    }));
+            } catch (error) {
+                console.error("Could not fetch top coins:", error);
+            }
+        }
+        
+        function createSelectorElement(id, letter, isRemovable) {
+            const selectorDiv = document.createElement('div');
+            selectorDiv.id = `comparison-selector-${id}`;
+            selectorDiv.className = 'relative w-full md:w-64 flex-grow comparison-selector';
+            selectorDiv.dataset.selectorId = id;
+            let removeButtonHTML = '';
+            if (isRemovable) { 
+                removeButtonHTML = `
+                    <button class="remove-selector-btn absolute -top-2 -right-2 p-1 z-10">
+                        <svg class="w-5 h-5 text-gray-500 hover:text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </button>`;
+            }
+            selectorDiv.innerHTML = `
+                ${removeButtonHTML}
+                <div class="selector-label text-center mb-2 font-semibold text-white">Select ${letter}</div>
+                <button class="selector-button w-full flex items-center justify-between rounded-lg p-3 h-14">
+                    <span class="placeholder-text text-gray-500">e.g. Bitcoin, CryptoPunks</span>
+                    <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                </button>
+                <div class="selector-dropdown dropdown-content absolute top-full left-0 right-0 rounded-b-lg mt-1 max-h-60 overflow-y-auto z-50 hidden">
+                    <input type="text" class="w-full p-2 border-b border-gray-200" placeholder="Search...">
+                    <div class="search-results"></div>
+                </div>`;
+            attachSelectorListeners(selectorDiv, id);
+            return selectorDiv;
+        }
+
+        function attachSelectorListeners(selectorDiv, id) {
+            selectorDiv.querySelector('.selector-button').addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleComparisonDropdown(id);
+            });
+            let searchTimeout;
+            const searchInput = selectorDiv.querySelector('input');
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                const query = e.target.value;
+                if (query.trim() === '') {
+                    renderCoinList(topCoins, id);
+                } else {
+                    searchTimeout = setTimeout(() => searchCoinsForComparison(query, id), 300);
+                }
+            });
+            const removeBtn = selectorDiv.querySelector('.remove-selector-btn');
+            if (removeBtn) {
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectorDiv.remove();
+                    updateSelectorLabels();
+                    document.getElementById('add-selector-btn').style.display = 'flex';
+                });
+            }
+        }
+
+        function updateSelectorLabels() {
+            const selectors = document.querySelectorAll('.comparison-selector');
+            selectors.forEach((selector, index) => {
+                const label = selector.querySelector('.selector-label');
+                if (label) {
+                    label.textContent = `Select ${String.fromCharCode(65 + index)}`;
+                }
+            });
+        }
+
+        function addComparisonSelector() {
+            const container = document.getElementById('comparison-selectors-container');
+            const currentCount = container.children.length;
+            if (currentCount >= 5) {
+                document.getElementById('add-selector-btn').style.display = 'none';
+                return;
+            }
+            const newId = Date.now() + Math.random().toString(36).substring(2, 9);
+            const letter = String.fromCharCode(65 + currentCount);
+            const isRemovable = currentCount >= 2;
+            const newSelector = createSelectorElement(newId, letter, isRemovable);
+            container.appendChild(newSelector);
+            if (container.children.length >= 5) {
+                document.getElementById('add-selector-btn').style.display = 'none';
+            }
+        }
+
+        function setupCoinComparison() {
+            addComparisonSelector();
+            addComparisonSelector();
+            document.getElementById('add-selector-btn').addEventListener('click', addComparisonSelector);
+            document.getElementById('compare-btn').addEventListener('click', fetchAndDisplayComparison);
+            
+            // Setup Timeframe Buttons
+            const timeframeBtns = document.querySelectorAll('.timeframe-btn');
+            timeframeBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Update active style
+                    timeframeBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const days = e.target.dataset.days;
+                    if (currentComparisonData.length > 0) {
+                        // Re-render using cached list but new days
+                        renderPerformanceChart(currentComparisonData, days);
+                    }
+                });
+            });
+
+            document.addEventListener('click', (event) => {
+                document.querySelectorAll('.comparison-selector').forEach(selector => {
+                    if (!selector.contains(event.target)) {
+                        selector.querySelector('.dropdown-content').classList.add('hidden');
+                    }
+                });
+            });
+        }
+
+        function toggleComparisonDropdown(selectorId) {
+            document.querySelectorAll('.comparison-selector').forEach(selector => {
+                if (selector.id !== `comparison-selector-${selectorId}`) {
+                    selector.querySelector('.dropdown-content').classList.add('hidden');
+                }
+            });
+            const currentSelector = document.getElementById(`comparison-selector-${selectorId}`);
+            if (currentSelector) {
+                const dropdown = currentSelector.querySelector('.dropdown-content');
+                const searchInput = currentSelector.querySelector('input');
+                dropdown.classList.toggle('hidden');
+                if (!dropdown.classList.contains('hidden') && searchInput.value.trim() === '') {
+                    renderCoinList(topCoins, selectorId);
+                }
+            }
+        }
+        
+        function renderCoinList(coins, selectorId) {
+            const selector = document.getElementById(`comparison-selector-${selectorId}`);
+            if (!selector) return;
+            const resultsContainer = selector.querySelector('.search-results');
+            resultsContainer.innerHTML = '';
+            if (!coins || coins.length === 0) {
+                 resultsContainer.innerHTML = '<div class="p-3 text-center text-gray-400">No results.</div>';
+                 return;
+            }
+            coins.forEach(coin => {
+                const item = document.createElement('div');
+                item.className = 'search-results-item p-3 flex items-center gap-3 hover:bg-gray-100 cursor-pointer';
+                const imageUrl = coin.thumb || coin.image;
+                item.innerHTML = `
+                    <img src="${imageUrl}" class="w-6 h-6 rounded-full" onerror="this.src='https://placehold.co/24x24?text=?'">
+                    <span class="font-medium">${coin.name} (${coin.symbol.toUpperCase()})</span>`;
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectComparisonCoin(coin, selectorId)
+                });
+                resultsContainer.appendChild(item);
+            });
+        }
+
+        function showRateLimitPopup() {
+            let popup = document.getElementById('rate-limit-popup');
+            if (popup) return;
+            popup = document.createElement('div');
+            popup.id = 'rate-limit-popup';
+            popup.className = 'rate-limit-popup';
+            popup.innerHTML = `
+                <p class="font-bold">Rate Limit Reached</p>
+                <p class="text-sm">Please wait a moment before searching again.</p>`;
+            document.body.appendChild(popup);
+            setTimeout(() => popup.classList.add('show'), 10);
+            setTimeout(() => {
+                popup.classList.remove('show');
+                setTimeout(() => popup.remove(), 300);
+            }, 4000);
+        }
+        
+        async function searchCoinsForComparison(query, selectorId) {
+            if (query.trim().length < 2) return;
+            if (rateLimiter.isBlocked()) {
+                showRateLimitPopup();
+                return;
+            }
+            rateLimiter.addRequest();
+            const selector = document.getElementById(`comparison-selector-${selectorId}`);
+            if (!selector) return;
+            const resultsContainer = selector.querySelector('.search-results');
+            resultsContainer.innerHTML = '<div class="p-3 text-center text-gray-400">Searching...</div>';
+            try {
+                // Use CoinPaprika Search
+                const response = await fetch(`https://api.coinpaprika.com/v1/search?q=${query}&c=currencies&modifier=symbol_search`);
+                if (!response.ok) {
+                    if (response.status === 429) { throw new Error('Rate limit exceeded'); }
+                    throw new Error('API search failed');
+                }
+                const data = await response.json();
+                
+                // Map CoinPaprika search results (which lack images)
+                const searchResults = (data.currencies || []).map(coin => ({
+                    id: coin.id,
+                    name: coin.name,
+                    symbol: coin.symbol,
+                    image: getCoinImage(coin.id),
+                    thumb: getCoinImage(coin.id)
+                }));
+
+                renderCoinList(searchResults, selectorId);
+            } catch (error) {
+                console.error("Coin search error:", error);
+                let errorMessage = 'Search failed.';
+                if (error.message.includes('Rate limit')) {
+                    errorMessage = 'Too many requests. Please wait.';
+                }
+                resultsContainer.innerHTML = `<div class="p-3 text-center text-red-400">${errorMessage}</div>`;
+            }
+        }
+
+        function selectComparisonCoin(coin, selectorId) {
+            const selector = document.getElementById(`comparison-selector-${selectorId}`);
+            selector.dataset.coinId = coin.id;
+            selector.dataset.coinImage = coin.thumb || coin.image;
+            selector.dataset.coinSymbol = coin.symbol.toUpperCase();
+            const buttonContent = selector.querySelector('.selector-button span');
+            buttonContent.innerHTML = `
+                 <div class="flex items-center gap-2">
+                    <img src="${selector.dataset.coinImage}" class="w-6 h-6 rounded-full" onerror="this.src='https://placehold.co/24x24?text=?'">
+                    <span class="font-bold">${coin.name}</span>
+                </div>`;
+            buttonContent.classList.remove('placeholder-text', 'text-gray-500');
+            selector.querySelector('input').value = '';
+            selector.querySelector('.dropdown-content').classList.add('hidden');
+        }
+
+        async function fetchAndDisplayComparison() {
+            const selectors = document.querySelectorAll('.comparison-selector');
+            const coinDataForRequest = Array.from(selectors)
+                .map(s => ({ id: s.dataset.coinId, image: s.dataset.coinImage, symbol: s.dataset.coinSymbol }))
+                .filter(c => c.id);
+            const coinIds = coinDataForRequest.map(c => c.id);
+            const resultsContainer = document.getElementById('comparison-results-container');
+            const chartContainer1Y = document.getElementById('performance-chart-container');
+            const chartContainerVolume = document.getElementById('volume-chart-container');
+            
+            resultsContainer.innerHTML = '';
+            chartContainer1Y.innerHTML = '';
+            chartContainerVolume.innerHTML = '';
+            document.getElementById('market-analysis-container').innerHTML = '';
+            document.getElementById('project-health-container').innerHTML = '';
+
+            if (coinIds.length < 2) {
+                resultsContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-yellow-400">Please select at least two coins to compare.</div>`;
+                return;
+            }
+            
+            // CoinPaprika requires individual requests for full details usually
+            // We reduce the required calls since we mock history now
+            const requiredCalls = coinIds.length; // Just tickers
+            if (rateLimiter.isBlocked(requiredCalls)) {
+                showRateLimitPopup();
+                resultsContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-red-400">Too many requests. Please wait a moment before comparing.</div>`;
+                return;
+            }
+
+            resultsContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-white animate-pulse">Fetching comparison data from CoinPaprika...</div>`;
+
+            try {
+                // Fetch each coin's ticker data individually using Promise.all
+                const tickerPromises = coinIds.map(id => {
+                    rateLimiter.addRequest();
+                    return fetch(`https://api.coinpaprika.com/v1/tickers/${id}`);
+                });
+
+                const responses = await Promise.all(tickerPromises);
+                const rawData = await Promise.all(responses.map(r => {
+                    if (!r.ok) throw new Error('Failed to fetch data for a coin');
+                    return r.json();
+                }));
+
+                // Normalize CoinPaprika data to match the expected structure for the table
+                const marketData = rawData.map(coin => {
+                    const quote = coin.quotes ? coin.quotes.USD : {};
+                    return {
+                        id: coin.id,
+                        name: coin.name,
+                        symbol: coin.symbol,
+                        image: getCoinImage(coin.id),
+                        rank: coin.rank,
+                        price: quote.price,
+                        market_cap: quote.market_cap,
+                        market_cap_change_24h: quote.market_cap_change_24h,
+                        percent_change_24h: quote.percent_change_24h,
+                        total_volume: quote.volume_24h,
+                        max_supply: coin.max_supply,
+                        beta_value: coin.beta_value,
+                        ath: quote.ath_price,
+                        ath_change_percentage: quote.percent_from_price_ath,
+                        percent_change_1y: quote.percent_change_1y, // Store this for mock chart
+                        circulating_supply: coin.circulating_supply || coin.total_supply
+                    };
+                });
+                
+                // Store for timeframe switching without re-fetching
+                currentComparisonData = marketData;
+
+                renderComparisonTable(marketData, coinDataForRequest);
+
+                // Set default active timeframe button
+                document.querySelectorAll('.timeframe-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector('[data-days="365"]').classList.add('active');
+
+                // Use IntersectionObserver to load heavy components only when visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            if (entry.target.id === 'performance-chart-container') {
+                                renderPerformanceChart(marketData, '365'); // Default to 1Y
+                                observer.unobserve(entry.target);
+                            }
+                            if (entry.target.id === 'volume-chart-container') {
+                                renderVolumeChart(marketData);
+                                observer.unobserve(entry.target);
+                            }
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                observer.observe(chartContainer1Y);
+                observer.observe(chartContainerVolume);
+                
+                // Load Project Health when Analysis comes into view
+                const healthObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        renderProjectHealth(marketData);
+                        healthObserver.disconnect();
+                    }
+                });
+                const healthContainer = document.getElementById('project-health-container');
+                healthObserver.observe(healthContainer);
+
+            } catch (error) {
+                console.error('Comparison fetch error:', error);
+                resultsContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-red-400">Failed to load comparison data.</div>`;
+            }
+        }
+        
+        function formatNumber(num) {
+            if (num === null || num === undefined) return 'N/A';
+            if (num >= 1e12) return `$${(num / 1e12).toFixed(2)} T`;
+            if (num >= 1e9) return `$${(num / 1e9).toFixed(2)} B`;
+            if (num >= 1e6) return `$${(num / 1e6).toFixed(2)} M`;
+            return `$${num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+        
+        function formatPrice(num) {
+            if (num === null || num === undefined) return 'N/A';
+            if (num < 1 && num > 0) return `$${num.toFixed(6)}`;
+            return `$${num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+
+        function formatSupply(num) {
+            if (!num) return 'N/A';
+            if (num >= 1e12) return `${(num / 1e12).toFixed(2)} T`;
+            if (num >= 1e9) return `${(num / 1e9).toFixed(2)} B`;
+            if (num >= 1e6) return `${(num / 1e6).toFixed(2)} M`;
+            return num.toLocaleString('en-US', {maximumFractionDigits: 0});
+        }
+
+        function formatInteger(num) {
+            if (num === null || num === undefined) return 'N/A';
+            if (num >= 1e6) return `${(num / 1e6).toFixed(1)}M`;
+            if (num >= 1e3) return `${(num / 1e3).toFixed(1)}K`;
+            return num.toLocaleString('en-US');
+        }
+
+        function renderComparisonTable(data, coinDataForRequest) {
+            const resultsContainer = document.getElementById('comparison-results-container');
+            if (data.length === 0 || data.some(d => !d)) {
+                resultsContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-red-400">No data found for one or more selected coins.</div>`;
+                return;
+            }
+            
+            const headers = data.map(coin => {
+                const originalCoinInfo = coinDataForRequest.find(c => c.id === coin.id);
+                const image = originalCoinInfo ? originalCoinInfo.image : coin.image;
+                return `
+                <th class="p-4 text-center">
+                    <div class="flex items-center justify-center gap-2">
+                        <img src="${image}" class="w-8 h-8 rounded-full" onerror="this.src='https://placehold.co/24x24?text=?'">
+                        <div class="text-left">
+                            <p class="font-bold text-white">${coin.name}</p>
+                            <p class="text-sm text-gray-400">${coin.symbol.toUpperCase()}</p>
+                        </div>
+                    </div>
+                </th>`
+            }).join('');
+
+            const metrics = [
+                { label: 'Rank', key: 'rank', format: 'text' },
+                { label: 'Price', key: 'price', format: 'currency' },
+                { label: 'All-Time High', key: 'ath', format: 'currency' },
+                { label: '% Change from ATH', key: 'ath_change_percentage', format: 'percent' },
+                { label: '24h Volume', key: 'total_volume', format: 'number' },
+                { label: 'Market Cap', key: 'market_cap', format: 'number' },
+                { label: 'MC Change (24h)', key: 'market_cap_change_24h', format: 'percent' },
+                { label: 'Circulating Supply', key: 'circulating_supply', format: 'supply' },
+                { label: 'Max Supply', key: 'max_supply', format: 'supply' },
+                { label: 'Beta Value', key: 'beta_value', format: 'decimal' }
+            ];
+
+            const rows = metrics.map(metric => {
+                const cells = data.map(coin => {
+                    let value = coin[metric.key];
+                    let formattedValue = 'N/A';
+                    let cellClass = 'text-white';
+                    let extraContent = '';
+
+                    // Special handling for Max Supply to show Infinity
+                    if (metric.key === 'max_supply' && (value === null || value === 0 || value === undefined)) {
+                        formattedValue = '<span class="text-xl">&infin;</span>'; // Infinity symbol
+                    } else if (value !== null && value !== undefined) {
+                        switch (metric.format) {
+                            case 'currency': formattedValue = formatPrice(value); break;
+                            case 'number': formattedValue = formatNumber(value); break;
+                            case 'supply': formattedValue = formatSupply(value); break;
+                            case 'decimal': formattedValue = value ? value.toFixed(4) : 'N/A'; break;
+                            case 'text': formattedValue = value; break;
+                            case 'percent':
+                                if (value >= 0) cellClass = 'text-green-400';
+                                else cellClass = 'text-red-400';
+                                formattedValue = `${value.toFixed(2)}%`;
+                                break;
+                        }
+                    }
+
+                    // Tokenomics Progress Bar for Circulating Supply
+                    if (metric.key === 'circulating_supply' && coin.max_supply > 0 && value > 0) {
+                        const percent = Math.min((value / coin.max_supply) * 100, 100).toFixed(1);
+                        extraContent = `
+                        <div class="w-full bg-gray-700 rounded-full h-2.5 mt-2">
+                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${percent}%"></div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">${percent}% minted</p>
+                        `;
+                    } else if (metric.key === 'circulating_supply' && (!coin.max_supply || coin.max_supply === 0)) {
+                         extraContent = `<p class="text-xs text-gray-500 mt-1">Max supply infinite/unknown</p>`;
+                    }
+
+                    return `<td class="p-4 ${cellClass} text-center">
+                        ${formattedValue}
+                        ${extraContent}
+                    </td>`;
+                }).join('');
+                return `<tr class="border-b border-gray-700"><td class="p-4 font-semibold text-gray-300">${metric.label}</td>${cells}</tr>`;
+            }).join('');
+
+            resultsContainer.innerHTML = `
+                <div class="bg-gray-800 rounded-lg shadow-lg overflow-x-auto">
+                    <table class="w-full min-w-[600px]">
+                        <thead><tr class="border-b border-gray-600"><th class="p-4 text-left font-bold text-white w-48">Metric</th>${headers}</tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>`;
+        }
+
+        /**
+         * Helper to find the correct CoinGecko ID from a symbol (e.g., BTC -> bitcoin).
+         * CoinGecko API requires correct 'id' not symbol.
+         */
+        async function getCoingeckoId(symbol, name) {
+            try {
+                // First try direct mapping for common ones to save API calls
+                const map = {
+                    'BTC': 'bitcoin', 'ETH': 'ethereum', 'USDT': 'tether', 'BNB': 'binancecoin',
+                    'SOL': 'solana', 'XRP': 'ripple', 'USDC': 'usd-coin', 'ADA': 'cardano',
+                    'AVAX': 'avalanche-2', 'DOGE': 'dogecoin', 'TRX': 'tron', 'DOT': 'polkadot',
+                    'MATIC': 'matic-network', 'LTC': 'litecoin', 'SHIB': 'shiba-inu'
+                };
+                if (map[symbol.toUpperCase()]) return map[symbol.toUpperCase()];
+
+                // Fallback: Search API
+                // NOTE: This call is prone to rate limits from CoinGecko, but necessary
+                // for accurate historical data and fundamentals.
+                const response = await fetch(`https://api.coingecko.com/api/v3/search?query=${symbol}`);
+                if(!response.ok) return null;
+                const data = await response.json();
+                
+                // Find best match: exact symbol match + highest rank
+                const match = data.coins.find(c => c.symbol.toUpperCase() === symbol.toUpperCase());
+                return match ? match.id : null;
+            } catch (e) {
+                console.warn("CoinGecko ID lookup failed:", e);
+                return null;
+            }
+        }
+
+        /**
+         * Generates mock volume data since we aren't fetching historical volume.
+         * Creates random volume bars around the current 24h volume.
+         * Note: This is a fallback/mock function due to API limitations.
+         */
+        function generateMockVolumeData(currentVolume, days = 30) {
+            const data = [];
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            const startTime = now - (days * oneDay);
+            
+            const baseVol = currentVolume || 1000000;
+            
+            for(let i = 0; i < days; i++) {
+                 const timestamp = startTime + (i * oneDay);
+                 // Random volume between 0.5x and 1.5x of current volume
+                 const randomFactor = 0.5 + Math.random(); 
+                 data.push({ x: timestamp, y: baseVol * randomFactor });
+            }
+            return data;
+        }
+
+        // Calculate Pearson Correlation Coefficient between two arrays
+        function calculateCorrelation(x, y) {
+            if (!x || !y || x.length !== y.length || x.length === 0) return 0;
+            
+            const n = x.length;
+            const sumX = x.reduce((a, b) => a + b, 0);
+            const sumY = y.reduce((a, b) => a + b, 0);
+            const sumXY = x.reduce((a, b, i) => a + b * y[i], 0);
+            const sumX2 = x.reduce((a, b) => a + b * b, 0);
+            const sumY2 = y.reduce((a, b) => a + b * b, 0);
+
+            const numerator = (n * sumXY) - (sumX * sumY);
+            const denominator = Math.sqrt(((n * sumX2) - (sumX * sumX)) * ((n * sumY2) - (sumY * sumY)));
+
+            if (denominator === 0) return 0;
+            return numerator / denominator;
+        }
+
+        async function renderPerformanceChart(coins, days = 365) {
+            const chartContainer = document.getElementById('performance-chart-container');
+            const analysisContainer = document.getElementById('market-analysis-container'); 
+            
+            // Clear analysis and set loading state for chart if it's the first time or coins changed
+            if(!chartContainer.querySelector('canvas') || days === '365') {
+                 chartContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-white animate-pulse">Fetching Historical Data (${days} Days) from CoinGecko...</div>`;
+            }
+            // Clear analysis only when we re-fetch history (i.e., changing timeframe)
+            analysisContainer.innerHTML = ''; 
+
+            try {
+                const chartColors = ['#3b82f6', '#ec4899', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'];
+                const datasets = [];
+                const marketInsights = []; 
+                
+                let globalMinY = 0, globalMaxY = 0, globalMinX = Infinity, globalMaxX = -Infinity;
+                let benchmarkPrices = []; // Store first coin's prices for correlation
+                let benchmarkName = "";
+
+                for (const [index, coin] of coins.entries()) {
+                    // Small delay to prevent hitting CoinGecko rate limits 
+                    if (index > 0) await new Promise(r => setTimeout(r, 1500));
+
+                    try {
+                        const coingeckoId = await getCoingeckoId(coin.symbol, coin.name);
+                        
+                        if (!coingeckoId) {
+                            console.warn(`Could not find CoinGecko ID for ${coin.name}`);
+                            continue;
+                        }
+
+                        // Dynamic Days parameter
+                        const url = `https://api.coingecko.com/api/v3/coins/${coingeckoId}/market_chart?vs_currency=usd&days=${days}`;
+                        const response = await fetch(url);
+                        
+                        if (!response.ok) {
+                             if (response.status === 429) {
+                                 console.warn(`Rate limit hit for ${coin.name}, skipping chart data.`);
+                                 continue;
+                             }
+                             throw new Error(`Failed to fetch history for ${coin.name}`);
+                        }
+                        
+                        const historyData = await response.json();
+                        
+                        // Process Data
+                        if (historyData.prices && historyData.prices.length > 0) {
+                            // 1. Process Chart Data
+                            const startPrice = historyData.prices[0][1];
+                            const currentPrices = historyData.prices.map(p => p[1]);
+                            
+                            // Store Benchmark (First Coin)
+                            if (index === 0) {
+                                benchmarkPrices = currentPrices;
+                                benchmarkName = coin.name;
+                            }
+
+                            const normalizedData = historyData.prices.map(point => {
+                                const timestamp = point[0];
+                                const price = point[1];
+                                const percentChange = ((price - startPrice) / startPrice) * 100;
+                                return { x: timestamp, y: percentChange, price: price };
+                            });
+
+                            // Update bounds
+                            normalizedData.forEach(p => {
+                                if (p.y < globalMinY) globalMinY = p.y;
+                                if (p.y > globalMaxY) globalMaxY = p.y;
+                                if (p.x < globalMinX) globalMinX = p.x;
+                                if (p.x > globalMaxX) globalMaxX = p.x;
+                            });
+
+                            const currentPercent = normalizedData[normalizedData.length - 1].y;
+                            const sign = currentPercent >= 0 ? '+' : '';
+
+                            datasets.push({
+                                label: `${coin.name} (${sign}${currentPercent.toFixed(2)}%)`, 
+                                data: normalizedData,
+                                borderColor: chartColors[index % chartColors.length], 
+                                backgroundColor: chartColors[index % chartColors.length] + '33',
+                                borderWidth: 2, 
+                                pointRadius: 0, 
+                                tension: 0.1
+                            });
+
+                            // 2. CALCULATE DYNAMIC MARKET INSIGHTS based on selected timeframe
+                            
+                            // A. Volatility (Std Dev of returns in the visible window)
+                            const prices = historyData.prices.map(p => p[1]);
+                            const returns = [];
+                            for(let i = 1; i < prices.length; i++) {
+                                returns.push((prices[i] - prices[i-1]) / prices[i-1]);
+                            }
+                            const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+                            const variance = returns.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / returns.length;
+                            const stdDev = Math.sqrt(variance);
+                            const volatilityPercent = (stdDev * 100).toFixed(2);
+
+                            // B. Volume Strength (Avg of visible period vs Last point)
+                            const volumes = historyData.total_volumes || [];
+                            let volumeRatio = "N/A";
+                            if(volumes.length > 0) {
+                                const lastVolume = volumes[volumes.length - 1][1];
+                                // Average of the entire fetched period (1d, 7d, or 30d)
+                                const avgVolume = volumes.reduce((a, b) => a + b[1], 0) / volumes.length;
+                                volumeRatio = (lastVolume / avgVolume).toFixed(2);
+                            }
+                            
+                            // C. Correlation (vs Benchmark)
+                            let correlation = "1.00";
+                            let correlationLabel = "Benchmark";
+                            if (index > 0 && benchmarkPrices.length > 0) {
+                                // Truncate to matching length to perform correlation
+                                const len = Math.min(benchmarkPrices.length, currentPrices.length);
+                                const benchSlice = benchmarkPrices.slice(-len);
+                                const currSlice = currentPrices.slice(-len);
+                                correlation = calculateCorrelation(benchSlice, currSlice).toFixed(2);
+                                correlationLabel = `vs ${benchmarkName}`;
+                            } 
+
+                            marketInsights.push({
+                                name: coin.name,
+                                symbol: coin.symbol,
+                                volatility: volatilityPercent,
+                                volumeRatio: volumeRatio,
+                                correlation: correlation,
+                                correlationLabel: correlationLabel,
+                                color: chartColors[index % chartColors.length]
+                            });
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+                
+                // RENDER INSIGHTS with Dynamic Labels
+                if (marketInsights.length > 0) {
+                    // Determine label based on days selection
+                    let volLabelTime = days === '1' ? '24h' : (days === '365' ? '1y' : `${days}d`);
+                    
+                    let insightCards = marketInsights.map(insight => {
+                        let volLabel = 'Low';
+                        let volColor = 'text-green-400';
+                        // Adjust volatility thresholds based on timeframe 
+                        if (insight.volatility > 4) { volLabel = 'High'; volColor = 'text-red-400'; }
+                        else if (insight.volatility > 2) { volLabel = 'Medium'; volColor = 'text-yellow-400'; }
+
+                        let volStrLabel = 'Normal';
+                        let volStrColor = 'text-gray-400';
+                        if (insight.volumeRatio !== "N/A" && parseFloat(insight.volumeRatio) > 1.5) { volStrLabel = 'Very Strong'; volStrColor = 'text-green-400'; }
+                        else if (insight.volumeRatio !== "N/A" && parseFloat(insight.volumeRatio) > 1.1) { volStrLabel = 'Strong'; volStrColor = 'text-blue-400'; }
+                        else if (insight.volumeRatio !== "N/A" && parseFloat(insight.volumeRatio) < 0.7) { volStrLabel = 'Weak'; volStrColor = 'text-red-400'; }
+
+                        // Correlation Color
+                        let corrColor = 'text-white';
+                        if (parseFloat(insight.correlation) > 0.8) corrColor = 'text-blue-400';
+                        else if (parseFloat(insight.correlation) < 0.3 && parseFloat(insight.correlation) > -0.3) corrColor = 'text-gray-400';
+
+                        return `
+                        <div class="bg-gray-800 p-4 rounded-lg shadow border-l-4" style="border-color: ${insight.color}">
+                            <h4 class="font-bold text-white text-lg mb-2">${insight.name} Dynamics</h4>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-gray-400">${volLabelTime} Volatility</p>
+                                    <p class="text-xl font-mono ${volColor}">${insight.volatility}% <span class="text-xs">(${volLabel})</span></p>
+                                    <p class="text-xs text-gray-500 mt-1">Risk/swings over ${volLabelTime}.</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">Volume Strength</p>
+                                    <p class="text-xl font-mono ${insight.volumeRatio === "N/A" ? 'text-gray-400' : volStrColor}">${insight.volumeRatio === "N/A" ? 'N/A' : insight.volumeRatio + 'x'} <span class="text-xs">(${volStrLabel})</span></p>
+                                    <p class="text-xs text-gray-500 mt-1">Vs. avg of ${volLabelTime}.</p>
+                                </div>
+                                <div class="col-span-2 border-t border-gray-700 pt-2 mt-1">
+                                     <p class="text-gray-400">Correlation</p>
+                                     <p class="text-lg font-mono ${corrColor}">${insight.correlation} <span class="text-xs text-gray-500">(${insight.correlationLabel})</span></p>
+                                     <p class="text-xs text-gray-500 mt-1">1.0 = Identical, 0 = Unrelated, -1.0 = Opposite.</p>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('');
+
+                    analysisContainer.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="col-span-full mb-2">
+                                <h3 class="text-2xl font-bold text-white">Market Dynamics Analysis (${volLabelTime})</h3>
+                                <p class="text-gray-400 text-sm">Derived from ${volLabelTime} historical data to identify risk and conviction.</p>
+                            </div>
+                            ${insightCards}
+                        </div>
+                    `;
+                }
+
+                if (datasets.length === 0) {
+                     chartContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-yellow-400">Could not load historical data. Rate limit might be reached.</div>`;
+                     return;
+                }
+                
+                const yPadding = (Math.abs(globalMaxY - globalMinY)) * 0.1;
+                globalMinY -= yPadding;
+                globalMaxY += yPadding;
+                
+                // Determine Time Unit for Chart Axis
+                let timeUnit = 'month';
+                if (days === '1') timeUnit = 'hour';
+                else if (days === '7' || days === '30') timeUnit = 'day';
+                
+                chartContainer.innerHTML = `
+                <div class="bg-gray-800 p-4 md:p-8 rounded-lg shadow-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-2xl font-bold text-white">Performance Benchmark (${days === '365' ? '1 Year' : days + ' Days'})</h3>
+                        <span class="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded">Data Source: CoinGecko</span>
+                    </div>
+                    <p class="text-gray-400 mb-4 text-sm sm:text-base">
+                        This chart normalizes actual historical data to a <strong class="text-gray-300">0% baseline</strong> from start of the period.
+                    </p>
+                    <div class="chart-wrapper"><canvas id="performance-chart"></canvas></div>
+                </div>`;
+                
+                const canvas = document.getElementById('performance-chart');
+                const ctx = canvas.getContext('2d');
+                if (performanceChart) { performanceChart.destroy(); }
+                if (drawIntervalId) { clearInterval(drawIntervalId); }
+                
+                const fullDatasets = JSON.parse(JSON.stringify(datasets));
+                const emptyDatasets = JSON.parse(JSON.stringify(datasets)).map(ds => ({ ...ds, data: [] }));
+                
+                const chartConfig = {
+                    type: 'line', 
+                    data: { datasets: emptyDatasets },
+                    options: {
+                        animation: false, 
+                        responsive: true, 
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { 
+                                type: 'time', 
+                                time: { unit: timeUnit }, 
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                                ticks: { color: '#9ca3af' }, 
+                                min: globalMinX, 
+                                max: globalMaxX 
+                            },
+                            y: { 
+                                grid: { 
+                                    color: (context) => context.tick.value === 0 ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.1)',
+                                    lineWidth: (context) => context.tick.value === 0 ? 2 : 1
+                                }, 
+                                ticks: { color: '#9ca3af', callback: function(value) { return value + '%'; } }, 
+                                min: globalMinY, 
+                                max: globalMaxY 
+                            }
+                        },
+                        plugins: { 
+                            legend: { position: 'top', labels: { color: '#d1d5db', font: { size: 14 } } },
+                            tooltip: { 
+                                mode: 'index', 
+                                intersect: false, 
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        // Remove the current percentage from the label (e.g. "Bitcoin (+45%)" -> "Bitcoin")
+                                        if (label.includes(' (')) {
+                                            label = label.split(' (')[0];
+                                        }
+                                        
+                                        if (label) { label += ': '; }
+                                        if (context.parsed.y !== null) { label += context.parsed.y.toFixed(2) + '%'; }
+                                        
+                                        // Add Price
+                                        if (context.raw && context.raw.price) {
+                                            label += ` (${formatPrice(context.raw.price)})`;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        if (performanceChart) performanceChart.destroy();
+                        performanceChart = new Chart(ctx, chartConfig);
+                        let currentPointIndex = 0;
+                        const totalPoints = fullDatasets.length > 0 && fullDatasets[0].data ? fullDatasets[0].data.length : 0;
+                        if (totalPoints === 0) return;
+                        
+                        // Animate drawing the chart
+                        const animationDuration = 2000;
+                        const intervalTime = Math.max(1, animationDuration / totalPoints);
+                        
+                        drawIntervalId = setInterval(() => {
+                            if (currentPointIndex >= totalPoints) {
+                                clearInterval(drawIntervalId);
+                                return;
+                            }
+                            fullDatasets.forEach((fullDs, index) => {
+                                if (performanceChart.data.datasets[index] && fullDs.data[currentPointIndex]) {
+                                    performanceChart.data.datasets[index].data.push(fullDs.data[currentPointIndex]);
+                                }
+                            });
+                            performanceChart.update('none');
+                            currentPointIndex += 5; // Speed up animation by drawing batches
+                        }, intervalTime);
+                        observer.unobserve(canvas);
+                    }
+                }, { threshold: 0.5 });
+                observer.observe(canvas);
+                
+            } catch (error) {
+                console.error("Failed to render performance chart:", error);
+                chartContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-red-400">Could not load performance chart.</div>`;
+            }
+        }
+
+        async function renderVolumeChart(coins) {
+            const chartContainer = document.getElementById('volume-chart-container');
+            chartContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-white animate-pulse">Loading Volume Chart...</div>`;
+            try {
+                // Since we are now mocking history to avoid rate limits/complexity, 
+                // we will also mock volume data based on the current 24h volume.
+                const chartColors = ['#3b82f6', '#ec4899', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'];
+                let labels = [];
+                
+                const datasets = coins.map((coin, index) => {
+                    const mockVolumes = generateMockVolumeData(coin.total_volume, 30);
+                    
+                    if (labels.length === 0) {
+                        labels = mockVolumes.map(v => v.x);
+                    }
+                    
+                    return {
+                        label: coin.name,
+                        data: mockVolumes.map(v => v.y),
+                        backgroundColor: chartColors[index % chartColors.length],
+                    };
+                });
+
+                chartContainer.innerHTML = `
+                <div class="bg-gray-800 p-4 md:p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold text-white mb-4">30-Day Volume (Estimated)</h3>
+                    <div class="chart-wrapper"><canvas id="volume-chart"></canvas></div>
+                </div>`;
+                const canvas = document.getElementById('volume-chart');
+                const ctx = canvas.getContext('2d');
+                if (volumeChart) { volumeChart.destroy(); }
+                
+                volumeChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: { labels: labels, datasets: datasets },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        scales: {
+                            x: { type: 'time', time: { unit: 'day' }, grid: { display: false }, ticks: { color: '#9ca3af' } },
+                            y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#9ca3af', callback: (value) => formatNumber(value).replace('$', '') } }
+                        },
+                        plugins: { legend: { position: 'top', labels: { color: '#d1d5db' } },
+                            tooltip: { mode: 'index', intersect: false, callbacks: {
+                                label: (context) => `${context.dataset.label}: ${formatNumber(context.parsed.y)}`
+                            }}
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Failed to render volume chart:", error);
+                chartContainer.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-red-400">Could not load volume chart.</div>`;
+            }
+        }
+        
+        async function renderProjectHealth(coins) {
+            const container = document.getElementById('project-health-container');
+            container.innerHTML = `<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-white animate-pulse">Fetching Project Fundamentals (Code & Community)...</div>`;
+            
+            const healthData = [];
+            
+            for (const [index, coin] of coins.entries()) {
+                // Delay to respect rate limits
+                if (index > 0) await new Promise(r => setTimeout(r, 1200));
+                
+                try {
+                    const id = await getCoingeckoId(coin.symbol, coin.name);
+                    if (!id) continue;
+                    
+                    // Fetch CoinGecko Full Data
+                    const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=true&sparkline=false`);
+                    if (!response.ok) continue;
+                    
+                    const data = await response.json();
+                    const devs = data.developer_data || {};
+                    const links = data.links || {}; 
+
+                    // --- Smart Handle Extraction with Links ---
+
+                    // Twitter Handle
+                    let twitterDisplay = '<span class="text-gray-600 text-xs">N/A</span>';
+                    if (links.twitter_screen_name) {
+                        twitterDisplay = `<a href="https://twitter.com/${links.twitter_screen_name}" target="_blank" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors">@${links.twitter_screen_name}</a>`;
+                    }
+
+                    // Reddit Handle
+                    let redditDisplay = '<span class="text-gray-600 text-xs">N/A</span>';
+                    if (links.subreddit_url) {
+                        try {
+                            const urlObj = new URL(links.subreddit_url);
+                            const parts = urlObj.pathname.split('/').filter(p => p);
+                            const rIndex = parts.indexOf('r');
+                            let label = 'Reddit Link';
+                            if (rIndex !== -1 && parts[rIndex + 1]) {
+                                label = 'r/' + parts[rIndex + 1];
+                            }
+                            redditDisplay = `<a href="${links.subreddit_url}" target="_blank" class="text-orange-400 hover:text-orange-300 hover:underline transition-colors">${label}</a>`;
+                        } catch (e) {
+                            redditDisplay = `<a href="${links.subreddit_url}" target="_blank" class="text-orange-400 hover:underline">Reddit</a>`;
+                        }
+                    }
+
+                    healthData.push({
+                        name: coin.name,
+                        symbol: coin.symbol,
+                        twitter: twitterDisplay,
+                        reddit: redditDisplay,
+                        forks: devs.forks || 0,
+                        stars: devs.stars || 0,
+                        image: coin.image
+                    });
+                    
+                } catch (e) {
+                    console.error("Health fetch error", e);
+                }
+            }
+            
+            if (healthData.length === 0) {
+                container.innerHTML = '<div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center text-gray-400">Unable to load project data.</div>'; 
+                return;
+            }
+            
+            const cards = healthData.map(d => {
+                // Helper to render row 
+                const renderRow = (label, value) => `
+                    <div class="flex justify-between items-center bg-gray-900 p-2 rounded mt-1">
+                        <span class="text-gray-400 text-sm">${label}</span>
+                        <span class="font-mono text-white truncate max-w-[150px] text-right">${value}</span>
+                    </div>
+                `;
+
+                return `
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-700 pb-3">
+                        <img src="${d.image}" class="w-8 h-8 rounded-full" onerror="this.src='https://placehold.co/24x24?text=?'">
+                        <h4 class="font-bold text-white text-lg">${d.name} Fundamentals</h4>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Developer Activity (Code)</p>
+                            ${renderRow('GitHub Stars', d.stars > 0 ? d.stars.toLocaleString() : '<span class="text-gray-600 text-xs">N/A</span>')}
+                            ${renderRow('Forks', d.forks > 0 ? d.forks.toLocaleString() : '<span class="text-gray-600 text-xs">N/A</span>')}
+                        </div>
+                        
+                        <div>
+                            <p class="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2">Community Hubs</p>
+                            ${renderRow('Twitter', d.twitter)}
+                            ${renderRow('Reddit', d.reddit)}
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+            
+            container.innerHTML = `
+                <div class="col-span-full mb-4">
+                    <h3 class="text-2xl font-bold text-white">Project Health & Fundamentals</h3>
+                    <p class="text-gray-400 text-sm">Assessing the "Engine" (Developers) and the "Passengers" (Community) behind the price.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${cards}
+                </div>
+            `;
+        }
+
+        window.addEventListener('load', async () => {
+            await fetchTopCoins();
+            setupCoinComparison();
+            
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>

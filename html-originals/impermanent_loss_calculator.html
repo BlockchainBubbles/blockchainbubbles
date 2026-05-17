@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impermanent Loss Calculator | DeFi Liquidity Risk Tool</title>
+    <meta name="description" content="Calculate the exact impermanent loss incurred when providing liquidity to a decentralized exchange (DEX) pool due to asset price divergence.">
+    
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Impermanent Loss Calculator | DeFi Liquidity Risk Tool">
+    <meta property="og:description" content="Calculate impermanent loss based on token price ratios for AMM liquidity pools. Analyze DeFi risk. Free tool by Blockchain Bubbles.">
+    <meta property="og:url" content="https://blockchainbubbles.com/impermanent-loss-calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Impermanent Loss Calculator: Analyze LP Risk">
+    <meta name="twitter:description" content="Measure the loss suffered by liquidity providers when asset prices diverge from the initial deposit ratio.">
+    <meta name="twitter:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Impermanent Loss Calculator",
+          "url": "https://blockchainbubbles.com/impermanent-loss-calculator.html",
+          "description": "Calculate impermanent loss (IL) based on initial deposit and current price ratio of pooled assets.",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All",
+          "provider": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "url": "https://blockchainbubbles.com"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://blockchainbubbles.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Impermanent Loss Calculator",
+              "item": "https://blockchainbubbles.com/impermanent-loss-calculator.html"
+            }
+          ]
+        }
+,
+        {
+          "@type": "Article",
+          "headline": "Understanding Impermanent Loss: The Core Risk of Automated Market Makers",
+          "description": "A deep analysis of IL risk in DeFi using advanced mathematical and conceptual modeling.",
+          "author": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://blockchainbubbles.com/favicon.ico"
+            }
+          },
+          "mainEntityOfPage": "https://blockchainbubbles.com/impermanent-loss-calculator.html"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What causes Impermanent Loss (IL)?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "IL occurs when the price ratio of the tokens in an Automated Market Maker (AMM) pool diverges after you deposit them. The liquidity pool mechanism forces a rebalance, selling the asset that increased in value to buy the one that decreased, compared to simply holding the tokens."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Impermanent Loss a permanent loss?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. The loss is only 'impermanent' if the prices of the pooled assets return to the ratio they had at the time of deposit. If you withdraw the funds before the prices revert, the loss becomes realized (permanent)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does the pool ratio (e.g., 50/50) affect IL?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "IL is greatest in balanced pools (like 50/50). Pools with higher skew (e.g., 80/20 or single-asset staking) experience less IL because less of the total value is subject to divergence."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Dark background */
+            background-color: #111827; 
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        /* Hide number input arrows */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .result-bubble-container {
+            /* Container for the animated bubble */
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            background-color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        .result-bubble {
+            /* The animated P&L display */
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            will-change: transform; /* Performance optimization */
+            /* Glassmorphism effect */
+            backdrop-filter: blur(5px);
+            background-color: rgba(31, 41, 55, 0.8);
+        }
+         .result-bubble img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
+        .result-bubble .profit-loss-amount {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700; /* bold */
+            line-height: 1.2;
+        }
+        .result-bubble .profit-loss-percent {
+            font-size: 0.875rem; /* text-sm */
+        }
+        /* Style for search results */
+        .coin-search-results {
+            max-height: 300px;
+        }
+        
+        /* Article Styles - Tighter Spacing */
+        .article-content h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #ffffff;
+            /* Setting minimal top/bottom margin */
+            margin-top: 0.5rem; 
+            margin-bottom: 0.5rem;
+        }
+        .article-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            /* Setting minimal top/bottom margin */
+            margin-top: 0.25rem; 
+            margin-bottom: 0.25rem;
+        }
+        .article-content p {
+            /* Removing bottom margin completely */
+            margin-bottom: 0; 
+            line-height: 1.75;
+            color: #d1d5db;
+        }
+        .article-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            /* Removing bottom margin completely */
+            margin-bottom: 0; 
+            color: #d1d5db;
+        }
+        .article-content li {
+            /* Minimal bottom margin to prevent bullet point overlap/bunching */
+            margin-bottom: 0.1rem; 
+        }
+        .article-content strong {
+            color: #f3f4f6;
+        }
+        
+        /* Link Styling for Article Content (NEW) */
+        .article-content a {
+            color: #60a5fa; /* Blue-400 for good contrast */
+            text-decoration: none; /* No default underline */
+            font-weight: 500;
+            transition: color 150ms ease-in-out;
+        }
+        .article-content a:hover {
+            text-decoration: underline;
+            color: #38bdf8; /* Cyan-400 on hover */
+        }
+        /* End Link Styling for Article Content */
+
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+        }
+        input[type=range]:focus {
+            outline: none; 
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K8WNJB2GNV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K8WNJB2GNV');
+</script>
+<meta name="msvalidate.01" content="D75B88F2C1A57E245C1AD580EBFD9778" />
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Header Navigation -->
+    <header class="sticky top-0 left-0 right-0 bg-gray-900 shadow-xl px-4 py-3 z-40">
+        <div id="header-main" class="flex justify-between items-center gap-4 max-w-7xl mx-auto">
+            <!-- Logo Section -->
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
+                    <svg class="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                    </svg>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold text-white">Blockchain Bubbles</div>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:block">
+                <ul class="flex items-center gap-3">
+                    <li><a href="https://blockchainbubbles.com" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Crypto Bubbles</a></li>
+                    <li><a href="crypto-comparison-tool.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Compare</a></li>
+                    
+                    <!-- Calculator Dropdown -->
+                    <li class="relative group">
+                        <button class="flex items-center gap-1 bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-150">
+                            Calculators
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 top-full pt-2 w-64 hidden group-hover:block hover:block z-50">
+                            <div class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
+                                <ul class="text-gray-300 text-sm">
+                                    <li><a href="crypto_profile_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Profile Calculator</a></li>
+                                    <li><a href="crypto_futures_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Future Calculator</a></li>
+                                    <li><a href="slippage_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Slippage Calculator</a></li>
+                                    <li><a href="staking_rewards_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Staking Rewards Calculator</a></li>
+                                    <li><a href="dca_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Dollar Cost Averaging</a></li>
+                                    <li><a href="impermanent_loss_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition">Impermanent Loss Calculator</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center gap-3 md:hidden">
+                <button id="menu-btn" class="p-2 text-gray-300 hover:text-white focus:outline-none rounded-lg hover:bg-gray-700 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <nav id="mobile-menu" class="hidden md:hidden mt-4 mx-auto p-4 bg-gray-800 rounded-xl shadow-lg max-w-sm">
+            <ul class="space-y-2">
+                <li><a href="https://blockchainbubbles.com" class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-lg text-base font-medium transition">Crypto Bubbles</a></li>
+                <li><a href="crypto-comparison-tool.html" class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-lg text-base font-medium transition">Compare</a></li>
+                
+                <!-- Mobile Calculators Sub-menu -->
+                <li>
+                    <div class="text-blue-400 font-semibold px-3 pt-2 pb-1 text-sm uppercase tracking-wider">Calculators</div>
+                    <ul class="pl-2 space-y-1 mt-1 border-l-2 border-gray-700 ml-3">
+                        <li><a href="spot_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Spot Calculator</a></li>
+                        <li><a href="futures_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Future Calculator</a></li>
+                        <li><a href="slippage_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Slippage Calculator</a></li>
+                        <li><a href="staking_rewards_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Staking Rewards</a></li>
+                        <li><a href="dca_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">DCA</a></li>
+                        <li><a href="impermanent_loss_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Impermanent Loss</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Impermanent Loss Calculator Section -->
+    <section id="calculator-section" class="bg-gray-900 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-white mb-3">Impermanent Loss Calculator</h1>
+            <p class="text-center text-gray-400 mb-12 text-lg">Calculate the core risk (IL) of providing liquidity to DeFi Automated Market Makers (AMMs).</p>
+            
+            <!-- ===================== IL CALCULATOR ===================== -->
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="h-8 w-1 bg-pink-500 rounded-full"></div>
+                    <h2 class="text-2xl font-bold text-white">AMM Impermanent Loss Analyzer (50/50 Pool)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    
+                    <!-- IL Inputs -->
+                    <div class="bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6 border border-gray-700">
+                        
+                        <!-- Initial Deposit Value -->
+                        <div>
+                           <label for="initial-deposit" class="block text-sm font-semibold text-gray-300 mb-2">Initial Deposit Value (USD)</label>
+                           <input type="number" id="initial-deposit" placeholder="1000" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-pink-500 focus:border-pink-500 transition duration-150">
+                        </div>
+                        
+                        <!-- Asset A Initial Price -->
+                        <div>
+                           <label for="initial-price-a" class="block text-sm font-semibold text-gray-300 mb-2">Token A Initial Price ($)</label>
+                           <input type="number" id="initial-price-a" placeholder="100.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-pink-500 focus:border-pink-500 transition duration-150">
+                        </div>
+
+                        <!-- Asset B Initial Price -->
+                        <div>
+                           <label for="initial-price-b" class="block text-sm font-semibold text-gray-300 mb-2">Token B Initial Price ($)</label>
+                           <input type="number" id="initial-price-b" placeholder="1.00" value="1.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-pink-500 focus:border-pink-500 transition duration-150">
+                           <p class="text-xs text-gray-400 mt-1">Set to $1.00 for stablecoin pairs or token A comparison.</p>
+                        </div>
+                        
+                        <!-- Asset A Current Price -->
+                         <div>
+                            <label for="current-price-a" class="block text-sm font-semibold text-gray-300 mb-2">Token A Current Price ($)</label>
+                            <input type="number" id="current-price-a" placeholder="150.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-pink-500 focus:border-pink-500 transition duration-150">
+                         </div>
+                         
+                         <!-- Asset B Current Price -->
+                         <div>
+                            <label for="current-price-b" class="block text-sm font-semibold text-gray-300 mb-2">Token B Current Price ($)</label>
+                            <input type="number" id="current-price-b" placeholder="1.00" value="1.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-pink-500 focus:border-pink-500 transition duration-150">
+                         </div>
+
+                         <button onclick="calculateILResult()" class="w-full bg-pink-600 text-white font-bold py-3 rounded-xl hover:bg-pink-700 transition duration-150 shadow-lg shadow-pink-500/30">
+                            Calculate Impermanent Loss
+                         </button>
+                    </div>
+
+                    <!-- IL Results -->
+                    <div class="bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-700 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-6 border-b border-gray-700 pb-4">IL Analysis</h3>
+                            <div id="il-bubble-container" class="result-bubble-container border border-gray-700">
+                                 <div class="flex flex-col items-center justify-center h-full text-center p-4">
+                                    <p class="text-gray-400 italic text-sm">Enter pool details...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-4">
+                            <div class="flex justify-between">
+                                <p class="text-sm text-gray-400">Value of HODL Portfolio</p>
+                                <p class="text-lg font-bold text-white" id="hodl-value">--</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-sm text-gray-400">Pool Value at Current Price</p>
+                                <p class="text-lg font-bold text-pink-400" id="pool-value">--</p>
+                            </div>
+                            <div class="flex justify-between border-t border-gray-700 pt-2">
+                                <p class="text-sm text-gray-400">Impermanent Loss (USD)</p>
+                                <p class="text-lg font-bold text-red-400" id="il-usd-loss">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SEO Content Section: Beginner to Advanced Impermanent Loss Article -->
+<section class="bg-gray-900 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto bg-gray-800 p-8 sm:p-12 rounded-2xl shadow-xl border border-gray-700 article-content">
+
+        <!-- Beginner Section -->
+        <h2 class="!mt-0">What is Impermanent Loss in DeFi?</h2>
+        <p>
+            Impermanent Loss (IL) happens when the value of your tokens in a liquidity pool changes compared to simply holding them in your wallet. If one or both token prices fluctuate, your pool share may be worth less than if you had held the assets outside the pool. It’s “impermanent” because the loss disappears if prices return to the original ratio. The loss becomes permanent only upon withdrawal.
+        </p>
+
+        <h3>How Can You Use the Impermanent Loss Calculator?</h3>
+        <p>
+            Our <a href="impermanent_loss_calculator.html">Impermanent Loss Calculator</a> helps you estimate potential losses before investing. Steps to use it:
+        </p>
+        <ol class="list-disc ml-6 space-y-1">
+            <li>Enter the initial fiat values of your two tokens.</li>
+            <li>Input expected or potential future prices for those tokens.</li>
+            <li>Click “Calculate” to view the estimated impermanent loss in percentage and dollar value.</li>
+        </ol>
+        <p>
+            Using the calculator allows you to make informed liquidity provisioning decisions.
+        </p>
+
+        <h3>How is Impermanent Loss Calculated?</h3>
+        <p>
+            Calculations are based on the constant product formula used in most AMMs: <code>x · y = k</code>. The basic IL formula quantifies the difference between holding tokens (HODL) and providing liquidity (Pool):
+        </p>
+        <p class="text-center py-2">
+            $$ \text{IL} (\%) = \left( \frac{\text{Value if HODL}}{\text{Value in Pool}} - 1 \right) \times 100 $$
+        </p>
+
+        <h3>Why is Impermanent Loss Calculator Data Important?</h3>
+        <p>
+            Understanding IL is essential for any liquidity provider. The calculator helps you:
+        </p>
+        <ul class="list-disc ml-6 space-y-1">
+            <li>Estimate potential losses before committing capital.</li>
+            <li>Compare different pools and strategies.</li>
+            <li>Plan risk mitigation while maximizing returns.</li>
+        </ul>
+
+        <!-- Intermediate Section -->
+        <h2>How Impermanent Loss Happens – A Simple Example</h2>
+        <p>
+            Suppose you provide 10 ETH and $10,000 in USDC to a 50/50 liquidity pool. If ETH rises, the pool rebalances automatically, selling some ETH to buy USDC, leaving you with more USDC and fewer ETH. Your total value may slightly drop compared to simply holding ETH and USDC. This temporary difference is impermanent loss—it only becomes permanent if you withdraw your tokens.
+        </p>
+
+        <h3>Factors That Increase Impermanent Loss</h3>
+        <ul class="list-disc ml-6 space-y-1">
+            <li><strong>Volatile tokens:</strong> High price fluctuations increase IL risk.</li>
+            <li><strong>Thinly traded tokens:</strong> Low liquidity amplifies price swings.</li>
+            <li><strong>Wide trading ranges:</strong> Pools that allow large price variation can cause higher IL.</li>
+            <li><strong>Small liquidity pools:</strong> Fewer tokens make the pool more sensitive to trades.</li>
+            <li>Highly volatile assets can also increase trading costs, which you can estimate in advance using a <a href="/slippage_calculator.html">slippage calculator.</a></li>
+        </ul>
+
+        <h3>Benefits of Using the Calculator (Consolidated)</h3>
+        <p>The calculator is a key tool for optimizing your LP strategy:</p>
+        <ul class="list-disc ml-6 space-y-1">
+            <li>Quantify potential losses before providing liquidity.</li>
+            <li>Test multiple scenarios and token price changes.</li>
+            <li>Plan risk mitigation while maximizing returns.</li>
+            <li>Compare pools to decide where your capital is most effective.</li>
+        </ul>
+
+        <!-- Advanced Section -->
+        <h2>The Mathematics of Divergence: Advanced Impermanent Loss</h2>
+        <p>
+            For advanced users, IL is mathematically derived from the AMM constant product formula: <code>x · y = k</code>. Since <code>x</code> and <code>y</code> (token quantities) must change to keep <code>k</code> constant when prices shift, the pool rebalances, causing the impermanent loss.
+        </p>
+
+        <p>
+            The IL percentage is calculated based on the price ratio <code>R</code> (<code>P_current / P_initial</code>), showing the relationship between HODL value (<code>V_HODL</code>) and LP value (<code>V_LP</code>):
+        </p>
+        <p class="text-center py-2">
+            $$ \text{IL}_{\%} = \frac{V_{HODL} - V_{LP}}{V_{HODL}} $$
+            $$ \frac{V_{LP}}{V_{HODL}} = \frac{2\sqrt{R}}{1+R} $$
+        </p>
+
+        <h3>Example Ratios:</h3>
+        <ul class="list-disc ml-6 space-y-1">
+            <li>If <code>R = 1</code> (No price change), IL = 0%</li>
+            <li>If <code>R = 2</code> (2x price change), IL ≈ 5.7%</li>
+            <li>If <code>R = 5</code> (5x price change), IL ≈ 20%</li>
+            <li>If <code>R = 10</code> (10x price change), IL ≈ 33.3%</li>
+        </ul>
+
+        <h3>Portfolio Composition Shift & Set-Theoretic View</h3>
+        <p>
+            We can compare your initial HODL portfolio (Set A) and your current LP-share portfolio (Set B). Since AMMs continuously rebalance assets, the LP composition shifts. High IL directly correlates with a low overlap (similarity) between the initial and current holdings. This set-theoretic view provides a measurable understanding of asset exposure changes.
+        </p>
+
+        <h3>Structural Instability & Sequential Analysis</h3>
+        <p>
+            Analyzing price ratio sequences can reveal a pool's long-term stability. Consistent sequences indicate low risk, while sudden, sharp divergence signals potential structural instability and impermanent loss. This historical analysis helps investors gauge volatility and anticipate risk.
+        </p>
+
+        <h3>Advanced Risk Mitigation Strategies</h3>
+        <ul class="list-disc ml-6 space-y-1">
+            <li><strong>Fee Multiplier:</strong> High trading volumes can offset IL. Even if IL occurs, earned fees may make the LP net profitable.</li>
+            <li><strong>Concentrated Liquidity (Uniswap V3):</strong> Narrow price ranges improve fee capture but amplify IL if prices move outside the range.</li>
+            <li><strong>Skewed Pools (Balancer 80/20):</strong> Non-50/50 pools reduce IL on the major token and help directional strategies.</li>
+        </ul>
+        <p>
+            Before committing capital, many LPs compare token volatility and historical behavior using a <a href="/crypto-comparison-tool.html">crypto comparison tool.</a> 
+        </p>
+
+        <h3>Recommended Tools and Next Steps</h3>
+        <p>
+            Combine <a href="/dca_calculator.html"> micro and macro risk </a>management for smarter strategies:
+        </p>
+        <ul class="list-disc ml-6 space-y-1">
+            <li><a href="impermanent_loss_calculator.html">Impermanent Loss Calculator</a> – assess micro-level LP risk.</li>
+            <li><a href="dca_calculator.html">Dollar Cost Averaging Calculator</a> – reduce macro-level market timing risk.</li>
+        </ul>
+
+        <p class="mt-8 text-sm text-gray-500 italic border-t border-gray-700 pt-4">
+            <strong>Disclaimer:</strong> Impermanent Loss is a complex risk. Calculations assume standard 50/50 pools without fees or advanced AMM features. Use these tools for educational purposes and consult a financial professional for investment advice.
+        </p>
+
+    </div>
+</section>
+
+    <!-- Footer Section (Same as Original) -->
+    <footer id="page-footer" class="bg-gray-900 text-gray-400 py-12 px-4 md:px-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="font-bold text-white mb-4">Rankings</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html?rank=1-100" class="hover:text-white">Top 1-100</a></li>
+                    <li><a href="index.html?rank=101-200" class="hover:text-white">101-200</a></li>
+                    <li><a href="index.html?rank=201-300" class="hover:text-white">201-300</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Categories</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html?category=layer-1" class="hover:text-white">Layer 1</a></li>
+                    <li><a href="index.html?category=decentralized-finance-defi" class="hover:text-white">DeFi</a></li>
+                    <li><a href="index.html?category=gaming" class="hover:text-white">GameFi</a></li>
+                    <li><a href="index.html?category=artificial-intelligence" class="hover:text-white">AI</a></li>
+                    <li><a href="index.html?category=meme-token" class="hover:text-white">Meme Coins</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="./privacy-policy.html" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html" class="hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Blockchain Bubbles</h3>
+                <p>Visualizing the crypto market in real-time. Data provided by CoinGecko.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation IDs
+        let ilAnimationId = null;
+
+        // --- IMPERMANENT LOSS CALCULATOR LOGIC ---
+
+        function calculateILResult() {
+            const initialDeposit = parseFloat(document.getElementById('initial-deposit').value) || 0;
+            const initialPriceA = parseFloat(document.getElementById('initial-price-a').value) || 0;
+            const initialPriceB = parseFloat(document.getElementById('initial-price-b').value) || 0;
+            const currentPriceA = parseFloat(document.getElementById('current-price-a').value) || 0;
+            const currentPriceB = parseFloat(document.getElementById('current-price-b').value) || 0;
+            
+            const hodlValueEl = document.getElementById('hodl-value');
+            const poolValueEl = document.getElementById('pool-value');
+            const ilUsdLossEl = document.getElementById('il-usd-loss');
+            const container = document.getElementById('il-bubble-container');
+
+            // Reset Animation
+            if (ilAnimationId) {
+                cancelAnimationFrame(ilAnimationId);
+                ilAnimationId = null;
+            }
+            container.innerHTML = '';
+            
+            hodlValueEl.textContent = '--';
+            poolValueEl.textContent = '--';
+            ilUsdLossEl.textContent = '--';
+
+            if (initialDeposit <= 0 || initialPriceA <= 0 || initialPriceB <= 0 || currentPriceA <= 0 || currentPriceB <= 0) {
+                container.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center p-4">
+                                    <p class="text-gray-400 italic text-sm">Enter pool details...</p>
+                                </div>`;
+                return;
+            }
+
+            // Calculations assume a standard 50/50 pool.
+            
+            // 1. Initial Tokens deposited (since it's 50/50)
+            const halfDeposit = initialDeposit / 2;
+            const initialTokensA = halfDeposit / initialPriceA;
+            const initialTokensB = halfDeposit / initialPriceB;
+
+            // 2. HODL Value (What the investor would have if they just held the initial tokens)
+            const hodlValue = (initialTokensA * currentPriceA) + (initialTokensB * currentPriceB);
+
+            // 3. Current Price Ratio Change (k)
+            const initialRatio = initialPriceA / initialPriceB;
+            const currentRatio = currentPriceA / currentPriceB;
+            
+            // 4. Impermanent Loss Factor (Formula: 2 * sqrt(PriceRatioChange) / (1 + PriceRatioChange))
+            // R = Current Ratio / Initial Ratio
+            const R = currentRatio / initialRatio;
+            
+            // Value of LP Share compared to HODL (Liquidity Pool Value / HODL Value)
+            // LPV/HV = [2 * sqrt(R)] / (1 + R)
+            const lpValueFactor = (2 * Math.sqrt(R)) / (1 + R);
+            
+            // 5. Liquidity Pool Value
+            // LP Pool Value = HODL Value * lpValueFactor
+            const poolValue = hodlValue * lpValueFactor;
+            
+            // 6. Impermanent Loss (USD and Percentage)
+            const impermanentLossUSD = hodlValue - poolValue;
+            const impermanentLossPercent = (impermanentLossUSD / hodlValue) * 100;
+            
+            // Formatters
+            const currencyFmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+            
+            // Display Results
+            hodlValueEl.textContent = currencyFmt.format(hodlValue);
+            poolValueEl.textContent = currencyFmt.format(poolValue);
+            ilUsdLossEl.textContent = currencyFmt.format(impermanentLossUSD);
+
+            const isLoss = impermanentLossUSD > 0;
+            // IL is always a loss relative to HODL, so we treat > 0 as "red"
+            ilUsdLossEl.className = isLoss ? "text-lg font-bold text-red-400" : "text-lg font-bold text-green-400"; 
+
+            const imageSrc = 'https://placehold.co/32x32/1f2937/FFFFFF?text=$';
+
+            createAndAnimateBubble(container, impermanentLossUSD, impermanentLossPercent, isLoss, imageSrc, (id) => ilAnimationId = id);
+        }
+
+        // --- SHARED UTILS (from previous calculators) ---
+        function createAndAnimateBubble(container, amount, percent, isLoss, imageSrc, setAnimIdCallback) {
+            const bubble = document.createElement('div');
+            bubble.className = 'result-bubble';
+
+            // Impermanent Loss is treated as a negative event (Loss)
+            let bubbleColor = isLoss ? 'rgba(239, 68, 68, 0.8)' : 'rgba(16, 185, 129, 0.8)';
+            let shadowColor = isLoss ? 'rgba(239, 68, 68, 0.5)' : 'rgba(16, 185, 129, 0.5)';
+            
+            bubble.style.backgroundColor = bubbleColor;
+            bubble.style.boxBoxShadow = `0 4px 20px ${shadowColor}`;
+            bubble.style.color = 'white';
+
+
+            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+            // Show absolute value since we label it as loss
+            const formattedAmount = formatter.format(Math.abs(amount)); 
+            
+            bubble.innerHTML = `
+                <img src="${imageSrc}" alt="Coin" onerror="this.src='https://placehold.co/32x32/1f2937/FFFFFF?text=$'">
+                <div class="profit-loss-amount">${formattedAmount}</div>
+                <div class="profit-loss-percent">${Math.abs(percent).toFixed(2)}% IL</div>
+            `;
+            
+            container.appendChild(bubble);
+            animateBubble(bubble, container, setAnimIdCallback);
+        }
+
+        function animateBubble(bubble, container, setAnimIdCallback) {
+            const size = 160;
+            let x = Math.random() * (container.clientWidth - size);
+            let y = Math.random() * (container.clientHeight - size);
+            let vx = (Math.random() - 0.5) * 0.5;
+            let vy = (Math.random() - 0.5) * 0.5;
+
+            function move() {
+                x += vx;
+                y += vy;
+
+                if (x <= 0 || x + size >= container.clientWidth) {
+                    vx *= -1;
+                    x = x <= 0 ? 0 : container.clientWidth - size;
+                }
+                if (y <= 0 || y + size >= container.clientHeight) {
+                    vy *= -1;
+                    y = y <= 0 ? 0 : container.clientHeight - size;
+                }
+
+                bubble.style.transform = `translate(${x}px, ${y}px)`;
+                setAnimIdCallback(requestAnimationFrame(move));
+            }
+            move();
+        }
+        
+        // --- INITIALIZATION ---
+        window.addEventListener('load', () => {
+            document.getElementById('initial-deposit').addEventListener('input', calculateILResult);
+            document.getElementById('initial-price-a').addEventListener('input', calculateILResult);
+            document.getElementById('initial-price-b').addEventListener('input', calculateILResult);
+            document.getElementById('current-price-a').addEventListener('input', calculateILResult);
+            document.getElementById('current-price-b').addEventListener('input', calculateILResult);
+
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>

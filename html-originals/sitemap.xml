@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main Pages -->
+  <url>
+    <loc>https://blockchainbubbles.com/</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/privacy-policy.html</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/terms-of-service.html</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.50</priority>
+  </url>
+
+  <!-- Ranking Pages -->
+  <url>
+    <loc>https://blockchainbubbles.com/?rank=1-100</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/?rank=101-200</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/?rank=201-300</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- Category Pages -->
+  <url>
+    <loc>https://blockchainbubbles.com/?category=layer-1</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/?category=decentralized-finance-defi</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/?category=gaming</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/?category=artificial-intelligence</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/?category=meme-token</loc>
+    <lastmod>2025-10-09</lastmod>
+    <priority>0.90</priority>
+  </url>
+  
+  <!-- Article Pages -->
+  <url>
+    <loc>https://blockchainbubbles.com/bubble-in-cryptocurrency.html</loc>
+    <lastmod>2025-10-16</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/crypto-comparison-tool.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/crypto_profile_calculator.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/dca_calculator.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/futures_calculator.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/impermanent_loss_calculator.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/slippage_calculator.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://blockchainbubbles.com/staking_rewards_calculator.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.80</priority>
+  </url>
+</urlset>

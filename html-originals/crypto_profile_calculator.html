@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Profit Calculator – Accurate Spot P&L, Fees & ROI Analysis</title>
+    <meta name="description" content="Calculate precise crypto profits with our advanced Spot P&L calculator. Factor in fees, gas costs, ROI, break-even price, and real-time data for smarter trading decisions.">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Crypto Spot Calculator | Profit & Loss Tool">
+    <meta property="og:description" content="Calculate your potential crypto profit or loss accurately. Accounts for fees, investment amounts, and real-time prices. Free tool by Blockchain Bubbles.">
+    <meta property="og:url" content="https://blockchainbubbles.com/spot-calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Crypto Spot Calculator – Calculate Profit & Fees">
+    <meta name="twitter:description" content="Accurate crypto P&L calculator. Account for buy/sell fees and investment amounts with real-time price data.">
+    <meta name="twitter:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Crypto Spot Calculator",
+          "url": "https://blockchainbubbles.com/crypto_profile_calculator.html",
+          "description": "Calculate your potential crypto profit or loss accurately, accounting for buy/sell fees, investment amounts, and real-time prices.",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All",
+          "provider": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "url": "https://blockchainbubbles.com"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://blockchainbubbles.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Crypto Spot Calculator",
+              "item": "https://blockchainbubbles.com/crypto_profile_calculator.html"
+            }
+          ]
+        },
+        {
+          "@type": "Article",
+          "headline": "Mastering Crypto Profits: How to Use an Investment Calculator Effectively",
+          "description": "A guide on using the crypto investment calculator to manage risk, calculate break-even points, and account for hidden exchange fees.",
+          "author": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://blockchainbubbles.com/favicon.ico"
+            }
+          },
+          "mainEntityOfPage": "https://blockchainbubbles.com/crypto_profile_calculator.html"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Does this calculator account for \"Gas Fees\"?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, you can include gas fees in the Investment Fee or Exit Fee fields. Simply estimate the gas cost in USD and add it to the fee input to see how it impacts your final P&L."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How is the \"Profit Percentage\" calculated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The profit percentage is calculated based on your initial investment amount using the formula: ((Total Exit Value - Total Investment) / Total Investment) * 100."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use this for Short selling?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "While optimized for Long positions, you can simulate a short by treating the Buy Price as your short entry and Sell Price as your cover price. A negative result would indicate a profit for a short position."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Dark background */
+            background-color: #111827; 
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        /* Hide number input arrows */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .result-bubble-container {
+            /* Container for the animated bubble */
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            background-color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        .result-bubble {
+            /* The animated P&L display */
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            will-change: transform; /* Performance optimization */
+            /* Glassmorphism effect */
+            backdrop-filter: blur(5px);
+            background-color: rgba(31, 41, 55, 0.8);
+        }
+         .result-bubble img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
+        .result-bubble .profit-loss-amount {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700; /* bold */
+            line-height: 1.2;
+        }
+        .result-bubble .profit-loss-percent {
+            font-size: 0.875rem; /* text-sm */
+        }
+        /* Style for search results */
+        .coin-search-results {
+            max-height: 300px;
+        }
+        /* Article Styles */
+        .article-content h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .article-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-content p {
+            margin-bottom: 1rem;
+            line-height: 1.75;
+            color: #d1d5db;
+        }
+        .article-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        .article-content strong {
+            color: #f3f4f6;
+        }
+        
+        /* New style for anchor tags within the article content */
+        .article-content a {
+            color: #60a5fa; /* Blue color for links (text-blue-400 equivalent) */
+            text-decoration: underline;
+            transition: color 0.15s ease-in-out;
+        }
+        
+        .article-content a:hover {
+            color: #93c5fd; /* Lighter blue on hover (text-blue-300 equivalent) */
+        }
+        
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+        }
+        input[type=range]:focus {
+            outline: none; 
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K8WNJB2GNV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K8WNJB2GNV');
+</script>
+<meta name="msvalidate.01" content="D75B88F2C1A57E245C1AD580EBFD9778" />
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Header Navigation -->
+    <header class="sticky top-0 left-0 right-0 bg-gray-900 shadow-xl px-4 py-3 z-40">
+        <div id="header-main" class="flex justify-between items-center gap-4 max-w-7xl mx-auto">
+            <!-- Logo Section -->
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
+                    <svg class="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                    </svg>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold text-white">Blockchain Bubbles</div>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:block">
+                <ul class="flex items-center gap-3">
+                    <li><a href="https://blockchainbubbles.com" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Crypto Bubbles</a></li>
+                    <li><a href="crypto-comparison-tool.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Compare</a></li>
+                    
+                    <!-- Calculator Dropdown -->
+                    <li class="relative group">
+                        <button class="flex items-center gap-1 bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-150">
+                            Calculators
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 top-full pt-2 w-64 hidden group-hover:block hover:block z-50">
+                            <div class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
+                                <ul class="text-gray-300 text-sm">
+                                    <li><a href="crypto_profile_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Spot Calculator</a></li>
+                                    <li><a href="crypto_futures_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Future Calculator</a></li>
+                                    <li><a href="slippage_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Slippage Calculator</a></li>
+                                    <li><a href="staking_rewards_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Staking Rewards Calculator</a></li>
+                                    <li><a href="dca_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Dollar Cost Averaging</a></li>
+                                    <li><a href="impermanent_loss_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition">Impermanent Loss Calculator</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li> 
+                </ul>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center gap-3 md:hidden">
+                <button id="menu-btn" class="p-2 text-gray-300 hover:text-white focus:outline-none rounded-lg hover:bg-gray-700 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <nav id="mobile-menu" class="hidden md:hidden mt-4 mx-auto p-4 bg-gray-800 rounded-xl shadow-lg max-w-sm">
+            <ul class="space-y-2">
+                <li><a href="https://blockchainbubbles.com" class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-lg text-base font-medium transition">Crypto Bubbles</a></li>
+                <li><a href="crypto-comparison-tool.html" class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-lg text-base font-medium transition">Compare</a></li>
+                
+                <!-- Mobile Calculators Sub-menu -->
+                <li>
+                    <div class="text-blue-400 font-semibold px-3 pt-2 pb-1 text-sm uppercase tracking-wider">Calculators</div>
+                    <ul class="pl-2 space-y-1 mt-1 border-l-2 border-gray-700 ml-3">
+                        <li><a href="crypto_profile_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Crypto Profile Calculator</a></li>
+                        <li><a href="futures_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Future Calculator</a></li>
+                        <li><a href="slippage_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Slippage Calculator</a></li>
+                        <li><a href="staking_rewards_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Staking Rewards</a></li>
+                        <li><a href="dca_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">DCA</a></li>
+                        <li><a href="impermanent_loss_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Impermanent Loss</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Crypto Investment Calculator Section -->
+    <section id="calculator-section" class="bg-gray-900 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-white mb-3">Crypto Spot Calculator</h1>
+            <p class="text-center text-gray-400 mb-12 text-lg">Calculate your potential profit, loss, and exchange fees.</p>
+            
+            <!-- ===================== SPOT CALCULATOR ===================== -->
+            <div class="mb-16">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="h-8 w-1 bg-blue-500 rounded-full"></div>
+                    <h2 class="text-2xl font-bold text-white">Crypto Profit Calculator (Spot Market)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    
+                    <!-- Spot Inputs -->
+                    <div class="bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6 border border-gray-700">
+                        
+                        <!-- Spot Coin Search -->
+                        <div>
+                            <label for="spot-coin-search" class="block text-sm font-semibold text-gray-300 mb-2">Crypto Coin</label>
+                            <div class="relative">
+                                <input type="text" id="spot-coin-search" placeholder="e.g., Bitcoin or Ethereum" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 pl-10 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                </svg>
+                                <div id="spot-search-results" class="coin-search-results absolute top-full left-0 right-0 bg-gray-700 border border-gray-600 rounded-xl shadow-lg mt-2 overflow-y-auto z-50 hidden"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Spot Price Inputs -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                               <label for="buy-price" class="block text-sm font-semibold text-gray-300 mb-2">Buy Price ($)</label>
+                               <input type="number" id="buy-price" placeholder="0.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                            </div>
+                            <div>
+                               <label for="sell-price" class="block text-sm font-semibold text-gray-300 mb-2">Sell Price ($)</label>
+                               <input type="number" id="sell-price" placeholder="0.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                            </div>
+                        </div>
+                        
+                        <!-- Spot Investment & Fee -->
+                         <div class="grid grid-cols-2 gap-4">
+                             <div>
+                                <label for="investment-amount" class="block text-sm font-semibold text-gray-300 mb-2">Investment ($)</label>
+                                <input type="number" id="investment-amount" placeholder="100" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                             </div>
+                             <div>
+                                <label for="spot-fee-buy" class="block text-sm font-semibold text-gray-300 mb-2">Buy Fee ($)</label>
+                                <input type="number" id="spot-fee-buy" placeholder="0" value="0" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                             </div>
+                         </div>
+                         
+                         <!-- Spot Exit Fee & Currency (Hidden/Defaulted to USD for layout simplicity) -->
+                         <div>
+                            <label for="spot-fee-sell" class="block text-sm font-semibold text-gray-300 mb-2">Sell Fee ($)</label>
+                            <input type="number" id="spot-fee-sell" placeholder="0" value="0" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                         </div>
+                    </div>
+
+                    <!-- Spot Results -->
+                    <div class="bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-700 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-6 border-b border-gray-700 pb-4">Crypto Profit Result</h3>
+                            <div id="spot-bubble-container" class="result-bubble-container border border-gray-700">
+                                 <div class="flex flex-col items-center justify-center h-full text-center p-4">
+                                    <p class="text-gray-400 italic text-sm">Enter Spot details...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-4">
+                            <div class="flex justify-between">
+                                <p class="text-sm text-gray-400">Net Investment</p>
+                                <p class="text-lg font-bold text-white" id="spot-net-invest">--</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-sm text-gray-400">Total Exit Value</p>
+                                <p class="text-lg font-bold text-white" id="spot-exit-value">--</p>
+                            </div>
+                            <div class="flex justify-between border-t border-gray-700 pt-2">
+                                <p class="text-sm text-gray-400">Total Fees</p>
+                                <p class="text-lg font-bold text-red-400" id="spot-total-fees">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO Content Section (Rewritten Article) -->
+    <section class="bg-gray-900 pb-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto bg-gray-800 p-8 sm:p-12 rounded-2xl shadow-xl border border-gray-700 article-content">
+            
+            <h2 class="!mt-0">The Trader's Edge: Calculating True Crypto Profit (P&L)</h2>
+            <p>
+                In cryptocurrency trading, speed and intuition are vital, but precision is what guarantees sustainable success. Volatility means prices change rapidly, and without a disciplined calculation method, traders often overestimate gains and underestimate costs. This **Crypto Spot Calculator** is designed to eliminate the guesswork, offering a transparent breakdown of your trade's true Profit and Loss (P&L) after accounting for all friction costs.
+            </p>
+            <p>
+                A 10% move on the price chart rarely translates to a 10% gain in your wallet. Exchange fees, withdrawal costs, and blockchain gas fees are easily forgotten until settlement. Using this tool to model your trade *before* entry provides a necessary competitive edge by transforming emotional decisions into rational, quantifiable actions.
+            </p>
+
+            <h2>Why Traditional P&L Estimates Fail</h2>
+            <p>
+                To quantify this execution risk more precisely, traders often model it using a crypto <a href="/slippage_calculator.html">slippage calculator </a> before entering a position. Standard trading views often show a gross P&L based purely on price difference. This leads to common pitfalls:
+            </p>
+            <ul>
+                <li>The **Break-Even Distortion:** The actual break-even price is always higher than your buy price due to the combination of entry and exit fees.</li>
+                <li>The **Fee Sink:** Even small percentages (e.g., 0.1% maker/taker fees) can significantly compound on large trades or multiple small trades, eroding expected profits.</li>
+                <li>The **Liquidity Risk:** In illiquid markets, slippage can create an adverse price difference upon execution, making accurate post-trade calculation essential.</li>
+            </ul>
+            <p>
+                By inputting your expected **Buy Fee** and **Sell Fee** (in dollar terms), you gain an instant, realistic view of the **Net Investment** and **Total Exit Value**, moving beyond the flawed "paper profit" and into grounded trading strategy.
+            </p>
+
+            <h2>Deconstructing the Calculator Inputs</h2>
+            <p>
+                The calculator requires five core inputs to deliver a professional-grade P&L analysis:
+            </p>
+            
+            <h3>1. Crypto Coin & Price Inputs</h3>
+            <ul>
+                <li><strong>Crypto Coin Search:</strong> Start by identifying the asset (e.g., "Chainlink"). The tool can fetch the current market price (via CoinGecko API) for easy modeling.</li>
+                <li><strong>Buy Price (Entry):</strong> The price at which you acquired the asset. For planning, this is your target entry point.</li>
+                <li><strong>Sell Price (Exit):</strong> The price at which you plan to liquidate your position. Use this field to stress-test your trade thesis.</li>
+            </ul>
+            
+            <h3>2. Financial Inputs</h3>
+            <ul>
+                <li><strong>Investment Amount:</strong> The total capital (in USD) you commit to the trade.</li>
+                <li><strong>Buy Fee ($) & Sell Fee ($):</strong> This is the most critical input for accuracy. Include all costs: exchange commissions, fiat withdrawal fees, and estimated blockchain gas costs.</li>
+            </ul>
+
+            <h2><a href="/dca_calculator.html">Enhancing Your Trading Strategy with Data</a></h2>
+            <p>
+                Beyond calculating a single trade, this tool can be leveraged to build robust trading habits:
+            </p>
+            <p>
+                <strong>Scenario Modeling:</strong> Test worst-case, best-case, and most-likely scenarios simultaneously. For instance, calculate the P&L if your coin gains 20% versus if it loses 5% (your stop-loss target).
+            </p>
+            <p>
+                <strong>Dollar Cost Averaging (DCA):</strong> If you execute multiple buys, calculate your weighted average entry price and use that as your single **Buy Price** input. This shows your true blended cost and helps determine appropriate take-profit levels for the entire position.
+            </p>
+            <p>
+                <strong>Risk Management:</strong> For leveraged strategies where fees and liquidation risk matter even more, use the <a href="/futures_calculator.html">crypto futures calculator</a> to model margin and leverage outcomes. By clearly seeing the total cost of fees, you can filter out micro-trades that are inefficient due to high friction relative to potential gain. Precision creates discipline.
+            </p>
+
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            
+            <h3>Does this calculator account for "Gas Fees"?</h3>
+            <p>
+                Yes, you can include estimated gas fees for both entry (e.g., when buying or swapping on a DEX) and exit (e.g., when withdrawing or selling) within the **Buy Fee ($)** and **Sell Fee ($)** fields. Simply convert the estimated gas cost to USD and add it to the corresponding fee input.
+            </p>
+
+            <h3>How is the "Profit Percentage" calculated?</h3>
+            <p>
+                The percentage displayed in the animated bubble represents your Return on Investment (ROI) relative to your initial capital. The formula is: <br>
+                <code>((Total Exit Value - Initial Investment) / Initial Investment) * 100</code>.
+            </p>
+
+            <h3>Can I use this for Short selling?</h3>
+            <p>
+                This calculator is natively designed for spot "Long" trades. To simulate a short, treat the **Buy Price** as your short entry (the high price) and the **Sell Price** as your cover price (the low price). A negative P&L result in the calculator would then represent a profit on your short position.
+            </p>
+            
+            <p class="mt-8 text-sm text-gray-500 italic border-t border-gray-700 pt-4">
+                <strong>Disclaimer:</strong> This tool is for informational purposes only and does not constitute financial advice. Cryptocurrency investments are subject to high market risk. Always do your own research (DYOR) before making any investment decisions.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer Section (Same as Original) -->
+    <footer id="page-footer" class="bg-gray-900 text-gray-400 py-12 px-4 md:px-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="font-bold text-white mb-4">Rankings</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html?rank=1-100" class="hover:text-white">Top 1-100</a></li>
+                    <li><a href="index.html?rank=101-200" class="hover:text-white">101-200</a></li>
+                    <li><a href="index.html?rank=201-300" class="hover:text-white">201-300</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Categories</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html?category=layer-1" class="hover:text-white">Layer 1</a></li>
+                    <li><a href="index.html?category=decentralized-finance-defi" class="hover:text-white">DeFi</a></li>
+                    <li><a href="index.html?category=gaming" class="hover:text-white">GameFi</a></li>
+                    <li><a href="index.html?category=artificial-intelligence" class="hover:text-white">AI</a></li>
+                    <li><a href="index.html?category=meme-token" class="hover:text-white">Meme Coins</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="./privacy-policy.html" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html" class="hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Blockchain Bubbles</h3>
+                <p>Visualizing the crypto market in real-time. Data provided by CoinGecko.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation IDs
+        let spotAnimationId = null;
+
+        // Utility function for exponential backoff retry logic
+        async function fetchWithRetry(url, options = {}, maxRetries = 3, initialDelay = 1000) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return response;
+                    }
+                    if (response.status === 429 || response.status >= 500) {
+                        // Retry for rate limiting or server errors
+                        if (i < maxRetries - 1) {
+                            const delay = initialDelay * Math.pow(2, i) + Math.random() * 1000;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        } else {
+                            throw new Error(`Request failed after ${maxRetries} attempts with status ${response.status}`);
+                        }
+                    } else {
+                         // Don't retry for client errors (4xx)
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        throw error;
+                    }
+                    const delay = initialDelay * Math.pow(2, i) + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+        
+        // --- SPOT CALCULATOR LOGIC ---
+
+        function setupSpotCalculator() {
+            const inputs = ['buy-price', 'sell-price', 'investment-amount', 'spot-fee-buy', 'spot-fee-sell'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.addEventListener('input', calculateSpotResult);
+            });
+            
+            setupCoinSearch('spot-coin-search', 'spot-search-results', (coin) => {
+                document.getElementById('buy-price').value = coin.current_price;
+                calculateSpotResult();
+            });
+        }
+        
+        function calculateSpotResult() {
+            const buyPrice = parseFloat(document.getElementById('buy-price').value) || 0;
+            const sellPrice = parseFloat(document.getElementById('sell-price').value) || 0;
+            const investment = parseFloat(document.getElementById('investment-amount').value) || 0;
+            const feeBuy = parseFloat(document.getElementById('spot-fee-buy').value) || 0;
+            const feeSell = parseFloat(document.getElementById('spot-fee-sell').value) || 0;
+            
+            const netInvestEl = document.getElementById('spot-net-invest');
+            const exitValueEl = document.getElementById('spot-exit-value');
+            const totalFeesEl = document.getElementById('spot-total-fees');
+            const container = document.getElementById('spot-bubble-container');
+            const coinSearch = document.getElementById('spot-coin-search');
+
+            // Reset Animation
+            if (spotAnimationId) {
+                cancelAnimationFrame(spotAnimationId);
+                spotAnimationId = null;
+            }
+            container.innerHTML = '';
+            
+            // Initial placeholders
+            netInvestEl.textContent = '--';
+            exitValueEl.textContent = '--';
+            totalFeesEl.textContent = '--';
+
+            if (investment <= 0 || buyPrice <= 0 || sellPrice <= 0) {
+                container.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center p-4">
+                                    <p class="text-gray-400 italic text-sm">Enter Spot details...</p>
+                                </div>`;
+                return;
+            }
+
+            const netInvestment = investment - feeBuy;
+            if (netInvestment <= 0) {
+                container.innerHTML = `<div class="p-4 text-center text-red-400 h-full flex items-center justify-center text-sm">Investment too low for fees</div>`;
+                return;
+            }
+
+            const cryptoAmount = netInvestment / buyPrice;
+            const grossExit = cryptoAmount * sellPrice;
+            const totalExit = grossExit - feeSell;
+            const profitLoss = totalExit - investment;
+            const profitPercent = (investment > 0) ? (profitLoss / investment) * 100 : 0;
+            
+            // Formatters
+            const currencyFmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+            netInvestEl.textContent = currencyFmt.format(netInvestment);
+            exitValueEl.textContent = currencyFmt.format(totalExit);
+            totalFeesEl.textContent = currencyFmt.format(feeBuy + feeSell);
+
+            const isProfit = profitLoss >= 0;
+            const coinImage = coinSearch.dataset.coinImage || 'https://placehold.co/32x32/1f2937/FFFFFF?text=$';
+
+            createAndAnimateBubble(container, profitLoss, profitPercent, isProfit, coinImage, (id) => spotAnimationId = id);
+        }
+
+        // --- SHARED UTILS ---
+
+        function setupCoinSearch(inputId, resultsId, onSelectCallback) {
+            const input = document.getElementById(inputId);
+            const results = document.getElementById(resultsId);
+            let searchTimeout;
+
+            if(!input || !results) return;
+
+            input.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 1) {
+                    searchTimeout = setTimeout(() => performCoinSearch(query, input, results, onSelectCallback), 300);
+                } else {
+                    results.classList.add('hidden');
+                }
+            });
+
+            // Hide when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!input.contains(event.target) && !results.contains(event.target)) {
+                    results.classList.add('hidden');
+                }
+            });
+        }
+
+        async function performCoinSearch(query, inputEl, resultsEl, onSelectCallback) {
+            resultsEl.classList.remove('hidden');
+            resultsEl.innerHTML = '<div class="p-3 text-center text-gray-400">Searching...</div>';
+            try {
+                const response = await fetchWithRetry(`https://api.coingecko.com/api/v3/search?query=${query}`);
+                const data = await response.json();
+                
+                resultsEl.innerHTML = '';
+                if (!data.coins || data.coins.length === 0) {
+                     resultsEl.innerHTML = '<div class="p-3 text-center text-gray-400">No results found.</div>';
+                     return;
+                }
+
+                // We need prices. The search API doesn't give price. We must list coins, then fetch price on click.
+                // Or we can assume user clicks -> we fetch price then.
+                data.coins.slice(0, 5).forEach(coin => {
+                    const item = document.createElement('div');
+                    item.className = 'p-3 flex items-center gap-3 hover:bg-gray-600 cursor-pointer transition duration-100';
+                    item.innerHTML = `
+                        <img src="${coin.thumb}" alt="${coin.name}" class="w-6 h-6 rounded-full">
+                        <span class="font-medium text-white text-sm">${coin.name} <span class="text-gray-400">(${coin.symbol})</span></span>
+                    `;
+                    item.addEventListener('click', async () => {
+                        inputEl.value = coin.name;
+                        inputEl.dataset.coinId = coin.id;
+                        inputEl.dataset.coinImage = coin.thumb;
+                        resultsEl.classList.add('hidden');
+                        
+                        // Fetch price now
+                        try {
+                            const priceRes = await fetchWithRetry(`https://api.coingecko.com/api/v3/simple/price?ids=${coin.id}&vs_currencies=usd`);
+                            const priceData = await priceRes.json();
+                            if(priceData[coin.id] && priceData[coin.id].usd) {
+                                onSelectCallback({ 
+                                    id: coin.id, 
+                                    name: coin.name, 
+                                    current_price: priceData[coin.id].usd 
+                                });
+                            }
+                        } catch(e) { console.error(e); }
+                    });
+                    resultsEl.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error("Search error:", error);
+                resultsEl.innerHTML = '<div class="p-3 text-center text-red-400">Search failed.</div>';
+            }
+        }
+
+        function createAndAnimateBubble(container, amount, percent, isProfit, imageSrc, setAnimIdCallback) {
+            const bubble = document.createElement('div');
+            bubble.className = 'result-bubble';
+
+            let bubbleColor = isProfit ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)';
+            let shadowColor = isProfit ? 'rgba(16, 185, 129, 0.5)' : 'rgba(239, 68, 68, 0.5)';
+            
+            bubble.style.backgroundColor = bubbleColor;
+            bubble.style.boxShadow = `0 4px 20px ${shadowColor}`;
+
+            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+            const sign = amount >= 0 ? '+' : ''; // If 0 or positive, use '+' sign, otherwise '-' is inherent in amount.
+
+            bubble.innerHTML = `
+                <img src="${imageSrc}" alt="Coin" onerror="this.src='https://placehold.co/32x32/1f2937/FFFFFF?text=$'">
+                <div class="profit-loss-amount">${sign}${formatter.format(Math.abs(amount))}</div>
+                <div class="profit-loss-percent">${sign}${Math.abs(percent).toFixed(2)}%</div>
+            `;
+            
+            container.appendChild(bubble);
+            animateBubble(bubble, container, setAnimIdCallback);
+        }
+
+        function animateBubble(bubble, container, setAnimIdCallback) {
+            const size = 160;
+            let x = Math.random() * (container.clientWidth - size);
+            let y = Math.random() * (container.clientHeight - size);
+            let vx = (Math.random() - 0.5) * 0.5;
+            let vy = (Math.random() - 0.5) * 0.5;
+
+            function move() {
+                x += vx;
+                y += vy;
+
+                if (x <= 0 || x + size >= container.clientWidth) {
+                    vx *= -1;
+                    x = x <= 0 ? 0 : container.clientWidth - size;
+                }
+                if (y <= 0 || y + size >= container.clientHeight) {
+                    vy *= -1;
+                    y = y <= 0 ? 0 : container.clientHeight - size;
+                }
+
+                bubble.style.transform = `translate(${x}px, ${y}px)`;
+                setAnimIdCallback(requestAnimationFrame(move));
+            }
+            move();
+        }
+        
+        // --- INITIALIZATION ---
+        window.addEventListener('load', () => {
+            setupSpotCalculator();
+
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>

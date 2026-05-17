@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Futures Calculator – Leverage, ROE & Liquidation Risk</title>
+    <meta name="description" content="Calculate crypto futures profit, ROE, position size, and liquidation price. Free leverage calculator for Bitcoin, Ethereum, and altcoins.">
+    
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Crypto Futures Calculator – Leverage, ROE & Liquidation Risk">
+    <meta property="og:description" content="Calculate crypto futures profit, ROE, position size, and liquidation price. Free leverage calculator for Bitcoin, Ethereum, and altcoins.">
+    <meta property="og:url" content="https://blockchainbubbles.com/futures-calculator.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Crypto Futures Calculator – Leverage, ROE & Liquidation Risk">
+    <meta name="twitter:description" content="Calculate crypto futures profit, ROE, position size, and liquidation price. Free leverage calculator for Bitcoin, Ethereum, and altcoins.">
+    <meta name="twitter:image" content="https://blockchainbubbles.com/img/social-preview.png">
+
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Crypto Futures Calculator",
+          "url": "https://blockchainbubbles.com/crypto_futures-calculator.html",
+          "description": "Calculate potential returns, ROE, and liquidation risks for crypto futures trading with adjustable leverage.",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All",
+          "provider": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "url": "https://blockchainbubbles.com"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://blockchainbubbles.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Futures Calculator",
+              "item": "https://blockchainbubbles.com/crypto_futures-calculator.html"
+            }
+          ]
+        },
+        {
+          "@type": "Article",
+          "headline": "Crypto Futures Calculator: Smarter Leverage, Clearer Risk, Better Decisions",
+          "description": "A comprehensive guide and tool for calculating futures returns, understanding leverage, and managing liquidation risk.",
+          "author": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Blockchain Bubbles",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://blockchainbubbles.com/favicon.ico"
+            }
+          },
+          "mainEntityOfPage": "https://blockchainbubbles.com/crypto_futures-calculator.html"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What happens if my trade gets liquidated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When price reaches your liquidation level, the exchange automatically closes your position to prevent further losses. In isolated margin mode, you lose the margin allocated to that trade."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the liquidation price shown by calculators exact?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Liquidation prices are estimates. Exchanges use maintenance margin formulas that vary by asset and position size. Calculators provide close approximations that are highly useful for planning, but real prices may differ slightly."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does the futures calculator include fees?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most futures calculators allow you to manually include fees. This is important because trading and funding fees can significantly affect ROE, especially with large position sizes."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Dark background */
+            background-color: #111827; 
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        /* Hide number input arrows */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .result-bubble-container {
+            /* Container for the animated bubble */
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            background-color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        .result-bubble {
+            /* The animated P&L display */
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            will-change: transform; /* Performance optimization */
+            /* Glassmorphism effect */
+            backdrop-filter: blur(5px);
+            background-color: rgba(31, 41, 55, 0.8);
+        }
+         .result-bubble img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
+        .result-bubble .profit-loss-amount {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 700; /* bold */
+            line-height: 1.2;
+        }
+        .result-bubble .profit-loss-percent {
+            font-size: 0.875rem; /* text-sm */
+        }
+        /* Style for search results */
+        .coin-search-results {
+            max-height: 300px;
+        }
+        /* Article Styles */
+        .article-content h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .article-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-content p {
+            margin-bottom: 1rem;
+            line-height: 1.75;
+            color: #d1d5db;
+        }
+        .article-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        .article-content strong {
+            color: #f3f4f6;
+        }
+        
+        /* --- STYLING FOR ARTICLE LINKS --- */
+        .article-content a:not(.text-blue-400) {
+            color: #60a5fa; /* A clear, standard blue color (blue-400 equivalent) */
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            font-weight: 500; /* Make them slightly bolder than normal text */
+            transition: color 0.15s ease-in-out;
+        }
+
+        .article-content a:not(.text-blue-400):hover {
+            color: #93c5fd; /* Lighten on hover for feedback */
+        }
+        /* End of Link Styling */
+        
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+        }
+        input[type=range]:focus {
+            outline: none; 
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K8WNJB2GNV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K8WNJB2GNV');
+</script>
+<meta name="msvalidate.01" content="D75B88F2C1A57E245C1AD580EBFD9778" />
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Header Navigation -->
+    <header class="sticky top-0 left-0 right-0 bg-gray-900 shadow-xl px-4 py-3 z-40">
+        <div id="header-main" class="flex justify-between items-center gap-4 max-w-7xl mx-auto">
+            <!-- Logo Section -->
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
+                    <svg class="w-5 h-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                    </svg>
+                </div>
+                <div class="text-xl sm:text-2xl font-bold text-white">Blockchain Bubbles</div>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:block">
+                <ul class="flex items-center gap-3">
+                    <li><a href="https://blockchainbubbles.com" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Crypto Bubbles</a></li>
+                    <li><a href="crypto-comparison-tool.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Compare</a></li>
+                    
+                    <!-- Calculator Dropdown -->
+                    <li class="relative group">
+                        <button class="flex items-center gap-1 bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-150">
+                            Calculators
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 top-full pt-2 w-64 hidden group-hover:block hover:block z-50">
+                            <div class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
+                                <ul class="text-gray-300 text-sm">
+                                    <li><a href="spot_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Spot Calculator</a></li>
+                                    <li><a href="futures_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Future Calculator</a></li>
+                                    <li><a href="slippage_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Crypto Slippage Calculator</a></li>
+                                    <li><a href="staking_rewards_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Staking Rewards Calculator</a></li>
+                                    <li><a href="dca_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition border-b border-gray-700/50">Dollar Cost Averaging</a></li>
+                                    <li><a href="impermanent_loss_calculator.html" class="block px-4 py-3 hover:bg-gray-700 hover:text-white transition">Impermanent Loss Calculator</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center gap-3 md:hidden">
+                <button id="menu-btn" class="p-2 text-gray-300 hover:text-white focus:outline-none rounded-lg hover:bg-gray-700 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <nav id="mobile-menu" class="hidden md:hidden mt-4 mx-auto p-4 bg-gray-800 rounded-xl shadow-lg max-w-sm">
+            <ul class="space-y-2">
+                <li><a href="https://blockchainbubbles.com" class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-lg text-base font-medium transition">Crypto Bubbles</a></li>
+                <li><a href="crypto-comparison-tool.html" class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-lg text-base font-medium transition">Compare</a></li>
+                
+                <!-- Mobile Calculators Sub-menu -->
+                <li>
+                    <div class="text-blue-400 font-semibold px-3 pt-2 pb-1 text-sm uppercase tracking-wider">Calculators</div>
+                    <ul class="pl-2 space-y-1 mt-1 border-l-2 border-gray-700 ml-3">
+                        <li><a href="crypto_profile_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Crypto Profile Calculator</a></li>
+                        <li><a href="crypto_futures_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Crypto Future Calculator</a></li>
+                        <li><a href="slippage_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Slippage Calculator</a></li>
+                        <li><a href="staking_rewards_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Staking Rewards</a></li>
+                        <li><a href="dca_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">DCA</a></li>
+                        <li><a href="impermanent_loss_calculator.html" class="block text-gray-400 hover:text-white px-3 py-2 rounded-lg text-sm transition">Impermanent Loss</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Crypto Futures Calculator Section -->
+    <section id="calculator-section" class="bg-gray-900 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-white mb-3">Crypto Futures Calculator</h1>
+            <p class="text-center text-gray-400 mb-12 text-lg">Simulate leverage, calculate ROE, and check liquidation prices.</p>
+            
+            <!-- ===================== FUTURES CALCULATOR ===================== -->
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="h-8 w-1 bg-purple-500 rounded-full"></div>
+                    <h2 class="text-2xl font-bold text-white">Futures Market (Perpetual)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    
+                    <!-- Futures Inputs -->
+                    <div class="bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6 border border-gray-700">
+                        
+                        <!-- Coin Search -->
+                        <div>
+                            <label for="futures-coin-search" class="block text-sm font-semibold text-gray-300 mb-2">Crypto Coin</label>
+                            <div class="relative">
+                                <input type="text" id="futures-coin-search" placeholder="e.g., Solana" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 pl-10 focus:ring-purple-500 focus:border-purple-500 transition duration-150">
+                                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                </svg>
+                                <div id="futures-search-results" class="coin-search-results absolute top-full left-0 right-0 bg-gray-700 border border-gray-600 rounded-xl shadow-lg mt-2 overflow-y-auto z-50 hidden"></div>
+                            </div>
+                        </div>
+
+                        <!-- Long/Short & Leverage -->
+                        <div class="grid grid-cols-1 gap-4">
+                            <!-- Direction Toggle -->
+                            <div class="flex bg-gray-700 rounded-xl p-1 relative">
+                                <input type="radio" name="direction" id="direction-long" value="long" class="peer/long hidden" checked>
+                                <label for="direction-long" class="flex-1 text-center py-2 rounded-lg cursor-pointer text-gray-400 peer-checked/long:bg-green-600 peer-checked/long:text-white peer-checked/long:shadow-md transition-all font-semibold">Long</label>
+                                
+                                <input type="radio" name="direction" id="direction-short" value="short" class="peer/short hidden">
+                                <label for="direction-short" class="flex-1 text-center py-2 rounded-lg cursor-pointer text-gray-400 peer-checked/short:bg-red-600 peer-checked/short:text-white peer-checked/short:shadow-md transition-all font-semibold">Short</label>
+                            </div>
+
+                            <!-- Leverage Slider -->
+                            <div>
+                                <div class="flex justify-between text-sm font-semibold text-gray-300 mb-2">
+                                    <label>Leverage</label>
+                                    <span id="leverage-display" class="text-purple-400">1x</span>
+                                </div>
+                                <input type="range" id="leverage-input" min="1" max="125" value="1" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-purple-500">
+                                
+                                <!-- Updated Clickable Leverage Presets -->
+                                <div class="flex justify-between text-xs text-gray-500 mt-1" id="leverage-presets">
+                                    <button class="hover:text-purple-400 transition-colors" data-val="1">1x</button>
+                                    <button class="hover:text-purple-400 transition-colors" data-val="25">25x</button>
+                                    <button class="hover:text-purple-400 transition-colors" data-val="50">50x</button>
+                                    <button class="hover:text-purple-400 transition-colors" data-val="75">75x</button>
+                                    <button class="hover:text-purple-400 transition-colors" data-val="100">100x</button>
+                                    <button class="hover:text-purple-400 transition-colors" data-val="125">125x</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Inputs -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                               <label for="futures-entry" class="block text-sm font-semibold text-gray-300 mb-2">Entry Price ($)</label>
+                               <input type="number" id="futures-entry" placeholder="0.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-purple-500 focus:border-purple-500 transition duration-150">
+                            </div>
+                            <div>
+                               <label for="futures-exit" class="block text-sm font-semibold text-gray-300 mb-2">Exit Price ($)</label>
+                               <input type="number" id="futures-exit" placeholder="0.00" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-purple-500 focus:border-purple-500 transition duration-150">
+                            </div>
+                        </div>
+                        
+                        <!-- Margin & Fee -->
+                         <div class="grid grid-cols-2 gap-4">
+                             <div>
+                                <label for="futures-margin" class="block text-sm font-semibold text-gray-300 mb-2">Margin ($)</label>
+                                <input type="number" id="futures-margin" placeholder="100" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-purple-500 focus:border-purple-500 transition duration-150">
+                             </div>
+                             <div>
+                                <label for="futures-fee" class="block text-sm font-semibold text-gray-300 mb-2">Total Fees ($)</label>
+                                <input type="number" id="futures-fee" placeholder="0" value="0" class="w-full bg-gray-700 border border-gray-600 text-white rounded-xl p-3 focus:ring-purple-500 focus:border-purple-500 transition duration-150">
+                             </div>
+                         </div>
+                    </div>
+
+                    <!-- Futures Results -->
+                    <div class="bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-2xl border border-gray-700 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-6 border-b border-gray-700 pb-4">Futures Result</h3>
+                            <div id="futures-bubble-container" class="result-bubble-container border border-gray-700">
+                                 <div class="flex flex-col items-center justify-center h-full text-center p-4">
+                                    <p class="text-gray-400 italic text-sm">Enter Futures details...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-4">
+                             <div class="flex justify-between">
+                                <p class="text-sm text-gray-400">Position Size</p>
+                                <p class="text-lg font-bold text-white" id="futures-pos-size">--</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-sm text-gray-400">Liquidation Price (Est)</p>
+                                <p class="text-lg font-bold text-orange-400" id="futures-liq-price">--</p>
+                            </div>
+                            <div class="flex justify-between border-t border-gray-700 pt-2">
+                                <p class="text-sm text-gray-400">ROE %</p>
+                                <p class="text-lg font-bold text-white" id="futures-roe">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SEO Content Section (Updated with new article) -->
+    <section class="bg-gray-900 pb-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto bg-gray-800 p-8 sm:p-12 rounded-2xl shadow-xl border border-gray-700 article-content">
+            
+            <h2 class="!mt-0">Crypto Futures Calculator: Smarter Leverage, Clearer Risk, Better Decisions</h2>
+            <p>
+                Crypto futures trading has become one of the most popular ways to trade Bitcoin, Ethereum, and altcoins. The reason is simple: futures allow traders to use <strong>leverage</strong>, go long or short, and profit in both bullish and bearish markets. But with that flexibility comes complexity. Without clear calculations, leverage can turn a small mistake into a costly lesson.
+            </p>
+            <p>
+                A crypto futures calculator removes the guesswork. It helps traders estimate profit and loss, <strong>return on equity (ROE)</strong>, position size, and liquidation price before entering a trade. On <a href="blockchainbubbles.com">Blockchain Bubbles </a>, our futures calculator is built to be fast, transparent, and practical—designed for real trading scenarios, not just theory. Traders should also factor execution costs using a <a href="/slippage_calculator.html">slippage calculator </a>, especially when trading large leveraged positions.
+            </p>
+
+            <h2>What Is a Crypto Futures Calculator?</h2>
+            <p>
+                A crypto futures calculator is a planning tool that simulates the outcome of a leveraged futures trade. Instead of manually calculating margin, leverage, and price movement, the calculator does the math instantly. You simply enter your trade details and see how different price scenarios affect your position.
+            </p>
+            <p>
+                Unlike spot trading calculators, futures tools focus on margin-based trading, where gains and losses are magnified. This makes accurate calculations essential, especially when trading volatile assets.
+            </p>
+            <p>
+                At its core, a futures calculator answers four critical questions:
+            </p>
+            <ul>
+                <li>How large is my position with leverage applied?</li>
+                <li>What is my potential profit or loss?</li>
+                <li>What is my ROE based on margin?</li>
+                <li>At what price will liquidation occur?</li>
+            </ul>
+
+            <h2>Why Futures Trading Requires Precise Calculations</h2>
+            <p>
+                Leverage is powerful, but it is unforgiving. A 2% price move might seem small in spot trading, yet with 50x leverage, that same move can mean a 100% gain—or a full liquidation.
+            </p>
+            <p>
+                Many traders focus only on entry and exit prices, ignoring position size and liquidation risk. This is where mistakes happen. A futures calculator forces discipline by showing the full picture before capital is committed.
+            </p>
+            <p>
+                Using tools like the Crypto Futures Calculator on Blockchain Bubbles helps traders:
+            </p>
+            <ul>
+                <li>Compare multiple leverage levels</li>
+                <li>Identify unsafe liquidation zones</li>
+                <li>Adjust margin for better risk control</li>
+                <li>Account for fees before entering a trade</li>
+            </ul>
+
+            <h2>Understanding Key Futures Trading Metrics</h2>
+            
+            <h3>Leverage</h3>
+            <p>
+                Leverage allows you to control a larger position with less capital. For example, using $100 margin with 10x leverage creates a $1,000 position. While higher leverage increases potential returns, it also narrows the distance to liquidation.
+            </p>
+
+            <h3>Margin</h3>
+            <p>
+                Margin is the capital you allocate to a futures position. In isolated margin mode, this amount represents the maximum you can lose on that trade. Our calculator is designed around isolated margin logic to provide clearer risk boundaries.
+            </p>
+
+            <h3>Position Size</h3>
+            <p>
+                Position size is calculated as:
+                <br/>
+                <strong>Margin &times; Leverage</strong>
+                <br/>
+                This value determines how much exposure you have to price movement. Fees, funding rates, and P&L are all influenced by position size.
+            </p>
+
+            <h3>ROE (Return on Equity)</h3>
+            <p>
+                ROE shows profit or loss relative to your margin, not the full position. In futures trading, ROE can reach triple-digit percentages quickly—both positive and negative.
+            </p>
+
+            <h3>Liquidation Price</h3>
+            <p>
+                The liquidation price is the level at which your margin is exhausted and the exchange force-closes your position. While each exchange uses slightly different formulas, estimated liquidation levels are still extremely useful for risk planning.
+            </p>
+
+            <h2>Long vs Short: Planning for Any Market Direction</h2>
+            <p>
+                One of the biggest advantages of futures trading is flexibility. You are not limited to rising prices.
+            </p>
+            <ul>
+                <li><strong>Long positions</strong> benefit when price increases. Traders open longs during uptrends or breakouts.</li>
+                <li><strong>Short positions</strong> profit from falling prices. Shorts are commonly used during downtrends or as hedges against spot holdings.</li>
+            </ul>
+            <p>
+                A futures calculator allows you to simulate both scenarios easily. By switching between long and short modes, you can see how price movement impacts profit, ROE, and liquidation levels.
+            </p>
+            <p>For unleveraged positions, traders often calculate net returns using a crypto <a href="/crypto_profile_calculator.html">spot P&L calculator. </a> </p>
+            <h2>Risk Management Starts Before the Trade</h2>
+            <p>
+                Professional traders manage risk before clicking the buy or sell button. A futures calculator supports this mindset by making risk visible. Long-term investors often reduce timing risk by combining futures hedging with a <a href="/dca_calculator.html">Dollar Cost Averaging strategy </a>.
+            </p>
+            <p>
+                Smart risk practices include:
+            </p>
+            <ul>
+                <li>Using lower leverage during high volatility</li>
+                <li>Placing stop-loss orders well before liquidation</li>
+                <li>Avoiding overexposure on a single trade</li>
+                <li>Factoring in trading and funding fees</li>
+            </ul>
+            <p>
+                On Blockchain Bubbles, we strongly encourage traders to combine calculators with market visualization tools, such as our crypto bubble charts, to better understand momentum and volatility.
+                You can explore these tools directly from the homepage: <a href="https://blockchainbubbles.com" class="text-blue-400 hover:text-blue-300 underline">https://blockchainbubbles.com</a>
+            </p>
+
+            <h2>How a Futures Calculator Improves Trading Discipline</h2>
+            <p>
+                Emotional trading is one of the most common reasons traders lose money. Calculators bring structure into the decision-making process.
+            </p>
+            <p>
+                By modeling outcomes in advance, traders are less likely to:
+            </p>
+            <ul>
+                <li>Increase leverage impulsively</li>
+                <li>Ignore liquidation risk</li>
+                <li>Chase unrealistic ROE targets</li>
+            <li>Use the crypto futures calculator.</li>
+            </ul>
+            <p>
+                Instead, every trade becomes a calculated decision based on defined inputs and realistic expectations.
+            </p>
+
+
+            <h2>Who Should Use a Crypto Futures Calculator?</h2>
+            <p>
+                A futures calculator is useful for all experience levels:
+            </p>
+            <ul>
+                <li><strong>Beginners</strong> learn how leverage truly works without risking capital</li>
+                <li><strong>Intermediate traders</strong> refine position sizing and stop-loss placement</li>
+                <li><strong>Advanced traders</strong> stress-test strategies across different leverage and margin setups</li>
+            </ul>
+            <p>
+                Regardless of experience, planning trades mathematically is a habit that separates consistent traders from gamblers.
+            </p>
+
+
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            
+            <h3>What happens if my trade gets liquidated?</h3>
+            <p>
+                When price reaches your liquidation level, the exchange automatically closes your position to prevent further losses. In isolated margin mode, you lose the margin allocated to that trade.
+            </p>
+
+            <h3>Is the liquidation price shown by calculators exact?</h3>
+            <p>
+                Liquidation prices are estimates. Exchanges use maintenance margin formulas that vary by asset and position size. Calculators provide close approximations that are highly useful for planning, but real prices may differ slightly.
+            </p>
+
+            <h3>Does the futures calculator include fees?</h3>
+            <p>
+                Most futures calculators allow you to manually include fees. This is important because trading and funding fees can significantly affect ROE, especially with large position sizes.
+            </p>
+            
+            <h3>Can I use a futures calculator for any coin?</h3>
+            <p>
+                Yes. Futures calculators work for Bitcoin, Ethereum, and most altcoins, as long as you input accurate prices and margin values.
+            </p>
+
+            <h3>Is futures trading suitable for everyone?</h3>
+            <p>
+                No. Futures trading involves high risk and is not appropriate for all investors. Leverage can lead to rapid losses. Calculators help manage risk but do not eliminate it.
+            </p>
+
+
+            <h2>Final Thoughts</h2>
+            <p>
+                A crypto futures calculator is not just a convenience—it is a risk management essential. In leveraged markets, understanding position size, ROE, and liquidation price before entering a trade can make the difference between consistency and repeated losses.
+            </p>
+            <p>
+                The Blockchain Bubbles Crypto Futures Calculator is built to support smarter decisions through clarity and transparency. Whether you are testing strategies or planning real trades, taking a few seconds to calculate outcomes can protect your capital and sharpen your edge.
+            </p>
+            
+            <p class="mt-8 text-sm text-gray-500 italic border-t border-gray-700 pt-4">
+                <strong>Disclaimer:</strong> This content is for educational purposes only and does not constitute financial advice. Futures trading involves significant risk.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer Section (Same as Original) -->
+    <footer id="page-footer" class="bg-gray-900 text-gray-400 py-12 px-4 md:px-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="font-bold text-white mb-4">Rankings</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html?rank=1-100" class="hover:text-white">Top 1-100</a></li>
+                    <li><a href="index.html?rank=101-200" class="hover:text-white">101-200</a></li>
+                    <li><a href="index.html?rank=201-300" class="hover:text-white">201-300</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Categories</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html?category=layer-1" class="hover:text-white">Layer 1</a></li>
+                    <li><a href="index.html?category=decentralized-finance-defi" class="hover:text-white">DeFi</a></li>
+                    <li><a href="index.html?category=gaming" class="hover:text-white">GameFi</a></li>
+                    <li><a href="index.html?category=artificial-intelligence" class="hover:text-white">AI</a></li>
+                    <li><a href="index.html?category=meme-token" class="hover:text-white">Meme Coins</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="./privacy-policy.html" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html" class="hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-white mb-4">Blockchain Bubbles</h3>
+                <p>Visualizing the crypto market in real-time. Data provided by CoinGecko.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation IDs
+        let futuresAnimationId = null;
+
+        // Utility function for exponential backoff retry logic
+        async function fetchWithRetry(url, options = {}, maxRetries = 3, initialDelay = 1000) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return response;
+                    }
+                    if (response.status === 429 || response.status >= 500) {
+                        if (i < maxRetries - 1) {
+                            const delay = initialDelay * Math.pow(2, i) + Math.random() * 1000;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        } else {
+                            throw new Error(`Request failed after ${maxRetries} attempts with status ${response.status}`);
+                        }
+                    } else {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        throw error;
+                    }
+                    const delay = initialDelay * Math.pow(2, i) + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+        
+        // --- FUTURES CALCULATOR LOGIC ---
+
+        function setupFuturesCalculator() {
+            const inputs = ['futures-entry', 'futures-exit', 'futures-margin', 'futures-fee', 'leverage-input', 'direction-long', 'direction-short'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    const eventType = (el.type === 'radio') ? 'change' : 'input';
+                    el.addEventListener(eventType, calculateFuturesResult);
+                }
+            });
+
+            // Update leverage display
+            const leverageInput = document.getElementById('leverage-input');
+            const leverageDisplay = document.getElementById('leverage-display');
+            if(leverageInput) {
+                leverageInput.addEventListener('input', (e) => {
+                    leverageDisplay.textContent = e.target.value + 'x';
+                });
+            }
+
+            // Set up clickable leverage presets
+            const presetContainer = document.getElementById('leverage-presets');
+            if(presetContainer) {
+                presetContainer.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const val = e.target.dataset.val;
+                        leverageInput.value = val;
+                        leverageDisplay.textContent = val + 'x';
+                        calculateFuturesResult();
+                    });
+                });
+            }
+
+            setupCoinSearch('futures-coin-search', 'futures-search-results', (coin) => {
+                document.getElementById('futures-entry').value = coin.current_price;
+                calculateFuturesResult();
+            });
+        }
+
+        function calculateFuturesResult() {
+            const entryPrice = parseFloat(document.getElementById('futures-entry').value) || 0;
+            const exitPrice = parseFloat(document.getElementById('futures-exit').value) || 0;
+            const margin = parseFloat(document.getElementById('futures-margin').value) || 0;
+            const fees = parseFloat(document.getElementById('futures-fee').value) || 0;
+            const leverage = parseFloat(document.getElementById('leverage-input').value) || 1;
+            const isLong = document.getElementById('direction-long').checked;
+
+            const posSizeEl = document.getElementById('futures-pos-size');
+            const liqPriceEl = document.getElementById('futures-liq-price');
+            const roeEl = document.getElementById('futures-roe');
+            const container = document.getElementById('futures-bubble-container');
+            const coinSearch = document.getElementById('futures-coin-search');
+
+             // Reset Animation
+            if (futuresAnimationId) {
+                cancelAnimationFrame(futuresAnimationId);
+                futuresAnimationId = null;
+            }
+            container.innerHTML = '';
+
+            posSizeEl.textContent = '--';
+            liqPriceEl.textContent = '--';
+            roeEl.textContent = '--';
+
+            if (margin <= 0 || entryPrice <= 0 || exitPrice <= 0) {
+                 container.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center p-4">
+                                    <p class="text-gray-400 italic text-sm">Enter Futures details...</p>
+                                </div>`;
+                return;
+            }
+
+            const positionSize = margin * leverage;
+            const quantity = positionSize / entryPrice;
+            
+            let profitLoss = 0;
+            if (isLong) {
+                profitLoss = (exitPrice - entryPrice) * quantity;
+            } else {
+                profitLoss = (entryPrice - exitPrice) * quantity;
+            }
+
+            // Subtract fees
+            profitLoss -= fees;
+
+            // ROE is based on Initial Margin
+            const roe = (profitLoss / margin) * 100;
+
+            // Est. Liquidation Price
+            // We use a simplified formula: LiqPrice = EntryPrice * (1 - 1/Leverage) for Long, (1 + 1/Leverage) for Short
+            let liquidationPrice = 0;
+            if (isLong) {
+                liquidationPrice = entryPrice * (1 - (1 / leverage));
+            } else {
+                liquidationPrice = entryPrice * (1 + (1 / leverage));
+            }
+            if(liquidationPrice < 0) liquidationPrice = 0;
+
+            // Formats
+            const currencyFmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+            posSizeEl.textContent = currencyFmt.format(positionSize);
+            liqPriceEl.textContent = currencyFmt.format(liquidationPrice);
+            roeEl.textContent = roe.toFixed(2) + '%';
+            if (roe > 0) roeEl.className = "text-lg font-bold text-green-400";
+            else if (roe < 0) roeEl.className = "text-lg font-bold text-red-400";
+            else roeEl.className = "text-lg font-bold text-white";
+
+
+            const isProfit = profitLoss >= 0;
+            const coinImage = coinSearch.dataset.coinImage || 'https://placehold.co/32x32/1f2937/FFFFFF?text=$';
+            
+            createAndAnimateBubble(container, profitLoss, roe, isProfit, coinImage, (id) => futuresAnimationId = id);
+        }
+
+        // --- SHARED UTILS ---
+
+        function setupCoinSearch(inputId, resultsId, onSelectCallback) {
+            const input = document.getElementById(inputId);
+            const results = document.getElementById(resultsId);
+            let searchTimeout;
+
+            if(!input || !results) return;
+
+            input.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 1) {
+                    searchTimeout = setTimeout(() => performCoinSearch(query, input, results, onSelectCallback), 300);
+                } else {
+                    results.classList.add('hidden');
+                }
+            });
+
+            // Hide when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!input.contains(event.target) && !results.contains(event.target)) {
+                    results.classList.add('hidden');
+                }
+            });
+        }
+
+        async function performCoinSearch(query, inputEl, resultsEl, onSelectCallback) {
+            resultsEl.classList.remove('hidden');
+            resultsEl.innerHTML = '<div class="p-3 text-center text-gray-400">Searching...</div>';
+            try {
+                const response = await fetchWithRetry(`https://api.coingecko.com/api/v3/search?query=${query}`);
+                const data = await response.json();
+                
+                resultsEl.innerHTML = '';
+                if (!data.coins || data.coins.length === 0) {
+                     resultsEl.innerHTML = '<div class="p-3 text-center text-gray-400">No results found.</div>';
+                     return;
+                }
+
+                data.coins.slice(0, 5).forEach(coin => {
+                    const item = document.createElement('div');
+                    item.className = 'p-3 flex items-center gap-3 hover:bg-gray-600 cursor-pointer transition duration-100';
+                    item.innerHTML = `
+                        <img src="${coin.thumb}" alt="${coin.name}" class="w-6 h-6 rounded-full">
+                        <span class="font-medium text-white text-sm">${coin.name} <span class="text-gray-400">(${coin.symbol})</span></span>
+                    `;
+                    item.addEventListener('click', async () => {
+                        inputEl.value = coin.name;
+                        inputEl.dataset.coinId = coin.id;
+                        inputEl.dataset.coinImage = coin.thumb;
+                        resultsEl.classList.add('hidden');
+                        
+                        try {
+                            const priceRes = await fetchWithRetry(`https://api.coingecko.com/api/v3/simple/price?ids=${coin.id}&vs_currencies=usd`);
+                            const priceData = await priceRes.json();
+                            if(priceData[coin.id] && priceData[coin.id].usd) {
+                                onSelectCallback({ 
+                                    id: coin.id, 
+                                    name: coin.name, 
+                                    current_price: priceData[coin.id].usd 
+                                });
+                            }
+                        } catch(e) { console.error(e); }
+                    });
+                    resultsEl.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error("Search error:", error);
+                resultsEl.innerHTML = '<div class="p-3 text-center text-red-400">Search failed.</div>';
+            }
+        }
+
+        function createAndAnimateBubble(container, amount, percent, isProfit, imageSrc, setAnimIdCallback) {
+            const bubble = document.createElement('div');
+            bubble.className = 'result-bubble';
+
+            let bubbleColor = isProfit ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)';
+            let shadowColor = isProfit ? 'rgba(16, 185, 129, 0.5)' : 'rgba(239, 68, 68, 0.5)';
+            
+            bubble.style.backgroundColor = bubbleColor;
+            bubble.style.boxShadow = `0 4px 20px ${shadowColor}`;
+
+            const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+            const sign = amount >= 0 ? '+' : ''; // Only show '+' for positive, '-' is inherent for negative.
+
+            // Percent for futures is usually ROE, which is different from ROI on Spot, but label is same for display.
+            // We use the passed percent.
+            
+            bubble.innerHTML = `
+                <img src="${imageSrc}" alt="Coin" onerror="this.src='https://placehold.co/32x32/1f2937/FFFFFF?text=$'">
+                <div class="profit-loss-amount">${sign}${formatter.format(Math.abs(amount))}</div>
+                <div class="profit-loss-percent">${sign}${Math.abs(percent).toFixed(2)}%</div>
+            `;
+            
+            container.appendChild(bubble);
+            animateBubble(bubble, container, setAnimIdCallback);
+        }
+
+        function animateBubble(bubble, container, setAnimIdCallback) {
+            const size = 160;
+            let x = Math.random() * (container.clientWidth - size);
+            let y = Math.random() * (container.clientHeight - size);
+            let vx = (Math.random() - 0.5) * 0.5;
+            let vy = (Math.random() - 0.5) * 0.5;
+
+            function move() {
+                x += vx;
+                y += vy;
+
+                if (x <= 0 || x + size >= container.clientWidth) {
+                    vx *= -1;
+                    x = x <= 0 ? 0 : container.clientWidth - size;
+                }
+                if (y <= 0 || y + size >= container.clientHeight) {
+                    vy *= -1;
+                    y = y <= 0 ? 0 : container.clientHeight - size;
+                }
+
+                bubble.style.transform = `translate(${x}px, ${y}px)`;
+                setAnimIdCallback(requestAnimationFrame(move));
+            }
+            move();
+        }
+        
+        // --- INITIALIZATION ---
+        window.addEventListener('load', () => {
+            setupFuturesCalculator();
+
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>
