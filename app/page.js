@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect, useCallback, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import BubbleChart from '@/components/BubbleChart'
-import CoinModal from '@/components/CoinModal'
 import { useStore } from '@/lib/store'
+
+const CoinModal = dynamic(() => import('@/components/CoinModal'), { ssr: false })
 
 function BubbleChartSkeleton() {
   return (

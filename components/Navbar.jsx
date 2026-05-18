@@ -5,8 +5,10 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useStore, TIMEFRAMES } from '@/lib/store'
 import { searchCoins } from '@/lib/api'
-import SettingsModal from '@/components/modals/SettingsModal'
-import FilterModal from '@/components/modals/FilterModal'
+import dynamic from 'next/dynamic'
+
+const SettingsModal = dynamic(() => import('@/components/modals/SettingsModal'), { ssr: false })
+const FilterModal   = dynamic(() => import('@/components/modals/FilterModal'),   { ssr: false })
 
 export default function Navbar() {
   const pathname = usePathname()
