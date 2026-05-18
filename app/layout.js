@@ -30,6 +30,10 @@ export const metadata = {
 
   alternates: {
     canonical: 'https://blockchainbubbles.com',
+    languages: {
+      'en': 'https://blockchainbubbles.com',
+      'de': 'https://blockchainbubbles.com/de',
+    },
   },
 
   icons: {

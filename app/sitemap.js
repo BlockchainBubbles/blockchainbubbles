@@ -7,6 +7,12 @@ export default function sitemap() {
       priority: 1.0,
     },
     {
+      url: 'https://blockchainbubbles.com/de',
+      lastModified: new Date(),
+      changeFrequency: 'hourly',
+      priority: 0.9,
+    },
+    {
       url: 'https://blockchainbubbles.com/compare-cryptocurrencies',
       lastModified: new Date(),
       changeFrequency: 'daily',
