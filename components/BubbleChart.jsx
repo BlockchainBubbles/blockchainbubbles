@@ -29,7 +29,9 @@ export default function BubbleChart({
   const lastFetchedDataRef = useRef([])
   const rateLimitTimerRef  = useRef(null)
   const refreshIntervalRef = useRef(null)
+  const isFirstLoadRef     = useRef(true)
 
+  const [isLoading,     setIsLoading]     = useState(true)
   const [progressColor, setProgressColor] = useState('#3b82f6')
   const [rateLimitWait, setRateLimitWait] = useState(0)
 
@@ -130,6 +132,8 @@ export default function BubbleChart({
   const fetchData = useCallback(async () => {
     if (isFetchingRef.current) return
     isFetchingRef.current = true
+    const showSpinner = isFirstLoadRef.current
+    if (showSpinner) setIsLoading(true)
     try {
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
       let data = []
@@ -144,6 +148,7 @@ export default function BubbleChart({
       console.log(`[BubbleChart] fetched ${data.length} coins`)
       lastFetchedDataRef.current = data
       createBubbles(data)
+      isFirstLoadRef.current = false
       resetProgressBar()
     } catch (err) {
       if (err instanceof RateLimitError) {
@@ -164,6 +169,7 @@ export default function BubbleChart({
       }
     } finally {
       isFetchingRef.current = false
+      if (showSpinner) setIsLoading(false)
     }
   }, [mode, rankingPage, categoryId, timeframe, favorites, createBubbles, resetProgressBar])
 
@@ -251,6 +257,13 @@ export default function BubbleChart({
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: '#1f2937', zIndex: 10 }}>
         <div ref={progressRef} style={{ height: '100%', width: '100%', background: progressColor, transition: 'background-color 0.5s ease' }} />
       </div>
+
+      {/* Loading spinner */}
+      {isLoading && (
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 20 }}>
+          <div className="w-12 h-12 rounded-full border-4 border-gray-700 border-t-blue-500 animate-spin" />
+        </div>
+      )}
 
       {/* Bubble canvas — Bubble instances inject <div> elements here */}
       <div ref={containerRef} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
