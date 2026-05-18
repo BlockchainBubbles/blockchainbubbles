@@ -10,6 +10,10 @@ const nextConfig = {
       : false,
   },
 
+  experimental: {
+    optimizeCss: true,
+  },
+
   images: {
     remotePatterns: [
       {
