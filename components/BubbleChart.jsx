@@ -93,6 +93,10 @@ export default function BubbleChart({
 
     const maxValue = Math.max(...coinsWithFallback.map(c => Math.abs(c[sizeKey] ?? 0)))
 
+    // Read layout properties ONCE before the loop to avoid per-bubble forced reflow
+    const cw = containerRef.current.clientWidth
+    const ch = containerRef.current.clientHeight
+
     coinsWithFallback.forEach((coin, index) => {
       const bubble = new Bubble(
         coin,
@@ -103,6 +107,8 @@ export default function BubbleChart({
         favorites,
         onBubbleClick ?? (() => {}),
         index,
+        cw,
+        ch,
       )
       bubblesRef.current.push(bubble)
     })
