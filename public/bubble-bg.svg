@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#111827"/>
+
+  <!-- Large background circles -->
+  <circle cx="150" cy="200" r="120" fill="#1e3a5f" opacity="0.3"/>
+  <circle cx="350" cy="400" r="90"  fill="#1a3a2a" opacity="0.3"/>
+  <circle cx="600" cy="150" r="150" fill="#1e3a5f" opacity="0.2"/>
+  <circle cx="900" cy="300" r="110" fill="#3a1a1a" opacity="0.3"/>
+  <circle cx="1050" cy="500" r="80" fill="#1a3a2a" opacity="0.3"/>
+  <circle cx="200" cy="600" r="100" fill="#3a1a1a" opacity="0.2"/>
+  <circle cx="750" cy="600" r="130" fill="#1e3a5f" opacity="0.2"/>
+  <circle cx="450" cy="250" r="70"  fill="#2a1a3a" opacity="0.3"/>
+  <circle cx="1100" cy="150" r="90" fill="#1a3a2a" opacity="0.2"/>
+  <circle cx="50"  cy="400" r="80"  fill="#3a2a1a" opacity="0.3"/>
+
+  <!-- Medium circles -->
+  <circle cx="280" cy="300" r="50" fill="#22c55e" opacity="0.05"/>
+  <circle cx="520" cy="450" r="60" fill="#3b82f6" opacity="0.05"/>
+  <circle cx="800" cy="200" r="45" fill="#ef4444" opacity="0.05"/>
+  <circle cx="950" cy="600" r="55" fill="#22c55e" opacity="0.05"/>
+  <circle cx="100" cy="550" r="40" fill="#3b82f6" opacity="0.05"/>
+  <circle cx="650" cy="350" r="65" fill="#ef4444" opacity="0.05"/>
+  <circle cx="1150" cy="350" r="50" fill="#22c55e" opacity="0.05"/>
+  <circle cx="400" cy="650" r="45" fill="#3b82f6" opacity="0.05"/>
+
+  <!-- Small accent circles -->
+  <circle cx="180" cy="120" r="25" fill="#22c55e" opacity="0.08"/>
+  <circle cx="480" cy="80"  r="20" fill="#ef4444" opacity="0.08"/>
+  <circle cx="720" cy="480" r="30" fill="#3b82f6" opacity="0.08"/>
+  <circle cx="1020" cy="420" r="22" fill="#22c55e" opacity="0.08"/>
+  <circle cx="330" cy="550" r="18" fill="#ef4444" opacity="0.08"/>
+  <circle cx="870" cy="680" r="28" fill="#3b82f6" opacity="0.08"/>
+  <circle cx="580" cy="700" r="20" fill="#22c55e" opacity="0.08"/>
+  <circle cx="70"  cy="280" r="15" fill="#ef4444" opacity="0.08"/>
+</svg>

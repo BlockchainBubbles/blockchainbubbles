@@ -32,8 +32,9 @@ export default function BubbleChart({
   const isFirstLoadRef     = useRef(true)
 
   const [isLoading,     setIsLoading]     = useState(true)
-  const [progressColor, setProgressColor] = useState('#3b82f6')
-  const [rateLimitWait, setRateLimitWait] = useState(0)
+  const [progressColor,  setProgressColor]  = useState('#3b82f6')
+  const [rateLimitWait,  setRateLimitWait]  = useState(0)
+  const [bubblesReady,   setBubblesReady]   = useState(false)
 
   // ── Animation loop ──────────────────────────────────────────────────────────
   const animate = useCallback((timestamp) => {
@@ -115,6 +116,7 @@ export default function BubbleChart({
 
     if (bubblesRef.current.length > 0) {
       animationRef.current = requestAnimationFrame(animate)
+      setBubblesReady(true)
     }
 
     // Market sentiment
@@ -258,6 +260,20 @@ export default function BubbleChart({
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <div style={{ position: 'relative', width: '100%', height: '85vh', overflow: 'hidden', background: '#111827' }}>
+
+      {/* Static background — loads instantly, fades out once real bubbles appear */}
+      <img
+        src="/bubble-bg.svg"
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        loading="eager"
+        style={{
+          position: 'absolute', inset: 0, width: '100%', height: '100%',
+          objectFit: 'cover', opacity: bubblesReady ? 0 : 0.6,
+          transition: 'opacity 1s ease', zIndex: 0, pointerEvents: 'none',
+        }}
+      />
 
       {/* 3-minute progress bar */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: '#1f2937', zIndex: 10 }}>
