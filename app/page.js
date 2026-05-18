@@ -92,6 +92,16 @@ export default function Home() {
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <>
+      {/* LCP element — renders instantly, anchors Google's paint measurement */}
+      <div className="w-full bg-gray-900 px-4 py-3 border-b border-gray-800">
+        <h1 className="text-xl md:text-2xl font-bold text-white leading-tight">
+          Crypto Bubbles Live — Real-Time Crypto Bubble Chart
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">
+          Tracking 1000+ cryptocurrencies updated every 3 minutes
+        </p>
+      </div>
+
       {/* Live bubble chart — full width, 85 vh */}
       <Suspense fallback={<BubbleChartSkeleton />}>
         <BubbleChart
