@@ -2,7 +2,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import Script from 'next/script'
 import { StoreProvider } from '@/lib/store'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap', preload: true })
@@ -142,16 +141,6 @@ export default function RootLayout({ children }) {
           <Footer />
         </StoreProvider>
 
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-K8WNJB2GNV"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-K8WNJB2GNV', { page_path: window.location.pathname, transport_type: 'beacon' });
-        `}</Script>
       </body>
     </html>
   )
