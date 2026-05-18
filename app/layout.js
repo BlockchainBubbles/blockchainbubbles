@@ -150,7 +150,7 @@ export default function RootLayout({ children }) {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-K8WNJB2GNV', { page_path: window.location.pathname });
+          gtag('config', 'G-K8WNJB2GNV', { page_path: window.location.pathname, transport_type: 'beacon' });
         `}</Script>
       </body>
     </html>
