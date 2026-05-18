@@ -234,17 +234,24 @@ export default function Navbar() {
         {/* Main Header Row */}
         <div className={`flex justify-between items-center gap-4 ${mobileSearchOpen ? 'hidden' : ''}`}>
           {/* Logo */}
-          <button onClick={handleHomeClick} className="flex items-center gap-1 sm:gap-1.5 md:gap-2 flex-shrink-0">
-            <div className="w-5 h-5 md:w-8 md:h-8 lg:w-9 lg:h-9 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
-              <svg
-                className={`w-3 h-3 md:w-5 md:h-5 lg:w-6 lg:h-6 ${arrowClass}`}
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          <div id="navbar-logo" className="flex-shrink-0">
+            <button onClick={handleHomeClick} className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-full bg-gray-800 border border-gray-700">
+                <svg
+                  className={`w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 ${arrowClass}`}
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 15l7-7 7 7" />
+                </svg>
+              </div>
+              <div
+                elementtiming="lcp-logo"
+                className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-white whitespace-nowrap leading-none"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 15l7-7 7 7" />
-              </svg>
-            </div>
-            <div className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold text-white whitespace-nowrap leading-none">Blockchain Bubbles</div>
-          </button>
+                Blockchain Bubbles
+              </div>
+            </button>
+          </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-3">
