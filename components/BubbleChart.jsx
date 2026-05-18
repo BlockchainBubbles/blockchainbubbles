@@ -29,6 +29,7 @@ export default function BubbleChart({
   const lastFetchedDataRef = useRef([])
   const rateLimitTimerRef  = useRef(null)
   const refreshIntervalRef = useRef(null)
+  const isFirstLoadRef     = useRef(true)
 
   const [isLoading,     setIsLoading]     = useState(true)
   const [progressColor, setProgressColor] = useState('#3b82f6')
@@ -131,7 +132,8 @@ export default function BubbleChart({
   const fetchData = useCallback(async () => {
     if (isFetchingRef.current) return
     isFetchingRef.current = true
-    setIsLoading(true)
+    const showSpinner = isFirstLoadRef.current
+    if (showSpinner) setIsLoading(true)
     try {
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
       let data = []
@@ -146,6 +148,7 @@ export default function BubbleChart({
       console.log(`[BubbleChart] fetched ${data.length} coins`)
       lastFetchedDataRef.current = data
       createBubbles(data)
+      isFirstLoadRef.current = false
       resetProgressBar()
     } catch (err) {
       if (err instanceof RateLimitError) {
@@ -166,7 +169,7 @@ export default function BubbleChart({
       }
     } finally {
       isFetchingRef.current = false
-      setIsLoading(false)
+      if (showSpinner) setIsLoading(false)
     }
   }, [mode, rankingPage, categoryId, timeframe, favorites, createBubbles, resetProgressBar])
 
