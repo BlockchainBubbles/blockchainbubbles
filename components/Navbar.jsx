@@ -25,7 +25,7 @@ export default function Navbar() {
     selectRanking,
   } = useStore()
 
-  const isHome = pathname === '/'
+  const isHome = pathname === '/' || pathname === '/de'
 
   const handleHomeClick = useCallback(() => {
     selectRanking('1-100')

@@ -113,21 +113,103 @@ export default function GermanPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'WebPage',
-            'name': 'Krypto Bubbles Live — Kostenloses Krypto Bubble Chart',
-            'description': 'Verfolge Krypto Bubbles live mit unserem kostenlosen interaktiven Bubble Chart.',
+            'name': 'Krypto Bubbles Live — Kostenloses Krypto Bubble Chart & Heatmap',
+            'description': 'Verfolge Krypto Bubbles live mit unserem kostenlosen interaktiven Bubble Chart. Visualisiere 1000+ Kryptowährungen in Echtzeit.',
             'url': 'https://blockchainbubbles.com/de',
-            'inLanguage': 'de',
-            'mainEntity': {
-              '@type': 'WebApplication',
-              'name': 'Blockchain Bubbles Krypto Chart',
-              'applicationCategory': 'FinanceApplication',
-              'operatingSystem': 'Web',
-              'offers': {
-                '@type': 'Offer',
-                'price': '0',
-                'priceCurrency': 'EUR',
-              },
+            'inLanguage': 'de-DE',
+            'isPartOf': {
+              '@type': 'WebSite',
+              'name': 'Blockchain Bubbles',
+              'url': 'https://blockchainbubbles.com',
             },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            'name': 'Blockchain Bubbles Krypto Chart',
+            'applicationCategory': 'FinanceApplication',
+            'operatingSystem': 'Web',
+            'inLanguage': 'de-DE',
+            'offers': {
+              '@type': 'Offer',
+              'price': '0',
+              'priceCurrency': 'EUR',
+            },
+            'description': 'Kostenloses Krypto Bubble Chart Tool. Visualisiere 1000+ Kryptowährungen als interaktive Blasen nach Marktkapitalisierung, Volumen oder Kursänderung.',
+            'url': 'https://blockchainbubbles.com/de',
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            'itemListElement': [
+              {
+                '@type': 'ListItem',
+                'position': 1,
+                'name': 'Startseite',
+                'item': 'https://blockchainbubbles.com/de',
+              },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            'mainEntity': [
+              {
+                '@type': 'Question',
+                'name': 'Was sind Krypto Bubbles Live?',
+                'acceptedAnswer': {
+                  '@type': 'Answer',
+                  'text': 'Krypto Bubbles Live ist eine Echtzeit-Visualisierung des Kryptowährungsmarkts. Jede Kryptowährung wird als animierter Kreis dargestellt, dessen Größe und Farbe sich mit den Preisen ändern. Grün bedeutet Kursanstieg, Rot bedeutet Kursrückgang. Die Daten werden alle 3 Minuten von der CoinGecko API aktualisiert.',
+                },
+              },
+              {
+                '@type': 'Question',
+                'name': 'Wie funktioniert das Krypto Bubble Chart?',
+                'acceptedAnswer': {
+                  '@type': 'Answer',
+                  'text': 'Das Chart zeigt Kryptowährungen als Blasen unterschiedlicher Größe und Farbe. Die Größe kann Marktkapitalisierung, Handelsvolumen oder Kursänderung darstellen. Die Farbe zeigt die Kursrichtung: Grün für Kursanstieg, Rot für Kursrückgang. Je intensiver die Farbe, desto größer die Kursbewegung.',
+                },
+              },
+              {
+                '@type': 'Question',
+                'name': 'Was bedeutet die Blasengröße auf der Krypto Bubble Map?',
+                'acceptedAnswer': {
+                  '@type': 'Answer',
+                  'text': 'Die Blasengröße kann drei verschiedene Metriken darstellen: Performance (Standard) zeigt die größte Kursbewegung, Marktkapitalisierung zeigt die relative Marktgröße (Bitcoin erscheint als größte Blase), und 24h Volumen zeigt die meistgehandelten Coins.',
+                },
+              },
+              {
+                '@type': 'Question',
+                'name': 'Wie oft wird das Krypto Bubbles Chart aktualisiert?',
+                'acceptedAnswer': {
+                  '@type': 'Answer',
+                  'text': 'Das Chart aktualisiert sich automatisch alle 3 Minuten. Ein Fortschrittsbalken oben auf der Seite zeigt die Zeit bis zur nächsten Aktualisierung an.',
+                },
+              },
+              {
+                '@type': 'Question',
+                'name': 'Ist das Krypto Heatmap Tool kostenlos?',
+                'acceptedAnswer': {
+                  '@type': 'Answer',
+                  'text': 'Ja, Blockchain Bubbles ist vollständig kostenlos. Kein Account, keine Anmeldung, kein Premium-Abo erforderlich. Das Tool ist für alle Nutzer dauerhaft kostenlos verfügbar.',
+                },
+              },
+            ],
           }),
         }}
       />
