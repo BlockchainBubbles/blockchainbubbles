@@ -32,9 +32,8 @@ export default function BubbleChart({
   const isFirstLoadRef     = useRef(true)
 
   const [isLoading,     setIsLoading]     = useState(true)
-  const [progressColor,  setProgressColor]  = useState('#3b82f6')
-  const [rateLimitWait,  setRateLimitWait]  = useState(0)
-  const [bubblesReady,   setBubblesReady]   = useState(false)
+  const [progressColor, setProgressColor] = useState('#3b82f6')
+  const [rateLimitWait, setRateLimitWait] = useState(0)
 
   // ── Animation loop ──────────────────────────────────────────────────────────
   const animate = useCallback((timestamp) => {
@@ -116,7 +115,6 @@ export default function BubbleChart({
 
     if (bubblesRef.current.length > 0) {
       animationRef.current = requestAnimationFrame(animate)
-      setBubblesReady(true)
     }
 
     // Market sentiment
@@ -261,28 +259,18 @@ export default function BubbleChart({
   return (
     <div style={{ position: 'relative', width: '100%', height: '85vh', overflow: 'hidden', background: '#111827' }}>
 
-      {/* Static background — loads instantly, fades out once real bubbles appear */}
-      <img
-        src="/bubble-bg.svg"
-        alt=""
-        aria-hidden="true"
-        fetchPriority="high"
-        loading="eager"
-        style={{
-          position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: 'cover', opacity: bubblesReady ? 0 : 0.6,
-          transition: 'opacity 1s ease', zIndex: 0, pointerEvents: 'none',
-        }}
-      />
-
       {/* 3-minute progress bar */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: '#1f2937', zIndex: 10 }}>
         <div ref={progressRef} style={{ height: '100%', width: '100%', background: progressColor, transition: 'background-color 0.5s ease' }} />
       </div>
 
-      {/* Loading spinner */}
+      {/* Loading overlay — h1 is the LCP element, renders instantly */}
       {isLoading && (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 20 }}>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 z-20">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-8 leading-tight px-4">
+            Blockchain Bubbles
+            <span className="block text-blue-400 mt-2">are loading</span>
+          </h1>
           <div className="w-12 h-12 rounded-full border-4 border-gray-700 border-t-blue-500 animate-spin" />
         </div>
       )}
