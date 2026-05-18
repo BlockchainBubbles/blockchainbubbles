@@ -2,10 +2,10 @@ export const metadata = {
   metadataBase: new URL('https://blockchainbubbles.com'),
 
   title: {
-    absolute: 'Krypto Bubbles Live — Kostenloses Krypto Bubble Chart & Heatmap | Blockchain Bubbles',
+    absolute: 'Krypto Bubbles: was die bunten Kreise wirklich zeigen',
   },
 
-  description: 'Verfolge Krypto Bubbles live mit unserem kostenlosen interaktiven Bubble Chart und Map. Visualisiere 1000+ Kryptowährungen nach Marktkapitalisierung, Volumen oder Kursänderung. Alle 3 Minuten aktualisiert.',
+  description: 'Krypto Bubble Chart in fünf Sekunden lesen, ohne Spreadsheet-Chaos und ohne Anmeldung. Was er zeigt, was er nicht zeigt, und wann TradingView besser ist.',
 
   keywords: [
     'krypto bubbles',
@@ -33,8 +33,8 @@ export const metadata = {
     locale: 'de_DE',
     url: 'https://blockchainbubbles.com/de',
     siteName: 'Blockchain Bubbles',
-    title: 'Krypto Bubbles Live — Kostenloses Krypto Bubble Chart & Heatmap',
-    description: 'Visualisiere den gesamten Kryptomarkt als interaktives Bubble Chart. Kostenlos, kein Account erforderlich.',
+    title: 'Krypto Bubbles: was die bunten Kreise wirklich zeigen',
+    description: 'Krypto Bubble Chart in fünf Sekunden lesen, ohne Spreadsheet-Chaos und ohne Anmeldung. Was er zeigt, was er nicht zeigt, und wann TradingView besser ist.',
     images: [{
       url: 'https://blockchainbubbles.com/img/social-preview.png',
       width: 1200,
@@ -45,8 +45,8 @@ export const metadata = {
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Krypto Bubbles Live — Kostenloses Krypto Bubble Chart',
-    description: 'Visualisiere den gesamten Kryptomarkt als interaktives Bubble Chart. Kostenlos.',
+    title: 'Krypto Bubbles: was die bunten Kreise wirklich zeigen',
+    description: 'Krypto Bubble Chart in fünf Sekunden lesen, ohne Spreadsheet-Chaos und ohne Anmeldung.',
     images: ['https://blockchainbubbles.com/img/social-preview.png'],
   },
 
