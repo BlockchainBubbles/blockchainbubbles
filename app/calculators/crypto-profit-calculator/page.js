@@ -261,7 +261,7 @@ export default function CryptoProfitCalculatorPage() {
                               <div className="text-gray-400 text-xs">{coin.symbol.toUpperCase()}</div>
                             </div>
                             {coin.market_cap_rank && (
-                              <div className="text-gray-500 text-xs flex-shrink-0">#{coin.market_cap_rank}</div>
+                              <div className="text-gray-400 text-xs flex-shrink-0">#{coin.market_cap_rank}</div>
                             )}
                           </div>
                         ))}
@@ -527,7 +527,7 @@ export default function CryptoProfitCalculatorPage() {
 
           {/* Pro Tip Box */}
           <div className="border-l-4 border-blue-500 bg-blue-500/10 rounded-r-xl p-5 my-6">
-            <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-2">Pro Tip</p>
+            <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">Pro Tip</p>
             <p className="text-gray-300 text-sm leading-relaxed">For traders buying the same asset over weeks or months, calculate your weighted average entry price first and use that as the buy price. Or <Link href="/calculators/dca-calculator" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 decoration-blue-400/50">average down across multiple buys</Link> using the DCA tool, then bring that average back here.</p>
           </div>
 
@@ -614,8 +614,8 @@ export default function CryptoProfitCalculatorPage() {
 
           {/* Financial Disclaimer */}
           <div className="mt-12 border border-gray-700 rounded-xl p-6 bg-gray-800/50">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">Disclaimer</p>
-            <p className="text-gray-400 text-xs leading-6">The Crypto Profit Calculator on this page is provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. All calculations are estimates based on the inputs you provide and may not reflect actual trading outcomes due to market volatility, exchange-specific fees, slippage, and other factors. Cryptocurrency trading involves substantial risk of loss. Past performance is not indicative of future results. Always conduct your own research and consult a qualified financial advisor before making any investment decisions. Blockchain Bubbles is not responsible for any financial losses incurred from use of this tool.</p>
+            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Disclaimer</p>
+            <p className="text-gray-300 text-xs leading-6">The Crypto Profit Calculator on this page is provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. All calculations are estimates based on the inputs you provide and may not reflect actual trading outcomes due to market volatility, exchange-specific fees, slippage, and other factors. Cryptocurrency trading involves substantial risk of loss. Past performance is not indicative of future results. Always conduct your own research and consult a qualified financial advisor before making any investment decisions. Blockchain Bubbles is not responsible for any financial losses incurred from use of this tool.</p>
           </div>
 
         </article>

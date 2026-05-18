@@ -269,7 +269,7 @@ export default function FuturesCalculatorPage() {
                               <div className="text-gray-400 text-xs">{coin.symbol.toUpperCase()}</div>
                             </div>
                             {coin.market_cap_rank && (
-                              <div className="text-gray-500 text-xs flex-shrink-0">#{coin.market_cap_rank}</div>
+                              <div className="text-gray-400 text-xs flex-shrink-0">#{coin.market_cap_rank}</div>
                             )}
                           </div>
                         ))}
@@ -319,7 +319,7 @@ export default function FuturesCalculatorPage() {
                       onChange={e => setLeverage(Number(e.target.value))}
                       className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-purple-500"
                     />
-                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <div className="flex justify-between text-xs text-gray-400 mt-1">
                       {PRESETS.map(val => (
                         <button
                           key={val}
@@ -672,8 +672,8 @@ export default function FuturesCalculatorPage() {
 
           {/* Financial Disclaimer */}
           <div className="mt-12 border border-gray-700 rounded-xl p-6 bg-gray-800/50">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">Disclaimer</p>
-            <p className="text-gray-400 text-xs leading-6">The Crypto Futures Calculator on this page is provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. Futures and leveraged trading involves substantial risk of loss and is not suitable for all investors. Liquidation prices, ROE estimates, and profit calculations are approximations based on standard linear perpetual contract formulas and do not account for exchange-specific maintenance margin tiers, funding rates, mark price divergence, partial liquidation thresholds, or fee tier discounts. Actual results on your exchange may differ. Never trade with money you cannot afford to lose entirely. Always verify calculations against your exchange&apos;s own order entry panel before opening any position. Blockchain Bubbles is not responsible for any financial losses incurred from use of this calculator or any trading decisions made based on its output.</p>
+            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Disclaimer</p>
+            <p className="text-gray-300 text-xs leading-6">The Crypto Futures Calculator on this page is provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. Futures and leveraged trading involves substantial risk of loss and is not suitable for all investors. Liquidation prices, ROE estimates, and profit calculations are approximations based on standard linear perpetual contract formulas and do not account for exchange-specific maintenance margin tiers, funding rates, mark price divergence, partial liquidation thresholds, or fee tier discounts. Actual results on your exchange may differ. Never trade with money you cannot afford to lose entirely. Always verify calculations against your exchange&apos;s own order entry panel before opening any position. Blockchain Bubbles is not responsible for any financial losses incurred from use of this calculator or any trading decisions made based on its output.</p>
           </div>
 
         </article>

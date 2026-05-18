@@ -468,10 +468,10 @@ export default function DCACalculatorPage() {
           </div>
 
           <div className="mt-12 border border-gray-700 rounded-xl p-6 bg-gray-800/50">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
+            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">
               Disclaimer
             </p>
-            <p className="text-gray-400 text-xs leading-6">
+            <p className="text-gray-300 text-xs leading-6">
               The Dollar Cost Averaging Calculator on this page is provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. All calculations are estimates based on the inputs you provide and assume fixed prices, fees, and purchase intervals that may not reflect actual market conditions. Real DCA outcomes will vary due to price fluctuations, variable exchange fees, slippage, and execution timing. Cryptocurrency investments involve substantial risk of loss including the potential for total loss of invested capital. Past performance is not indicative of future results. Dollar cost averaging does not guarantee profit or protect against loss in declining markets. Always conduct your own research and consult a qualified financial advisor before making any investment decisions. Blockchain Bubbles is not responsible for any financial losses incurred from use of this calculator or any investment decisions made based on its output.
             </p>
           </div>

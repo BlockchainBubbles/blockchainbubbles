@@ -40,7 +40,7 @@ function BubbleChartSkeleton() {
           ))}
         </div>
         <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3">
-          <p className="text-gray-500 text-sm">Loading crypto market data...</p>
+          <p className="text-gray-400 text-sm">Loading crypto market data...</p>
           <div className="flex gap-2">
             {[0,1,2].map(i => (
               <div key={i} className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
@@ -309,10 +309,10 @@ export default function Home() {
           <p className="text-gray-300 text-base leading-8 mb-6">No to all three. Open the site and everything works. There isn&apos;t a premium tier hidden somewhere with extra features. The site is free because it costs almost nothing to run on top of the CoinGecko API, and we&apos;d rather have more people using it than try to monetize a small audience.</p>
 
           <div className="mt-12 border border-gray-700 rounded-xl p-6 bg-gray-800/50">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
+            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">
               Disclaimer
             </p>
-            <p className="text-gray-400 text-xs leading-6">
+            <p className="text-gray-300 text-xs leading-6">
               Blockchain Bubbles is a free cryptocurrency market visualization tool provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. All price data, market cap figures, and percentage changes are sourced from third-party APIs including CoinGecko and may be delayed by up to several minutes. Data accuracy cannot be guaranteed and should not be relied upon for time-sensitive trading decisions. Cryptocurrency markets are highly volatile and involve substantial risk of loss. Past market performance shown in the visualization is not indicative of future results. Nothing on this page should be interpreted as a recommendation to buy, sell, or hold any cryptocurrency. Always conduct your own research and consult a qualified financial advisor before making any investment decisions. Blockchain Bubbles is not responsible for any financial losses incurred from use of this tool or any investment decisions made based on its output.
             </p>
           </div>

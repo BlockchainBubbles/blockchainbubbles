@@ -404,7 +404,7 @@ export default function SlippageCalculatorPage() {
 
           {/* Pro Tip Box */}
           <div className="border-l-4 border-blue-500 bg-blue-500/10 rounded-r-xl p-5 my-6">
-            <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-2">Pro Tip</p>
+            <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">Pro Tip</p>
             <p className="text-gray-300 text-sm leading-relaxed">Sandwich attackers love high tolerance settings. If you&apos;re set to 3 percent on a moderately liquid pool, a bot can front-run you, push the price, fill behind you, and pocket the difference. Your transaction succeeds. You just paid them to make it happen.</p>
           </div>
 
@@ -417,7 +417,7 @@ export default function SlippageCalculatorPage() {
 
           {/* Pro Tip Box */}
           <div className="border-l-4 border-blue-500 bg-blue-500/10 rounded-r-xl p-5 my-6">
-            <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-2">Pro Tip</p>
+            <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">Pro Tip</p>
             <p className="text-gray-300 text-sm leading-relaxed">Once you identify your slippage patterns, plug those numbers into the <Link href="/calculators/crypto-profit-calculator" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 decoration-blue-400/50">crypto profit calculator</Link> to get the full picture of what your DEX activity actually netted you, slippage costs included.</p>
           </div>
 
@@ -474,8 +474,8 @@ export default function SlippageCalculatorPage() {
 
           {/* Financial Disclaimer */}
           <div className="mt-12 border border-gray-700 rounded-xl p-6 bg-gray-800/50">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">Disclaimer</p>
-            <p className="text-gray-400 text-xs leading-6">The Crypto Slippage Calculator on this page is provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. Slippage calculations are estimates based on the inputs you provide and may not reflect actual trading outcomes due to pool liquidity changes, gas price variations, MEV activity, and other on-chain factors. DEX trading involves substantial risk of loss including the potential for complete loss of funds. Always verify transaction details before signing. Blockchain Bubbles is not responsible for any financial losses incurred from use of this tool or any trading decisions made based on its output.</p>
+            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Disclaimer</p>
+            <p className="text-gray-300 text-xs leading-6">The Crypto Slippage Calculator on this page is provided for informational and educational purposes only. It does not constitute financial, investment, or trading advice. Slippage calculations are estimates based on the inputs you provide and may not reflect actual trading outcomes due to pool liquidity changes, gas price variations, MEV activity, and other on-chain factors. DEX trading involves substantial risk of loss including the potential for complete loss of funds. Always verify transaction details before signing. Blockchain Bubbles is not responsible for any financial losses incurred from use of this tool or any trading decisions made based on its output.</p>
           </div>
 
         </article>

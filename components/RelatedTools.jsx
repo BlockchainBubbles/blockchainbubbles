@@ -71,7 +71,7 @@ export default function RelatedTools({ currentPath, showCount = 3 }) {
             <div className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors mb-1">
               {tool.title}
             </div>
-            <div className="text-xs text-gray-500 leading-5">
+            <div className="text-xs text-gray-400 leading-5">
               {tool.description}
             </div>
           </Link>

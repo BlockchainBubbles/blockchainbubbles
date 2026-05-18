@@ -54,7 +54,7 @@ function renderCell(coin, metric) {
     if (!val || val === 0) return <span className="text-xl">∞</span>
     return formatSupply(val)
   }
-  if (val == null) return <span className="text-gray-500">N/A</span>
+  if (val == null) return <span className="text-gray-400">N/A</span>
   switch (metric.type) {
     case 'text':    return val
     case 'price':   return formatPrice(val)
@@ -78,7 +78,7 @@ function renderCell(coin, metric) {
               <div className="text-xs text-gray-400 mt-1">{pct}% minted</div>
             </>
           )}
-          {!max && <div className="text-xs text-gray-500 mt-1">Max supply unknown</div>}
+          {!max && <div className="text-xs text-gray-400 mt-1">Max supply unknown</div>}
         </div>
       )
     }
@@ -690,7 +690,7 @@ export default function CompareCryptocurrenciesPage() {
                               <p className={`text-xl font-mono ${volColor}`}>
                                 {insight.volatility}% <span className="text-xs">({volLabel})</span>
                               </p>
-                              <p className="text-xs text-gray-500 mt-1">Risk/swings over 1 year.</p>
+                              <p className="text-xs text-gray-400 mt-1">Risk/swings over 1 year.</p>
                             </div>
                             <div>
                               <p className="text-gray-400">Volume Strength</p>
@@ -698,15 +698,15 @@ export default function CompareCryptocurrenciesPage() {
                                 {insight.volumeRatio === 'N/A' ? 'N/A' : insight.volumeRatio + 'x'}{' '}
                                 <span className="text-xs">({vrLabel})</span>
                               </p>
-                              <p className="text-xs text-gray-500 mt-1">Vs. avg of 1 year.</p>
+                              <p className="text-xs text-gray-400 mt-1">Vs. avg of 1 year.</p>
                             </div>
                             <div className="col-span-2 border-t border-gray-700 pt-2 mt-1">
                               <p className="text-gray-400">Correlation</p>
                               <p className={`text-lg font-mono ${corrColor}`}>
                                 {insight.correlation}{' '}
-                                <span className="text-xs text-gray-500">({insight.correlationLabel})</span>
+                                <span className="text-xs text-gray-400">({insight.correlationLabel})</span>
                               </p>
-                              <p className="text-xs text-gray-500 mt-1">1.0 = Identical · 0 = Unrelated · −1.0 = Opposite</p>
+                              <p className="text-xs text-gray-400 mt-1">1.0 = Identical · 0 = Unrelated · −1.0 = Opposite</p>
                             </div>
                           </div>
                         </div>
@@ -748,7 +748,7 @@ export default function CompareCryptocurrenciesPage() {
                               <div key={label} className="flex justify-between items-center bg-gray-900 p-2 rounded mt-1">
                                 <span className="text-gray-400 text-sm">{label}</span>
                                 <span className="font-mono text-white text-right">
-                                  {value ?? <span className="text-gray-600 text-xs">N/A</span>}
+                                  {value ?? <span className="text-gray-400 text-xs">N/A</span>}
                                 </span>
                               </div>
                             ))}
@@ -764,7 +764,7 @@ export default function CompareCryptocurrenciesPage() {
                                     className="text-blue-400 hover:text-blue-300 hover:underline text-sm">
                                     @{d.twitter}
                                   </a>
-                                : <span className="text-gray-600 text-xs">N/A</span>}
+                                : <span className="text-gray-400 text-xs">N/A</span>}
                             </div>
                             <div className="flex justify-between items-center bg-gray-900 p-2 rounded mt-1">
                               <span className="text-gray-400 text-sm">Reddit</span>
@@ -773,7 +773,7 @@ export default function CompareCryptocurrenciesPage() {
                                     className="text-orange-400 hover:text-orange-300 hover:underline text-sm">
                                     {d.redditLabel}
                                   </a>
-                                : <span className="text-gray-600 text-xs">N/A</span>}
+                                : <span className="text-gray-400 text-xs">N/A</span>}
                             </div>
                           </div>
                         </div>
@@ -1025,7 +1025,7 @@ export default function CompareCryptocurrenciesPage() {
           <p className="text-gray-300 text-base leading-8 mb-6">Once you know the winner, the next question is usually how much you&apos;d have made with a regular buy schedule instead of one lump-sum entry. The <Link href="/calculators/dca-calculator" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">DCA calculator</Link> handles that side: plug in $500/month into SOL or BTC across the same period and see how the dollar-cost-averaged position would have played out.</p>
 
           <div className="mt-12 border border-gray-700 rounded-xl p-6 bg-gray-800/50">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3">
+            <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">
               Disclaimer
             </p>
             <p className="text-gray-400 text-xs leading-6">

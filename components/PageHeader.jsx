@@ -6,18 +6,18 @@ export default function PageHeader({ breadcrumbs, badge, lastUpdated }) {
     <div className="max-w-3xl mx-auto px-4 md:px-8 pt-8 pb-0">
 
       {/* Breadcrumb navigation */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-gray-400 mb-6">
         {breadcrumbs.map((crumb, index) => (
           <span key={index} className="flex items-center gap-2">
             {index > 0 && (
-              <svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             )}
             {index === breadcrumbs.length - 1 ? (
               <span className="text-gray-400">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="text-gray-500 hover:text-gray-300 transition-colors">
+              <Link href={crumb.href} className="text-gray-400 hover:text-gray-300 transition-colors">
                 {crumb.label}
               </Link>
             )}
@@ -46,7 +46,7 @@ export default function PageHeader({ breadcrumbs, badge, lastUpdated }) {
           No data saved
         </span>
         {lastUpdated && (
-          <span className="text-xs text-gray-600 ml-auto">
+          <span className="text-xs text-gray-400 ml-auto">
             Updated {lastUpdated}
           </span>
         )}
