@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
 import BubbleChart from '@/components/BubbleChart'
 import { useStore } from '@/lib/store'
 
@@ -222,7 +221,7 @@ export default function GermanPage() {
 
           <p className="text-gray-300 text-base leading-8 mb-6">Wer zum ersten Mal einen Krypto Bubble Chart aufmacht, sieht Blasen in verschiedenen Größen, die einen grün und die anderen tiefrot. Mehr nicht. Keine Tabelle mit acht Nachkommastellen, kein Wall-Street-Cockpit. Das ist Absicht.</p>
 
-          <p className="text-gray-300 text-base leading-8 mb-6">Die Idee dahinter ist simpel. Der Krypto Markt hat über 10.000 handelbare Coins, und niemand liest sich freiwillig durch eine 10.000-Zeilen-Tabelle. Auf einer einzigen Grafik ablesen zu können, welche Coins gerade gewinnen und welche absacken, dauert ungefähr so lange wie ein Blick aus dem Fenster. Für den schnellen Überblick lohnt es sich, <Link href="/de" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">den Chart einmal live aufzumachen</Link>, statt sich das im Kopf zurechtzulegen.</p>
+          <p className="text-gray-300 text-base leading-8 mb-6">Die Idee dahinter ist simpel. Der Krypto Markt hat über 10.000 handelbare Coins, und niemand liest sich freiwillig durch eine 10.000-Zeilen-Tabelle. Auf einer einzigen Grafik ablesen zu können, welche Coins gerade gewinnen und welche absacken, dauert ungefähr so lange wie ein Blick aus dem Fenster. Für den schnellen Überblick lohnt es sich, den Chart einmal live aufzumachen, statt sich das im Kopf zurechtzulegen.</p>
 
           <h2 className="text-2xl font-bold text-white mt-12 mb-4 leading-tight">Wie ein Krypto Bubble Chart in fünf Sekunden funktioniert</h2>
 
@@ -240,7 +239,7 @@ export default function GermanPage() {
 
           <p className="text-gray-300 text-base leading-8 mb-6">Die Bubble-Variante ist beweglicher. Die Kreise reagieren auf Mausbewegung und lassen sich nach Sektor oder Kategorie filtern. Vor allem aber: man kann mehrere Coins gleichzeitig im Auge behalten, ohne dass das Gehirn zwischen Spaltenüberschriften hin- und herspringen muss. Gitter-Heatmaps fühlen sich für mich wie eine Tabelle an, die nur eine andere Hose anhat. Die Bubble-Variante fühlt sich wie ein Radarbild an. Geschmackssache.</p>
 
-          <p className="text-gray-300 text-base leading-8 mb-6">Für reine Übersicht des Krypto Marktes auf einen Blick liefern beide das Gleiche. Wer aber Mustererkennung will, also "kippt heute der ganze DeFi-Sektor oder läuft nur eine einzelne Aktion", ist mit dem Bubble Chart oft schneller. Wir haben die <Link href="/de" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">Unterschiede an anderer Stelle genauer aufgeschrieben</Link>.</p>
+          <p className="text-gray-300 text-base leading-8 mb-6">Für reine Übersicht des Krypto Marktes auf einen Blick liefern beide das Gleiche. Wer aber Mustererkennung will, also "kippt heute der ganze DeFi-Sektor oder läuft nur eine einzelne Aktion", ist mit dem Bubble Chart oft schneller. Die Unterschiede lassen sich schwer in einem Satz zusammenfassen.</p>
 
           <h2 className="text-2xl font-bold text-white mt-12 mb-4 leading-tight">Kryptowährungen Visualisierung ohne Spreadsheet-Chaos</h2>
 
@@ -256,7 +255,7 @@ export default function GermanPage() {
 
           <p className="text-gray-300 text-base leading-8 mb-6">Bitcoin ist auf einem regulären Krypto Bubble Chart so groß, dass alles andere wie Streusel daneben aussieht. Mathematisch korrekt, optisch aber wenig hilfreich, wenn man eigentlich nach Altcoin-Bewegungen sucht.</p>
 
-          <p className="text-gray-300 text-base leading-8 mb-6">Deshalb erlauben die meisten Tools, Bitcoin und Ethereum auszublenden oder die Skalierung anzupassen. Plötzlich werden Coins, die vorher mikroskopisch klein wirkten, in ihrer relativen Größe sichtbar. Ein Altcoin Bubble Chart ohne BTC und ETH ist eine andere Welt. Hier sieht man auf einmal, dass Solana und XRP gegeneinander schwanken oder wie sich Memecoins zu eigenen Clustern formieren. Den reinen <Link href="/de" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">Altcoin-View findet man hier</Link>, mit BTC und ETH gleich ganz ausgeblendet.</p>
+          <p className="text-gray-300 text-base leading-8 mb-6">Deshalb erlauben die meisten Tools, Bitcoin und Ethereum auszublenden oder die Skalierung anzupassen. Plötzlich werden Coins, die vorher mikroskopisch klein wirkten, in ihrer relativen Größe sichtbar. Ein Altcoin Bubble Chart ohne BTC und ETH ist eine andere Welt. Hier sieht man auf einmal, dass Solana und XRP gegeneinander schwanken oder wie sich Memecoins zu eigenen Clustern formieren. Den reinen Altcoin-View bekommt man, indem man BTC und ETH im Filter ausblendet.</p>
 
           <p className="text-gray-300 text-base leading-8 mb-6">Der Bitcoin Bubble Chart im Vollbild ist eher ein Stimmungsbild des Gesamtmarktes. Wenn Bitcoin tiefrot ist, ist meistens alles tiefrot. Bitcoin zieht den Markt, das ist auch 2026 noch so. Ein Ethereum Bubble Chart im selben Stil zeigt oft eine leicht andere Färbung, weil ETH-Bewegungen manchmal eine Stunde zeitversetzt zu BTC laufen, besonders nach großen DeFi-News.</p>
 
@@ -268,7 +267,7 @@ export default function GermanPage() {
 
           <p className="text-gray-300 text-base leading-8 mb-6">Für die tägliche Frage, wer die Krypto Gewinner heute sind, reicht ein Bubble Chart völlig. Nach Performance sortieren, die größten grünen Blasen anschauen, fertig. Drei-Sekunden-Job. Bei einer Tabelle mit 200 Zeilen und einer Spalte für 24h-Performance ist das eine Minute Scrollen.</p>
 
-          <p className="text-gray-300 text-base leading-8 mb-6">Die Daten kommen meistens von denselben Quellen, die auch andere Aggregatoren nutzen, also CoinGecko und ein paar eigene API-Pipelines. Die Genauigkeit liegt damit auf dem Niveau aller großen Krypto-Tools. Kleine Abweichungen zwischen Plattformen kommen vor, sind aber meistens unter zwei Prozent. Wer tiefer einsteigen will, findet bei uns auch eine <Link href="/de" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">ausführlichere Anleitung zum Lesen der Filter und Zeiträume</Link>.</p>
+          <p className="text-gray-300 text-base leading-8 mb-6">Die Daten kommen meistens von denselben Quellen, die auch andere Aggregatoren nutzen, also CoinGecko und ein paar eigene API-Pipelines. Die Genauigkeit liegt damit auf dem Niveau aller großen Krypto-Tools. Kleine Abweichungen zwischen Plattformen kommen vor, sind aber meistens unter zwei Prozent. Wer tiefer einsteigen will, kann die Filter und Zeiträume direkt im Chart ausprobieren.</p>
 
           <h2 className="text-2xl font-bold text-white mt-12 mb-4 leading-tight">Was der Chart nicht zeigen kann</h2>
 
