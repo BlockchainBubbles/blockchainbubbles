@@ -7,7 +7,7 @@ import { StoreProvider } from '@/lib/store'
 const inter = Inter({ subsets: ['latin'], display: 'swap', preload: true })
 
 export const metadata = {
-  metadataBase: new URL('https://blockchainbubbles.com'),
+  metadataBase: new URL('https://www.blockchainbubbles.com'),
 
   title: {
     default: 'Crypto Bubbles Live — Free Bubble Chart, Map & Heatmap | Blockchain Bubbles',
@@ -29,10 +29,10 @@ export const metadata = {
   publisher: 'Blockchain Bubbles',
 
   alternates: {
-    canonical: 'https://blockchainbubbles.com',
+    canonical: 'https://www.blockchainbubbles.com',
     languages: {
-      'en': 'https://blockchainbubbles.com',
-      'de': 'https://blockchainbubbles.com/de',
+      'en': 'https://www.blockchainbubbles.com',
+      'de': 'https://www.blockchainbubbles.com/de',
     },
   },
 
@@ -49,12 +49,12 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://blockchainbubbles.com',
+    url: 'https://www.blockchainbubbles.com',
     siteName: 'Blockchain Bubbles',
     title: 'Live Crypto Bubble Chart & HeatMap - Blockchain Bubbles',
     description: 'Instantly visualize the entire cryptocurrency market with our live, interactive bubble chart.',
     images: [{
-      url: 'https://blockchainbubbles.com/img/social-preview.png',
+      url: 'https://www.blockchainbubbles.com/img/social-preview.png',
       width: 1200,
       height: 630,
       alt: 'Blockchain Bubbles - Live Crypto Market Visualization',
@@ -65,7 +65,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Live Crypto Bubble Chart & HeatMap - Blockchain Bubbles',
     description: 'Instantly visualize the entire cryptocurrency market with our live, interactive bubble chart.',
-    images: ['https://blockchainbubbles.com/img/social-preview.png'],
+    images: ['https://www.blockchainbubbles.com/img/social-preview.png'],
   },
 
   robots: {
@@ -93,14 +93,14 @@ const jsonLd = {
   '@type': 'WebPage',
   'name': 'Blockchain Bubbles | Live Crypto Market Visualization & Heat Map',
   'description': 'Instantly visualize the entire cryptocurrency market with Blockchain Bubbles. Our live, interactive bubble chart and heat map help you spot top-performing coins, track market sentiment, and analyze trends in real-time.',
-  'url': 'https://blockchainbubbles.com/',
+  'url': 'https://www.blockchainbubbles.com/',
   'mainEntity': {
     '@type': 'WebSite',
     'name': 'Blockchain Bubbles',
-    'url': 'https://blockchainbubbles.com/',
+    'url': 'https://www.blockchainbubbles.com/',
     'potentialAction': {
       '@type': 'SearchAction',
-      'target': 'https://blockchainbubbles.com/?search={search_term_string}',
+      'target': 'https://www.blockchainbubbles.com/?search={search_term_string}',
       'query-input': 'required name=search_term_string',
     },
   },
@@ -110,7 +110,7 @@ const jsonLd = {
       '@type': 'ListItem',
       'position': 1,
       'name': 'Home',
-      'item': 'https://blockchainbubbles.com/',
+      'item': 'https://www.blockchainbubbles.com/',
     }],
   },
   'publisher': {
@@ -118,7 +118,7 @@ const jsonLd = {
     'name': 'Blockchain Bubbles',
     'logo': {
       '@type': 'ImageObject',
-      'url': 'https://blockchainbubbles.com/favicon-512x512.png',
+      'url': 'https://www.blockchainbubbles.com/favicon-512x512.png',
     },
   },
 }

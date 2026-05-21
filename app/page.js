@@ -177,7 +177,7 @@ export default function Home() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://blockchainbubbles.com"
+                "item": "https://www.blockchainbubbles.com"
               }
             ]
           })

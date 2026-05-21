@@ -809,7 +809,7 @@ export default function CompareCryptocurrenciesPage() {
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "Web",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "url": "https://blockchainbubbles.com/compare-cryptocurrencies"
+            "url": "https://www.blockchainbubbles.com/compare-cryptocurrencies"
           })
         }}
       />
@@ -875,13 +875,13 @@ export default function CompareCryptocurrenciesPage() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://blockchainbubbles.com"
+                "item": "https://www.blockchainbubbles.com"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Compare Cryptocurrencies",
-                "item": "https://blockchainbubbles.com/compare-cryptocurrencies"
+                "item": "https://www.blockchainbubbles.com/compare-cryptocurrencies"
               }
             ]
           })

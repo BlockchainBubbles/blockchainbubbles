@@ -277,7 +277,7 @@ export default function DCACalculatorPage() {
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "Web",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "url": "https://blockchainbubbles.com/calculators/dca-calculator"
+            "url": "https://www.blockchainbubbles.com/calculators/dca-calculator"
           })
         }}
       />
@@ -335,19 +335,19 @@ export default function DCACalculatorPage() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://blockchainbubbles.com"
+                "item": "https://www.blockchainbubbles.com"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Calculators",
-                "item": "https://blockchainbubbles.com/calculators"
+                "item": "https://www.blockchainbubbles.com/calculators"
               },
               {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Crypto DCA Calculator",
-                "item": "https://blockchainbubbles.com/calculators/dca-calculator"
+                "item": "https://www.blockchainbubbles.com/calculators/dca-calculator"
               }
             ]
           })

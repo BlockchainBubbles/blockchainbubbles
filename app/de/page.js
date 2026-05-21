@@ -115,12 +115,12 @@ export default function GermanPage() {
             '@type': 'WebPage',
             'name': 'Krypto Bubbles: was die bunten Kreise wirklich zeigen',
             'description': 'Krypto Bubble Chart in fünf Sekunden lesen, ohne Spreadsheet-Chaos und ohne Anmeldung. Was er zeigt, was er nicht zeigt, und wann TradingView besser ist.',
-            'url': 'https://blockchainbubbles.com/de',
+            'url': 'https://www.blockchainbubbles.com/de',
             'inLanguage': 'de-DE',
             'isPartOf': {
               '@type': 'WebSite',
               'name': 'Blockchain Bubbles',
-              'url': 'https://blockchainbubbles.com',
+              'url': 'https://www.blockchainbubbles.com',
             },
           }),
         }}
@@ -141,7 +141,7 @@ export default function GermanPage() {
               'priceCurrency': 'EUR',
             },
             'description': 'Kostenloses Krypto Bubble Chart Tool. Visualisiere 1000+ Kryptowährungen als interaktive Blasen nach Marktkapitalisierung, Volumen oder Kursänderung.',
-            'url': 'https://blockchainbubbles.com/de',
+            'url': 'https://www.blockchainbubbles.com/de',
           }),
         }}
       />
@@ -156,7 +156,7 @@ export default function GermanPage() {
                 '@type': 'ListItem',
                 'position': 1,
                 'name': 'Startseite',
-                'item': 'https://blockchainbubbles.com/de',
+                'item': 'https://www.blockchainbubbles.com/de',
               },
             ],
           }),

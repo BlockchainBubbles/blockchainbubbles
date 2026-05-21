@@ -2,7 +2,7 @@ export const metadata = {
   title: 'Terms of Service',
   description: 'Read the Blockchain Bubbles terms of service and conditions of use.',
   alternates: {
-    canonical: 'https://blockchainbubbles.com/terms-of-service',
+    canonical: 'https://www.blockchainbubbles.com/terms-of-service',
   },
   robots: {
     index: false,

@@ -7,7 +7,7 @@ export default function robots() {
         disallow: ['/api/', '/_next/'],
       },
     ],
-    sitemap: 'https://blockchainbubbles.com/sitemap.xml',
-    host: 'https://blockchainbubbles.com',
+    sitemap: 'https://www.blockchainbubbles.com/sitemap.xml',
+    host: 'https://www.blockchainbubbles.com',
   }
 }
